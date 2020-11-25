@@ -1,0 +1,25 @@
+.root {
+	-fx-background-color: #F0F4F8;
+	-fx-aligment: center;
+	-fx-padding: 25px;
+	-fx-spacing: 10px;
+}
+
+#titleLabel{
+	-fx-font: bold 28px Pacifico;
+	-fx-text-fill: #044E54;
+	-fx-padding: 0 0 40px 0;
+}
+
+#statusLabel{
+	-fx-font:14px "Avenir Next";
+	-fx-text-fill: #044E54;
+}
+
+.button {
+	-fx-font: 16px "Avenir Next";
+	-fx-background-color: #044E54;
+	-fx-background-radius: 5px;
+	-fx-text-fill: #fff;
+	-fx-padding: 8px;
+}
