@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #08539C;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizz.test.ControllerChoixCategorie">
+   <children>
+      <MenuButton fx:id="textButtonCategorie" layoutX="185.0" layoutY="250.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Catégories">
+        <items>
+          <MenuItem id="categorie1" fx:id="categorie1" mnemonicParsing="false" text="Categorie1" />
+          <MenuItem fx:id="categorie2" mnemonicParsing="false" onAction="#setCategorie" text="Categorie2" />
+            <MenuItem fx:id="categorie3" mnemonicParsing="false" text="Catégorie3" />
+        </items>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <effect>
+            <DropShadow />
+         </effect>
+      </MenuButton>
+      <MenuButton layoutX="375.0" layoutY="250.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Difficulté">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+         <effect>
+            <DropShadow />
+         </effect>
+      </MenuButton>
+      <Button layoutX="27.0" layoutY="31.0" mnemonicParsing="false" text="Retour" />
+      <Button fx:id="buttonReglages" layoutX="595.0" layoutY="37.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="59.0" style="-fx-background-color: #08539C;">
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#08539c" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+         <effect>
+            <BoxBlur />
+         </effect></Button>
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="138.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choisissez votre catégorie" textAlignment="CENTER">
+         <font>
+            <Font name="Comic Sans MS Bold" size="32.0" />
+         </font>
+      </Text>
+      <Text layoutX="14.0" layoutY="479.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quizz  test de connaissances">
+         <font>
+            <Font name="Comic Sans MS" size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="308.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IUT Rodez" />
+      <Text layoutX="439.0" layoutY="479.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alaut, Alliot, Amélaîse, Bagnolatti">
+         <font>
+            <Font name="Comic Sans MS" size="15.0" />
+         </font>
+      </Text>
+      <Button layoutX="71.0" layoutY="250.0" mnemonicParsing="false" text="ajouter" />
+      <Button layoutX="557.0" layoutY="250.0" mnemonicParsing="false" text="go" />
+   </children>
+</AnchorPane>

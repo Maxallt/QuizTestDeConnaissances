@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #08539C;" stylesheets="@../css/Main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizz.test.ControllerResultat">
+	<children>
+		<Text layoutX="14.0" layoutY="481.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quiz Test de connaissances" wrappingWidth="197.6708984375" />
+		<Text layoutX="295.0" layoutY="481.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IUT Rodez" />
+		<Text layoutX="441.0" layoutY="481.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alaux, Alliot, Amélaïse, Bagnolatti " wrappingWidth="244.65673828125" />
+		<Text fontSmoothingType="LCD" layoutX="369.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/20" textAlignment="CENTER" wrappingWidth="204.6708984375">
+			<font>
+				<Font name="Comic Sans MS" size="85.0" />
+			</font>
+		</Text>
+		<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+		<Button layoutX="67.0" layoutY="375.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Recommencer" />
+		<Button layoutX="275.0" layoutY="375.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Menu principal" />
+		<Button layoutX="471.0" layoutY="375.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Test suivant" />
+		<Text layoutX="246.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TON SCORE :" wrappingWidth="185.0">
+			<font>
+				<Font name="Comic Sans MS" size="25.0" />
+			</font>
+		</Text>
+      <Label fx:id="scoreLabel" layoutX="196.0" layoutY="17.0" prefHeight="233.0" prefWidth="216.0" text="N/A">
+         <font>
+            <Font name="Comic Sans MS" size="96.0" />
+         </font>
+      </Label>
+      <Button layoutX="35.0" layoutY="77.0" mnemonicParsing="false" onAction="#getNombreAleatoire" text="generer" />
+	</children>
+</AnchorPane>

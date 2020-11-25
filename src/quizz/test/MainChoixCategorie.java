@@ -17,12 +17,12 @@ import javafx.stage.Stage;
  * @author Nicolas.A
  * @version 1.0
  */
-public class MainResultat extends Application {
+public class MainChoixCategorie extends Application {
     
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/ressources/fxml/MainResultat.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/ressources/fxml/MainChoixCategorie.fxml"));
 		
         primaryStage.setTitle("Compteur Java FX");
 		
