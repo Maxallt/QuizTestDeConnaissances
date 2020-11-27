@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <VBox alignment="TOP_CENTER">
+         <children>
+            <Label text="Compteur de Point" />
+            <Label text="Nombre de point:" />
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Button mnemonicParsing="false" text="AddPoint" />
+                  <Button mnemonicParsing="false" text="RemovePoint" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>
