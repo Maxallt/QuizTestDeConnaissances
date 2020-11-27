@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="dynamicPane" minHeight="500.0" minWidth="700.0" stylesheets="@myApplication.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfacesQuizTestConnaissances.ChoixSousCategorieController">
+	<children>
+      <Pane prefHeight="500.0" prefWidth="700.0" styleClass="Fenetre" stylesheets="@myApplication.css">
+         <children>
+            <Label layoutX="99.0" layoutY="55.0" text="Choix de la Sous-Catégorie" textFill="WHITE">
+               <font>
+                  <Font name="Comic Sans MS" size="40.0" />
+               </font>
+            </Label>
+            <Label layoutX="129.0" layoutY="135.0" text="Veuillez choisir la Sous-Catégorie que vous souhaitez réviser :" textFill="WHITE">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="31.0" layoutY="462.0" text="Quiz Test de connaissances">
+               <font>
+                  <Font name="Comic Sans MS" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="326.0" layoutY="462.0" text="IUT Rodez">
+               <font>
+                  <Font name="Comic Sans MS" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="471.0" layoutY="463.0" text="Alaux, Alliot, Amélaïse, Bagnolatti">
+               <font>
+                  <Font name="Comic Sans MS" size="13.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="listeSousCat" layoutX="275.0" layoutY="196.0" onShowing="#initialize" prefWidth="150.0" promptText="Sous-catégorie" />
+            <Button fx:id="buttonAjouter" layoutX="451.0" layoutY="196.0" mnemonicParsing="false" text="+" />
+            <Label layoutX="104.0" layoutY="275.0" text="Veuillez choisir le format de questionnaire que vous souhaitez faire :" textFill="WHITE">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </Label>
+            <ComboBox layoutX="275.0" layoutY="330.0" prefWidth="150.0" promptText="Format" />
+            <Button fx:id="buttonRetour" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#retour" text="&lt;-" />
+            <Button fx:id="buttonModif" layoutX="610.0" layoutY="14.0" mnemonicParsing="false" onAction="#modifier" text="Paramètres" />
+            <Button fx:id="buttonValider" layoutX="448.0" layoutY="362.0" mnemonicParsing="false" text="Valider" />
+
+         </children></Pane>
+   </children>
+</AnchorPane>
