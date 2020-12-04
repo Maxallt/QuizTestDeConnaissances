@@ -24,7 +24,9 @@ public class ModificationSousCategorieController implements Initializable {
 	
     private static boolean initialisation = false;
     
-    @Override
+    public static boolean suppression = false;
+
+	@Override
     public void initialize(URL url, ResourceBundle rb) {}
     
     @FXML
@@ -35,6 +37,9 @@ public class ModificationSousCategorieController implements Initializable {
     
     @FXML
     private Button buttonValider;
+    
+    @FXML
+    private Button buttonSupprimer;
     
     @FXML
     private TextField newName;
@@ -108,6 +113,69 @@ public class ModificationSousCategorieController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    }
+    
+    @FXML
+    public void supprEnBase() {
+    	if (!(listeSousCat.getSelectionModel().isEmpty())) {
+			if (suppression) {
+		    	// Modification des données en Base de donnée avec cette requête SQL
+		    	String sql = "DELETE FROM souscategorie WHERE nom = '" + listeSousCat.getSelectionModel().getSelectedItem() +"'";
+		    	String sqlVerifDefaut ="SELECT defaut FROM souscategorie WHERE nom = '" + listeSousCat.getSelectionModel().getSelectedItem() +"'";
+				
+				// Infos accès BD
+				String login = "root";
+				String passwd = "root";
+				Connection cn =null;
+				Statement st=null;
+				String url = "jdbc:mysql://localhost/quizztestconnaissances?serverTimezone=UTC";
+				
+				try {
+					// Etape 1 : Chargement du driver
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					// Etape 2 : récupération de la connexion
+					cn = DriverManager.getConnection(url, login, passwd);
+					// Etape 3 : Création d'un statement
+					st = cn.createStatement();
+					
+					// Etape 4 : Execution de la requête
+					ResultSet res = st.executeQuery(sqlVerifDefaut);
+					res.next();
+					if (res.getInt(1) == 1) {
+						System.out.println("La sous-catégorie par défaut Général ne peut pas être supprimée");
+					} else {
+						st.executeUpdate(sql);
+						System.out.println("Suppression effectuée !");
+					}
+	
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						// Etape 5 : libérer ressources de la mémoire.
+						cn.close();
+						st.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+				buttonSupprimer.setText("Supprimer");
+				// Rafraîchissement de la page
+				try {
+					initialisation = false;
+					stage = (Stage)buttonRetour.getScene().getWindow();
+					setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreModificationSousCategorie.fxml")));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	
+			} else {
+				buttonSupprimer.setText("Rappuyer pour confirmer la suppression");
+			}
+			suppression = suppression ? false : true;
+    	}
     }
     
     @FXML

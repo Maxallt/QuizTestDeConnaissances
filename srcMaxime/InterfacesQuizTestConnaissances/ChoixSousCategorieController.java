@@ -23,6 +23,11 @@ public class ChoixSousCategorieController implements Initializable {
     private Stage stage;
 	
     private static boolean initialisation = false;
+    private static boolean initialisationFormat = false;
+    
+    public static int nombreQuestion = -1;
+    
+    private static int[] tabFormat = {5,10,20};
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {}
@@ -44,6 +49,9 @@ public class ChoixSousCategorieController implements Initializable {
     
     @FXML
     private ComboBox<String> listeSousCat;
+    
+    @FXML
+    private ComboBox<String> listeFormat = new ComboBox();
 	
     private void setDynamicPane(AnchorPane dynamicPane){
         this.dynamicPane.getChildren().clear();
@@ -55,6 +63,7 @@ public class ChoixSousCategorieController implements Initializable {
 
 		try {
 			initialisation = false;
+			initialisationFormat = false;
 			stage = (Stage)buttonRetour.getScene().getWindow();
 			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreAccueil.fxml")));
 		} catch (IOException e) {
@@ -66,6 +75,7 @@ public class ChoixSousCategorieController implements Initializable {
 	public void modifier() {
 		try {
 			initialisation = false;
+			initialisationFormat = false;
 			stage = (Stage)buttonRetour.getScene().getWindow();
 			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreModificationSousCategorie.fxml")));
 		} catch (IOException e) {
@@ -74,7 +84,30 @@ public class ChoixSousCategorieController implements Initializable {
 	}
     
     @FXML
-    public void initialize() throws IOException {
+    public void initializeFormat() {
+    	if (!initialisationFormat) {
+	    	for (int nombre: tabFormat) {
+	    		listeFormat.getItems().add(nombre + " questions");
+	    	}
+	    	initialisationFormat = true;
+    	}
+    }
+    
+    @FXML
+    public void setFormat() {
+    	if (listeFormat.getSelectionModel().getSelectedItem() != null) {
+	    	if (listeFormat.getSelectionModel().getSelectedItem().equals("5 questions")) {
+	    		nombreQuestion = 5;
+	    	} else if (listeFormat.getSelectionModel().getSelectedItem().equals("10 questions")) {
+	    		nombreQuestion = 10;
+	    	} else {
+	    		nombreQuestion = 20;
+	    	}
+    	}
+    }
+    
+    @FXML
+    public void initialize() {
     	if (!initialisation) {
 	    	// Récupération des données en Base de donnée
 	    	String sql = "SELECT nom FROM souscategorie";
@@ -116,5 +149,10 @@ public class ChoixSousCategorieController implements Initializable {
 				}
 			}
     	}
+    }
+    
+    @FXML
+    public void valider() {
+    	System.out.println(nombreQuestion);
     }
 }

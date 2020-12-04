@@ -63,6 +63,7 @@
             <TextField fx:id="newName" layoutX="275.0" layoutY="249.0" />
             <TextField fx:id="newLienPhoto" layoutX="275.0" layoutY="289.0" />
             <Button layoutX="286.0" layoutY="375.0" mnemonicParsing="false" text="Ajouter une question" />
+            <Button fx:id="buttonSupprimer" layoutX="472.0" layoutY="196.0" mnemonicParsing="false" onAction="#supprEnBase" text="Supprimer" />
 
          </children></Pane>
    </children>

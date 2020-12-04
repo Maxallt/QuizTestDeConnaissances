@@ -43,10 +43,10 @@
                   <Font name="Comic Sans MS" size="16.0" />
                </font>
             </Label>
-            <ComboBox layoutX="275.0" layoutY="330.0" prefWidth="150.0" promptText="Format" />
+            <ComboBox fx:id="listeFormat" layoutX="275.0" layoutY="330.0" onHiding="#setFormat" onShowing="#initializeFormat" prefWidth="150.0" promptText="Format" />
             <Button fx:id="buttonRetour" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#retour" text="&lt;-" />
             <Button fx:id="buttonModif" layoutX="610.0" layoutY="14.0" mnemonicParsing="false" onAction="#modifier" text="Paramètres" />
-            <Button fx:id="buttonValider" layoutX="448.0" layoutY="362.0" mnemonicParsing="false" text="Valider" />
+            <Button fx:id="buttonValider" layoutX="448.0" layoutY="362.0" mnemonicParsing="false" onAction="#valider" text="Valider" />
 
          </children></Pane>
    </children>

@@ -118,7 +118,7 @@ public class Main extends Application {
 			}
 			if (!tableExiste) {
 				// Requête sql  pour créer la table catégorie de l'application en localhost
-				String sql = "CREATE TABLE categorie ( nom VARCHAR(255), defaut NUMERIC(10), lienphoto VARCHAR(255), id VARCHAR(255))";
+				String sql = "CREATE TABLE categorie ( nom VARCHAR(255), defaut NUMERIC(10), lienphoto VARCHAR(255), id VARCHAR(255) PRIMARY KEY)";
 				// Etape 4 : Execution de la requête
 				st.executeUpdate(sql);
 				System.out.println("Création de la table catégorie");
@@ -141,7 +141,7 @@ public class Main extends Application {
 			}
 			if (!tableExiste) {
 				// Requête sql  pour créer la table souscatégorie de l'application en localhost
-				String sql = "CREATE TABLE souscategorie ( nom VARCHAR(255), defaut NUMERIC(10), lienphoto VARCHAR(255), idSurCategorie VARCHAR(255), id VARCHAR(255))";
+				String sql = "CREATE TABLE souscategorie ( nom VARCHAR(255), defaut NUMERIC(10), lienphoto VARCHAR(255), idSurCategorie VARCHAR(255), id VARCHAR(255) PRIMARY KEY, CONSTRAINT fk_idSurCat FOREIGN KEY (idSurCategorie) REFERENCES categorie(id))";
 				// Etape 4 : Execution de la requête
 				st.executeUpdate(sql);
 				System.out.println("Création de la table sous-catégorie");
