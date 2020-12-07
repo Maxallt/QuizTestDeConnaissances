@@ -1,0 +1,1 @@
+java -Xmx1024M -Xms1024M -jar --module-path C:\Adresse\a\remplir --add-modules=javafx.controls,javafx.fxml QuizzTestConnaissancesV1.0.jar
