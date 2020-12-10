@@ -20,3 +20,5 @@ Lien vers un board avec le tableau agile : https://github.com/Maxallt/QuizTestDe
 
 
 Lien vers la consultation de notre dossier Drive : https://drive.google.com/drive/folders/1eV7vUSm9Zkq3feuxfgHps0nK0fhIpiPz?usp=sharing
+
+Si vous souhaitez télécharger la version actuelle, veuillez aller dans le dossier de la première version.
