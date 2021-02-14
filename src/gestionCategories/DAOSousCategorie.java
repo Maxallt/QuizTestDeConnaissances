@@ -38,12 +38,12 @@ public class DAOSousCategorie {
     	String sql = "SELECT nom FROM souscategorie";
 		
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Crï¿½ation d'un statement
+			// Etape 2 : Crï¿½ation d'un statement
 			st = cn.createStatement();
 
-			// Etape 4 : Execution de la requï¿½te
+			// Etape 3 : Execution de la requï¿½te
 			ResultSet res = st.executeQuery(sql);
 
 			while(res.next()) {
@@ -69,12 +69,12 @@ public class DAOSousCategorie {
     	String sql = "SELECT nom FROM souscategorie WHERE idSurCategorie ='"+DAOCategorie.getId(categorie)+"'";
 		
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Créàtion d'un statement
+			// Etape 2 : Créàtion d'un statement
 			st = cn.createStatement();
 
-			// Etape 4 : Execution de la requête
+			// Etape 3 : Execution de la requête
 			ResultSet res = st.executeQuery(sql);
 
 			while(res.next()) {
@@ -98,12 +98,12 @@ public class DAOSousCategorie {
 		String sqlVerifDefaut ="SELECT defaut FROM souscategorie WHERE nom = '"+ nom+"'";
 		
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : CrÃ¯Â¿Â½ation d'un statement
+			// Etape 2 : CrÃ¯Â¿Â½ation d'un statement
 			st = cn.createStatement();
 			
-			// Etape 4 : Execution de la requÃ¯Â¿Â½te
+			// Etape 3 : Execution de la requÃ¯Â¿Â½te
 			//Valeur associe a la requete
 			PreparedStatement supprSousCategorie = cn.prepareStatement(sql);
 			supprSousCategorie.setString(1,nom);
@@ -129,9 +129,9 @@ public class DAOSousCategorie {
 		boolean tableExiste = false;
 		
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : CrÃ¯Â¿Â½ation d'un statement
+			// Etape 2 : CrÃ¯Â¿Â½ation d'un statement
 			st = cn.createStatement();
 			
 			// VÃ¯Â¿Â½rification que la table des sous-catÃ¯Â¿Â½gories existe
@@ -178,9 +178,9 @@ public class DAOSousCategorie {
 	public static void creerEnBase(String nom, String lienPhoto, String surCategorie) {
 		
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : CrÃ¯Â¿Â½ation d'un statement
+			// Etape 2 : CrÃ¯Â¿Â½ation d'un statement
 			st = cn.createStatement();
 			
 			// RequÃ¯Â¿Â½te sql pour initialiser les sous-catÃ¯Â¿Â½gories 
@@ -213,9 +213,9 @@ public class DAOSousCategorie {
 	public static int getNextPrimaryKey() {
 		int resultat=0;
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : CrÃ¯Â¿Â½ation d'un statement
+			// Etape 2 : CrÃ¯Â¿Â½ation d'un statement
 			st = cn.createStatement();
 			
 			// RequÃ¯Â¿Â½te sql pour initialiser les sous-catÃ¯Â¿Â½gories 
@@ -239,12 +239,12 @@ public class DAOSousCategorie {
     	String sql = "UPDATE souscategorie SET nom = ?, lienphoto = ? WHERE nom = ? ";
 		
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Création d'un statement
+			// Etape 2 : Création d'un statement
 			st = cn.createStatement();
 			
-			// Etape 4 : Execution de la requête
+			// Etape 3 : Execution de la requête
 			
 			//Valeur associe a la requete
 			PreparedStatement tableDefault = cn.prepareStatement(sql);
@@ -268,9 +268,9 @@ public class DAOSousCategorie {
 		boolean catExiste = false;
 		
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Création d'un statement
+			// Etape 2 : Création d'un statement
 			st = cn.createStatement();
             ResultSet rset = st.executeQuery("SELECT * FROM souscategorie WHERE nom ='" + sousCategorie + "'");
             if(rset.next()) {
@@ -293,9 +293,9 @@ public class DAOSousCategorie {
 		int idCategorie = -1;
 		
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Création d'un statement
+			// Etape 2 : Création d'un statement
 			st = cn.createStatement();
             ResultSet rset = st.executeQuery("SELECT id FROM souscategorie WHERE nom ='" + nomSousCategorie + "'");
 
