@@ -51,7 +51,7 @@ public class LancementJeuController implements Initializable {
 	private int testIteration = 0;
 	
 	/** Nombre de bonne réponse quand le joueur aura juste */
-	private static int nbBonnesReponses = 0; //ici 0 pour les tests
+	private static int nbBonnesReponses = 10; // pour les tests
 	
 	/** Récupère ele nombre de bonnes réponses dans le résultat final */
 	public static int getNbBonnesReponses() {
@@ -89,6 +89,17 @@ public class LancementJeuController implements Initializable {
 	            {"","","","","",""}, //18
 	            {"","","","","",""}, //19
 	            {"","","","","",""}, //20
+	            {"","","","","",""}, //21
+	            {"","","","","",""}, //22
+	            {"","","","","",""}, //23
+	            {"","","","","",""}, //24
+	            {"","","","","",""}, //25
+	            {"","","","","",""}, //26
+	            {"","","","","",""}, //27
+	            {"","","","","",""}, //28
+	            {"","","","","",""}, //29
+	            {"","","","","",""}, //30
+	            {"","","","","",""}, //31
 		};
 	
 	/**
