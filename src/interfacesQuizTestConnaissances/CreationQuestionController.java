@@ -8,13 +8,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.ArrayList;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -28,8 +31,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
+import gestionCategories.Categorie;
 import gestionCategories.DAOCategorie;
 import gestionCategories.DAOSousCategorie;
+import gestionCategories.SousCategorie;
 import gestionQuestion.DaoQuestions;
 import gestionQuestion.Question;
 
@@ -67,8 +72,29 @@ public class CreationQuestionController implements Initializable {
         this.dynamicPane.getChildren().add(dynamicPane);
     }
     
+
+    private gestionQuestion.Question quest;
+    
     @FXML
     private TextField txtQuestion;
+    
+    @FXML
+    private TextField txtRepVrai;
+    
+    @FXML
+    private TextField txtRepFaux1;
+    
+    @FXML
+    private TextField txtRepFaux2;
+    
+    @FXML
+    private TextField txtRepFaux3;
+    
+    @FXML
+    private TextField txtRepFaux4;
+    
+    @FXML
+    private Button btnValider;
     
     @FXML
     private Button btnFileChooser;
@@ -80,6 +106,172 @@ public class CreationQuestionController implements Initializable {
     
     @FXML
     private Label txtLien;
+    
+    /** Liste déroulante : avec toutes les catégories créées */
+	@FXML
+	private ComboBox<String> listeCategorie;
+	
+	/** Liste déroulante : avec toutes les sous catégories créées dans la 
+	 * categorie selectionné
+	 */
+	@FXML
+	private ComboBox<String> listeSousCategorie;
+	
+	/** Liste déroulante : avec les difficultés */
+	@FXML
+	private ComboBox<String> listeDifficulte;
+	
+	/** Tableau des diffcultés */
+	private static String[] tabDifficulte = {"Facile","Moyen","Difficile","Indifférent"};
+	
+	private boolean initCat = false;
+    private boolean initSousCat = false;
+    private boolean initDifficulte = false;
+    
+    /**
+     * Button qui permettra de revenir sur la page précédente
+     * Ici le menu de gestion
+     */
+	@FXML
+	private Button buttonFlecheBack;
+    
+    @FXML
+    public void setCategorie() {
+		if (!initCat) {
+			ArrayList<Categorie> categories = DAOCategorie.findCategorie();
+			for (Categorie element: categories) {
+				listeCategorie.getItems().add(element.getNom());
+			}
+			initCat = true;
+		}
+	}
+    
+    @FXML
+    public void setSousCategorie() {
+		if (!initSousCat) {
+			ArrayList<SousCategorie> sousCategories = DAOSousCategorie.getSousCategories(listeCategorie.getSelectionModel().getSelectedItem());
+			for (SousCategorie element: sousCategories) {
+				listeSousCategorie.getItems().add(element.getNom());
+			}
+			initSousCat = true;
+		}
+	}
+    
+    @FXML
+    public void setDifficulte() {
+		if(!initDifficulte) {
+			for (String element: tabDifficulte) {
+				listeDifficulte.getItems().add(element);
+			}
+			initDifficulte = true;
+		}
+	}
+    
+    /**
+     * Méthode qui affiche la fenêtre précédente
+     * Ici le menu de gestion
+     * Liée à buttonFlecheBack
+     */
+	@FXML
+	private void actionButtonFlecheBack() {
+		try {
+			stage = (Stage)buttonFlecheBack.getScene().getWindow();
+			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreGestion.fxml")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+    
+    /**
+	 * Si la question est valide 
+	 * alors cette fenêtre avertie l'utilisateur de la réussite
+	 */
+	public void creationPopUpCreationQuestionValide() {
+		Stage dialog = new Stage();
+        try {
+        	dialog.initModality(Modality.APPLICATION_MODAL);
+            // Localisation du fichier FXML
+            final URL url = getClass().getResource("FenetrePopUp"
+            		                              + "QuestionValide.fxml");
+            // Création du loader.
+            final FXMLLoader fxmlLoader = new FXMLLoader(url);
+            // Chargement du FXML
+            AnchorPane root = (AnchorPane) fxmlLoader.load();
+            Scene dialogScene = new Scene(root, 300, 200);
+            dialog.setScene(dialogScene);
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+        dialog.setTitle("Question crée");
+        dialog.show();
+	}
+	
+	/**
+	 * Si la question est invalide 
+	 * alors cette fenêtre avertie l'utilisateur l'echec
+	 */
+	public void creationPopUpCreationQuestionInvalide() {
+		Stage dialog = new Stage();
+        try {
+        	dialog.initModality(Modality.APPLICATION_MODAL);
+            // Localisation du fichier FXML
+            final URL url = getClass().getResource("FenetrePopUp"
+            		                              + "QuestionInvalide.fxml");
+            // Création du loader.
+            final FXMLLoader fxmlLoader = new FXMLLoader(url);
+            // Chargement du FXML
+            AnchorPane root = (AnchorPane) fxmlLoader.load();
+            Scene dialogScene = new Scene(root, 300, 200);
+            dialog.setScene(dialogScene);
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+        dialog.setTitle("Question invalide");
+        dialog.show();
+	}
+	
+	
+
+    @FXML
+    public void valider() {
+    	
+    	/** ArrayList qui va contenir les intitules que l'utilisateur aura saisi */
+    	ArrayList<String> intitules = new ArrayList<>();
+    	
+    	/* Boolean initialisé a true qui passe a false si les information
+    	 *  rentrée sont fausse 
+    	 */
+    	boolean valid = true;
+    	
+    	if (txtQuestion.getText().equals("") || txtRepVrai.getText().equals("") || txtRepFaux1.getText().equals("") ) {
+    		valid = false;
+    		
+    		//popup d'erreur
+    		creationPopUpCreationQuestionInvalide();
+    	}
+    	
+    	if (valid) {
+    		intitules.add(txtRepVrai.getText());
+    		intitules.add(txtRepFaux1.getText());
+    		
+    		if (txtRepFaux2 != null)
+    			intitules.add(txtRepFaux2.getText());
+    		
+    		if(txtRepFaux3 != null)
+    			intitules.add(txtRepFaux3.getText());
+    		
+    		if(txtRepFaux4 != null)
+    			intitules.add(txtRepFaux4.getText());
+    		
+    		quest = new gestionQuestion.Question(txtQuestion.getText(), 
+    				intitules,listeSousCategorie.getSelectionModel().getSelectedItem(),
+    				listeCategorie.getSelectionModel().getSelectedItem(),
+    				listeDifficulte.getSelectionModel().getSelectedItem() );
+    		
+    		DaoQuestions.createQuestions(quest);
+    		creationPopUpCreationQuestionValide();
+    	}
+    }
     
     @FXML
     public void fileChooser() {
@@ -216,5 +408,7 @@ public class CreationQuestionController implements Initializable {
 			}
 		}
     }
+
+    
     
 }

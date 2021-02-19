@@ -50,7 +50,7 @@
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="buttonModif" layoutX="197.0" layoutY="360.0" mnemonicParsing="false" onAction="#gestion" text="Gestion des catégories, sous-catégories et questions">
+            <Button fx:id="buttonModif" layoutX="216.0" layoutY="360.0" mnemonicParsing="false" onAction="#gestion" text="Gestion des catégories et des sous-catégories">
                <font>
                   <Font name="Comic Sans MS" size="13.0" />
                </font>

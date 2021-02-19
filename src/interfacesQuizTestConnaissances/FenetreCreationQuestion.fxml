@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,18 +13,18 @@
 	<children>
       <Pane prefHeight="500.0" prefWidth="700.0" styleClass="Fenetre" stylesheets="@myApplication.css">
          <children>
-            <Label layoutX="159.0" layoutY="51.0" text="Création de question" textFill="WHITE">
+            <Label layoutX="159.0" layoutY="23.0" text="Création de question" textFill="WHITE">
                <font>
                   <Font name="Comic Sans MS" size="40.0" />
                </font>
             </Label>
-            <Label layoutX="47.0" layoutY="161.0" text="La question :" textFill="#cc0000">
+            <Label layoutX="47.0" layoutY="126.0" text="Catégorie :" textFill="#cc0000">
                <font>
                   <Font name="Comic Sans MS" size="16.0" />
                </font>
             </Label>
             <TextField fx:id="txtQuestion" layoutX="194.0" layoutY="160.0" prefHeight="25.0" prefWidth="399.0" />
-            <Label layoutX="171.0" layoutY="113.0" text="Veuillez laisser vide si vous n'avez rien à mettre" textFill="WHITE">
+            <Label layoutX="171.0" layoutY="85.0" text="Veuillez laisser vide si vous n'avez rien à mettre" textFill="WHITE">
                <font>
                   <Font name="Comic Sans MS" size="16.0" />
                </font>
@@ -33,40 +34,59 @@
                   <Font name="Comic Sans MS" size="16.0" />
                </font>
             </Label>
-            <TextField layoutX="194.0" layoutY="203.0" prefHeight="25.0" prefWidth="399.0" />
+            <TextField fx:id="txtRepVrai" layoutX="194.0" layoutY="203.0" prefHeight="25.0" prefWidth="399.0" />
             <Label layoutX="47.0" layoutY="251.0" text="Réponse fausse 1 :" textFill="#cc0000">
                <font>
                   <Font name="Comic Sans MS" size="16.0" />
                </font>
             </Label>
-            <TextField layoutX="194.0" layoutY="250.0" prefHeight="25.0" prefWidth="399.0" />
+            <TextField fx:id="txtRepFaux1" layoutX="194.0" layoutY="250.0" prefHeight="25.0" prefWidth="399.0" />
             <Label layoutX="47.0" layoutY="292.0" text="Réponse fausse 2 :" textFill="#cc0000">
                <font>
                   <Font name="Comic Sans MS" size="16.0" />
                </font>
             </Label>
-            <TextField layoutX="194.0" layoutY="291.0" prefHeight="25.0" prefWidth="399.0" />
+            <TextField fx:id="txtRepFaux2" layoutX="194.0" layoutY="291.0" prefHeight="25.0" prefWidth="399.0" />
             <Label layoutX="47.0" layoutY="332.0" text="Réponse fausse 3 :" textFill="#cc0000">
                <font>
                   <Font name="Comic Sans MS" size="16.0" />
                </font>
             </Label>
-            <TextField layoutX="194.0" layoutY="331.0" prefHeight="25.0" prefWidth="399.0" />
+            <TextField fx:id="txtRepFaux3" layoutX="194.0" layoutY="331.0" prefHeight="25.0" prefWidth="399.0" />
             <Label layoutX="47.0" layoutY="375.0" text="Réponse fausse 4 :" textFill="#cc0000">
                <font>
                   <Font name="Comic Sans MS" size="16.0" />
                </font>
             </Label>
-            <TextField layoutX="194.0" layoutY="374.0" prefHeight="25.0" prefWidth="399.0" />
-            <Button layoutX="619.0" layoutY="374.0" mnemonicParsing="false" text="Valider" />
-            <Button fx:id="btnFileChooser" layoutX="47.0" layoutY="433.0" mnemonicParsing="false" onAction="#fileChooser" text="Charger un fichier" />
-            <Label fx:id="txtLien" layoutX="194.0" layoutY="434.0" prefHeight="23.0" prefWidth="399.0" text="Pas de fichier sélectionné" textFill="WHITE">
+            <TextField fx:id="txtRepFaux4" layoutX="194.0" layoutY="374.0" prefHeight="25.0" prefWidth="399.0" />
+            <Button fx:id="btnValider" layoutX="619.0" layoutY="374.0" mnemonicParsing="false" onAction="#valider" text="Valider" />
+            <Button fx:id="btnFileChooser" layoutX="47.0" layoutY="461.0" mnemonicParsing="false" onAction="#fileChooser" text="Charger un fichier" />
+            <Label fx:id="txtLien" layoutX="194.0" layoutY="462.0" prefHeight="23.0" prefWidth="399.0" text="Pas de fichier sélectionné" textFill="WHITE">
                <font>
                   <Font name="Comic Sans MS" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="btnValiderFich" layoutX="619.0" layoutY="433.0" mnemonicParsing="false" text="Valider" />
-            <Line endX="525.0" layoutX="148.0" layoutY="412.0" startX="-100.0" />
+            <Button fx:id="btnValiderFich" layoutX="619.0" layoutY="461.0" mnemonicParsing="false" text="Valider" />
+            <Line endX="525.0" layoutX="148.0" layoutY="452.0" startX="-100.0" />
+            <Label layoutX="47.0" layoutY="161.0" text="La question :" textFill="#cc0000">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="375.0" layoutY="126.0" text="Sous catégorie :" textFill="#cc0000">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="listeCategorie" layoutX="194.0" layoutY="125.0" onShowing="#setCategorie" prefWidth="150.0" />
+            <ComboBox fx:id="listeSousCategorie" layoutX="502.0" layoutY="125.0" onShowing="#setSousCategorie" prefWidth="150.0" />
+            <Label layoutX="47.0" layoutY="412.0" text="Difficulté :" textFill="#cc0000">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="listeDifficulte" layoutX="194.0" layoutY="411.0" onShowing="#setDifficulte" prefWidth="150.0" />
+            <Button fx:id="buttonFlecheBack" layoutX="18.0" layoutY="11.0" mnemonicParsing="false" onAction="#actionButtonFlecheBack" text="&lt;-" />
          </children></Pane>
    </children>
 </AnchorPane>
