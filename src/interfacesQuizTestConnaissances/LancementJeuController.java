@@ -2,6 +2,7 @@ package interfacesQuizTestConnaissances;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -121,11 +122,6 @@ public class LancementJeuController implements Initializable {
 	public void changementQuestion() {
 		testIteration++;
 		
-		// IMPORTANT :
-		// Enlever le '0' et mettre l'affichage de la page de fin
-		//testIteration = testIteration == ChoixSousCategorieController.getNombreQuestion() ? 
-		//				resultatFinal() : testIteration;
-		
 		if (testIteration == ChoixSousCategorieController.getNombreQuestion()) {
 			resultatFinal();
 		}
@@ -173,5 +169,21 @@ public class LancementJeuController implements Initializable {
     private void setDynamicPane(AnchorPane dynamicPane){
         this.dynamicPane.getChildren().clear();
         this.dynamicPane.getChildren().add(dynamicPane);
+    }
+    
+    /**
+     * Méthode qui va mettre sous forme de tableaux les questions avec leurs réponses
+     * @param listeDeQuestions désigné
+     * @return
+     */
+    public String[] tableauxQuestions(ArrayList<String> listeDeQuestions) {
+    	String[] tableauQuestions = new String[30]; //30 questions maximum
+    	
+    	/* Création d'un tableau à partir des ressources de la bd */
+    	for(int i = 0 ; i <=listeDeQuestions.size() ; i++) {
+    		tableauQuestions[i] = listeDeQuestions.get(i);
+    	}
+    	
+    	return tableauQuestions;
     }
 }
