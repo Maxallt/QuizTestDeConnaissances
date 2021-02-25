@@ -32,7 +32,7 @@ public class ChoixSousCategorieController implements Initializable {
     private int idSousCat;
     
     /** Liste des questions correspondant à la sous-catégorie */
-    private static ArrayList<String> listeQuestions;
+    static ArrayList<String> listeQuestions = new ArrayList<String>();
     
 	/** 
 	 * Est utile pour le changement de fenetre, il récupère la fenetre
@@ -210,7 +210,7 @@ public class ChoixSousCategorieController implements Initializable {
     					+ ChoixCategorieController.getSurCategorie() + " et la sous-catégorie " 
     				    + listeSousCat.getSelectionModel().getSelectedItem() );
     		// Récupération de la sous-catégorie choisis afin de récupérer les questions
-    		chargementQuestions(listeFormat.getSelectionModel().getSelectedItem());
+    		chargementQuestions(listeSousCat.getSelectionModel().getSelectedItem());
     	} else {
     		System.out.println("Vous n'avez pas saisi de format !");
     	}
@@ -230,6 +230,6 @@ public class ChoixSousCategorieController implements Initializable {
      */
     public void chargementQuestions(String sousCatChoisis) {
     	idSousCat = DAOSousCategorie.getId(sousCatChoisis);
-    	listeQuestions = DaoQuestions.getQuestionsSousCat(idSousCat);
+        listeQuestions = DaoQuestions.getQuestionsSousCat(idSousCat);
     }
 }
