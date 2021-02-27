@@ -11,7 +11,7 @@
       <Pane minHeight="200.0" minWidth="300.0" styleClass="Fenetre">
          <children>
             <Button fx:id="buttonAnnuler" layoutX="131.0" layoutY="144.0" mnemonicParsing="false" onAction="#annuler" text="Ok" />
-            <Label fx:id="boiteDialogue" layoutX="47.0" layoutY="14.0" prefHeight="120.0" prefWidth="231.0" text="Création de la &#10;question impossible&#10;" textAlignment="CENTER" textFill="#cc0000">
+            <Label fx:id="boiteDialogue" layoutX="47.0" layoutY="14.0" prefHeight="120.0" prefWidth="231.0" text="Création de la &#10;question effectué&#10;&#10;" textAlignment="CENTER">
                <font>
                   <Font name="Comic Sans MS" size="25.0" />
                </font>

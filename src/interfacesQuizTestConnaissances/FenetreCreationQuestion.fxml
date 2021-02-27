@@ -78,7 +78,7 @@
                   <Font name="Comic Sans MS" size="16.0" />
                </font>
             </Label>
-            <ComboBox fx:id="listeCategorie" layoutX="194.0" layoutY="125.0" onShowing="#setCategorie" prefWidth="150.0" />
+            <ComboBox fx:id="listeCategorie" layoutX="194.0" layoutY="125.0" onAction="#resetListeSousCat" onShowing="#setCategorie" prefWidth="150.0" />
             <ComboBox fx:id="listeSousCategorie" layoutX="502.0" layoutY="125.0" onShowing="#setSousCategorie" prefWidth="150.0" />
             <Label layoutX="47.0" layoutY="412.0" text="Difficulté :" textFill="#cc0000">
                <font>

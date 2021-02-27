@@ -26,9 +26,9 @@ public class DAOCategorie {
 
 			
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Création d'un statement
+			// Etape 2 : Création d'un statement
 			st = cn.createStatement();
             final ResultSet rset = st.executeQuery("SELECT * FROM categorie;");
 
@@ -70,9 +70,9 @@ public class DAOCategorie {
 		boolean tableExiste = false;
 
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Création d'un statement
+			// Etape 2 : Création d'un statement
 			st = cn.createStatement();
 			
 			// Vérification que la table des catégories existe
@@ -127,12 +127,12 @@ public class DAOCategorie {
 		String sql = "UPDATE categorie SET nom = ? WHERE nom = ?";
 		
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Création d'un statement
+			// Etape 2 : Création d'un statement
 			st = cn.createStatement();
 			
-			// Etape 4 : Execution de la requéte
+			// Etape 3 : Execution de la requéte
 			PreparedStatement updateCategorie = cn.prepareStatement(sql);
 			updateCategorie.setString(1, newNom);
 			updateCategorie.setString(2, ancienNom);
@@ -157,12 +157,12 @@ public class DAOCategorie {
 
 			
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Création d'un statement
+			// Etape 2 : Création d'un statement
 			st = cn.createStatement();
 			
-			// Etape 4 : Execution de la requéte
+			// Etape 3 : Execution de la requéte
 			//Valeur associée a la requete
 			PreparedStatement deleteCategorie = cn.prepareStatement(sql);
 			deleteCategorie.setString(1,nomCategorieASupprimer);
@@ -197,12 +197,12 @@ public class DAOCategorie {
 					+ categorieASupprimer.getNom() +"'";
 				
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Création d'un statement
+			// Etape 2 : Création d'un statement
 			st = cn.createStatement();
 			
-			// Etape 4 : Execution de la requéte
+			// Etape 3 : Execution de la requéte
 			PreparedStatement deleteCategorie = cn.prepareStatement(sql);
 			deleteCategorie.setString(1,categorieASupprimer.getNom());
 			
@@ -233,9 +233,9 @@ public class DAOCategorie {
 		boolean tableExiste = false;
 		
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Création d'un statement
+			// Etape 2 : Création d'un statement
 			st = cn.createStatement();
 			
 			// Vérification que la table des catégories existe
@@ -277,9 +277,9 @@ public class DAOCategorie {
 		int idCategorie = -1;
 		
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Création d'un statement
+			// Etape 2 : Création d'un statement
 			st = cn.createStatement();
             ResultSet rset = st.executeQuery("SELECT id FROM categorie WHERE nom ='" + nomCategorie + "'");
 
@@ -300,9 +300,9 @@ public class DAOCategorie {
 	public static int getNextPrimaryKey() {
 		int resultat=0;
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Création d'un statement
+			// Etape 2 : Création d'un statement
 			st = cn.createStatement();
 			
 			// Requête sql pour initialiser les sous-catégories 
@@ -324,9 +324,9 @@ public class DAOCategorie {
 		boolean catExiste = false;
 		
 		try {
-			// Récupération de l'élément de connexion à la bd
+			// Etape 1 : Récupération de l'élément de connexion à la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 3 : Création d'un statement
+			// Etape 2 : Création d'un statement
 			st = cn.createStatement();
             ResultSet rset = st.executeQuery("SELECT * FROM categorie WHERE nom ='" + categorie + "'");
             if(rset.next()) {

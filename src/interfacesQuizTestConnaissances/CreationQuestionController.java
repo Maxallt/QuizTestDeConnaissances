@@ -149,7 +149,11 @@ public class CreationQuestionController implements Initializable {
     @FXML
     public void setSousCategorie() {
 		if (!initSousCat) {
-			ArrayList<SousCategorie> sousCategories = DAOSousCategorie.getSousCategories(listeCategorie.getSelectionModel().getSelectedItem());
+			ArrayList<SousCategorie> sousCategories = 
+					listeCategorie.getSelectionModel().getSelectedItem()==null?
+					DAOSousCategorie.getSousCategories():
+					DAOSousCategorie.getSousCategories(listeCategorie.getSelectionModel().getSelectedItem());
+			
 			for (SousCategorie element: sousCategories) {
 				listeSousCategorie.getItems().add(element.getNom());
 			}
@@ -166,6 +170,16 @@ public class CreationQuestionController implements Initializable {
 			initDifficulte = true;
 		}
 	}
+    
+    /**
+     * Remet à zéro la ComboBox des sous-catégories lors de la sélection
+     * d'une nouvelle catégorie
+     */
+    @FXML
+    public void resetListeSousCat() {
+    	listeSousCategorie.getItems().clear();
+    	initSousCat = false;
+    }
     
     /**
      * Méthode qui affiche la fenêtre précédente
