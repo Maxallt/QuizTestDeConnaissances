@@ -97,6 +97,35 @@ public class AccueilController implements Initializable {
 	}
     
     /**
+     * Méthode qui envoie vers le perfectionnement avances,
+     * ici d'abord vers le format de questions et eventuellement la difficulte
+     * Cette méthode est reliée à buttonPerfectionnementAvance
+     */
+    @FXML
+	public void perfectionnementAvancees() {
+		try {
+			stage = (Stage)buttonPerfectionnementAvance.getScene().getWindow();
+			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreChoixFormatQuestionnaire.fxml")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+    
+    /**
+     * Méthode qui renvoie vers l'historique des tests effectués,
+     * Cette méthode est reliée à reviewTests
+     */
+    @FXML
+	public void reviewTestAction() {
+		try {
+			stage = (Stage)buttonPerfectionnementAvance.getScene().getWindow();
+			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreHistoriqueTest.fxml")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+    
+    /**
      * Méthode qui envoie vers la gestion des catégories et sous-catégories,
      * ici d'abord vers une interface à 4 choix
      * Cette méthode est reliée à buttonModif

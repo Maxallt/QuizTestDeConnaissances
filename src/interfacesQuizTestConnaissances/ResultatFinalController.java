@@ -40,9 +40,9 @@ public class ResultatFinalController implements Initializable {
     @FXML
     private Text appreciation;
     
-    /** Bouton de fin de jeu pour aller à la fenêtre ModificationQuestions */
+    /** Bouton de fin de jeu pour rejouer la partie */
     @FXML
-    private Button boutonModififierQuestions;
+    private Button boutonRejouer;
     
     /** Bouton de fin de jeu pour aller à la fenêtre ChoixCategorie */
     @FXML
@@ -122,6 +122,21 @@ public class ResultatFinalController implements Initializable {
 				+ " : " + apreciationObtenu);
     	
     	return apreciationObtenu;
+    }
+    
+    /**
+     * Méthode qui permet de rejouer la partie
+     */
+    @FXML
+    public void rejouer() {
+    	System.out.println("Ici");
+		try {
+			stage = (Stage)boutonRetourJeu.getScene().getWindow();
+			setDynamicPane(FXMLLoader.load(getClass()
+					.getResource("FenetreLancementJeu.fxml")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
 	/**

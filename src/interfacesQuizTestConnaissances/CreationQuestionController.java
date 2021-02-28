@@ -109,7 +109,7 @@ public class CreationQuestionController implements Initializable {
 					int compteurLigne = 0;
 					boolean catExiste;
 					boolean sousCatExiste;
-					//Parcours des lignes de la feuille
+					//Parcours des lignes de la feuille <<<<<<<<<<< <, 
 					while(rowIterator.hasNext()) {
 						//Récupération de la prochaine ligne
 						Row row = rowIterator.next();

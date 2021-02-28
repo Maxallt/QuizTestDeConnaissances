@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import gestionCategories.DAOSousCategorie;
+import gestionQuestion.DaoQuestions;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -128,6 +130,9 @@ public class Main extends Application {
 		creationBase();
 		creationTables();
 		/* Lance la méthode start qui va lancer une interface*/
+		int i =0;
+		//System.out.println(DaoQuestions.getQuestionsSousCat(0).get(0));
+		System.out.println(DAOSousCategorie.getId("General"));
 		launch(args);
 	}
 }
