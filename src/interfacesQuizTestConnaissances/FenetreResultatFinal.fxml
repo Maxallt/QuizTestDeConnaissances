@@ -31,11 +31,6 @@
                   <Font name="Comic Sans MS" size="35.0" />
                </font>
             </Text>
-            <Text fx:id="resultatCalcule" fill="WHITE" layoutX="326.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="resultatCalcule">
-               <font>
-                  <Font name="Comic Sans MS" size="24.0" />
-               </font>
-            </Text>
             <Text fill="WHITE" layoutX="489.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
                <font>
                   <Font name="Comic Sans MS" size="52.0" />
@@ -43,7 +38,7 @@
             </Text>
             <Text fx:id="format" fill="WHITE" layoutX="516.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="format">
                <font>
-                  <Font size="32.0" />
+                  <Font name="Comic Sans MS" size="36.0" />
                </font>
             </Text>
             <Button fx:id="boutonRetourAccueil" layoutX="261.0" layoutY="422.0" mnemonicParsing="false" onAction="#retourAccueil" prefHeight="31.0" prefWidth="179.0" text="Retour à l'accueil" />
@@ -54,6 +49,11 @@
                </font>
             </Text>
             <Button fx:id="boutonRetourJeu" layoutX="261.0" layoutY="381.0" mnemonicParsing="false" onAction="#retourJeu" prefHeight="31.0" prefWidth="179.0" text="Retour au jeu" />
+            <Text fx:id="resultatCalcule" fill="RED" layoutX="407.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="resultatCalcule" wrappingWidth="217.5400390625">
+               <font>
+                  <Font name="Comic Sans MS" size="79.0" />
+               </font>
+            </Text>
          </children></Pane>
    </children>
 </AnchorPane>

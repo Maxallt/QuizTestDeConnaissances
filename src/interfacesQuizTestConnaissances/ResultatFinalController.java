@@ -53,8 +53,13 @@ public class ResultatFinalController implements Initializable {
     private Button boutonRetourAccueil;
     
     private String[] APPRECIATION_GENERALE = 
-    	{"Parfait","Très bien","Bien, continue comme ça","Moyen :/",
-    	"Pas très bon","Mauvais :("};
+    	{"Mauvais","Pas très bon","Moyen :/",
+    	 "Bien","Très bien","Parfait"};
+    
+    private final int NB_BONNES_REPONSES 
+    				  = LancementJeuController.getNbBonnesReponses();
+    private final int NB_QUESTIONS 
+    				  = ChoixSousCategorieController.getNombreQuestion();
     
     /**
      * Méthode par défaut : qui permet d'initialiser les champs de texte
@@ -68,10 +73,8 @@ public class ResultatFinalController implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
     	
     	resultatCalcule.setText(""+ LancementJeuController.getNbBonnesReponses());
-		format.setText("" + ChoixSousCategorieController.getNombreQuestion());
-		appreciation.setText(affichageAppreciation
-				(LancementJeuController.getNbBonnesReponses(),
-				ChoixSousCategorieController.getNombreQuestion()));
+		format.setText(""+ ChoixSousCategorieController.getNombreQuestion());
+		appreciation.setText(affichageAppreciation(NB_BONNES_REPONSES,NB_QUESTIONS));
 		
 	}
     
@@ -88,24 +91,35 @@ public class ResultatFinalController implements Initializable {
      * @return l'appréciation retenue
      */
     public String affichageAppreciation(int noteFinal, int noteMaximum) {
-    	double resultatObtenu = noteFinal/noteMaximum;
-    	String apreciationObtenu = "";
+    	double resultatObtenu = (double) noteFinal/ (double) noteMaximum;
+    	String apreciationObtenu;
     	
-    	if (resultatObtenu < 6/20) {
-    		apreciationObtenu = APPRECIATION_GENERALE[5];
-    	} else if (6/20 <= resultatObtenu && resultatObtenu < 10/20) {
-    		apreciationObtenu = APPRECIATION_GENERALE[4];
-    	} else if (10/20 <= resultatObtenu && resultatObtenu < 13.5/20) {
-    		apreciationObtenu = APPRECIATION_GENERALE[3];
-    	} else if (13.5/20 <= resultatObtenu && resultatObtenu < 16/20) {
-    		apreciationObtenu = APPRECIATION_GENERALE[2];
-    	} else if (16/20 <= resultatObtenu && resultatObtenu < 19/20) {
-    		apreciationObtenu = APPRECIATION_GENERALE[1];
-    	} else if (19/20 <= resultatObtenu && resultatObtenu < 20/20) {
+    	// Mauvais :(		note € [0 , 6[     sur 20
+    	if (0 <= resultatObtenu && resultatObtenu < 0.3) {
     		apreciationObtenu = APPRECIATION_GENERALE[0];
-    	} else { //Au cas où un problème surviendrai
-    		apreciationObtenu = "Erreur lors du comptage de points";
+    	// Pas très bon		note € [6 , 10[    sur 20
+    	} else if (0.3 <= resultatObtenu && resultatObtenu < 0.5) {   
+    		apreciationObtenu = APPRECIATION_GENERALE[1];
+    	// Moyen :/			note € [10 , 13.5[ sur 20
+    	} else if (0.5 <= resultatObtenu && resultatObtenu < 0.675) {
+    		apreciationObtenu = APPRECIATION_GENERALE[2];
+    	// Bien				note € [13.5 , 16[ sur 20
+    	} else if (0.675 <= resultatObtenu && resultatObtenu < 0.8) {
+    		apreciationObtenu = APPRECIATION_GENERALE[3];
+    	// Très bien		note € [16 , 19[  sur 20
+    	} else if (0.8 <= resultatObtenu && resultatObtenu < 0.95) {
+    		apreciationObtenu = APPRECIATION_GENERALE[4];
+    	// Parfait			note € [19 , 20]  sur 20
+    	} else if (0.95 <= resultatObtenu && resultatObtenu <= 1) {
+    		apreciationObtenu = APPRECIATION_GENERALE[5];
+    	// Erreur de comptage
+    	} else {
+    		apreciationObtenu = "Erreur : tu triches !";
     	}
+    	
+    	// Affichage sur la console
+    	System.out.println((resultatObtenu*noteMaximum) + " sur " + noteMaximum
+				+ " : " + apreciationObtenu);
     	
     	return apreciationObtenu;
     }

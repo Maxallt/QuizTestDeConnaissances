@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import gestionCategories.SousCategorie;
+import gestionQuestion.DaoQuestions;
 import gestionCategories.DAOSousCategorie;
 
 /**
@@ -27,6 +28,12 @@ import gestionCategories.DAOSousCategorie;
  */
 public class ChoixSousCategorieController implements Initializable {
 
+	 /** Identifiant de la sous-catégorie choisis par l'utilisateur */
+    private int idSousCat;
+    
+    /** Liste des questions correspondant à la sous-catégorie */
+    static ArrayList<String> listeQuestions = new ArrayList<String>();
+    
 	/** 
 	 * Est utile pour le changement de fenetre, il récupère la fenetre
 	 * courante pour la changer
@@ -202,6 +209,8 @@ public class ChoixSousCategorieController implements Initializable {
     		System.out.println("Lancement du jeu avec " + getNombreQuestion()  + " questions. Dans la catégorie " 
     					+ ChoixCategorieController.getSurCategorie() + " et la sous-catégorie " 
     				    + listeSousCat.getSelectionModel().getSelectedItem() );
+    		// Récupération de la sous-catégorie choisis afin de récupérer les questions
+    		chargementQuestions(listeSousCat.getSelectionModel().getSelectedItem());
     	} else {
     		System.out.println("Vous n'avez pas saisi de format !");
     	}
@@ -214,4 +223,14 @@ public class ChoixSousCategorieController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+    
+    /** 
+     * Méthode chargant les questions dans une ArrayList pour le jeu classique
+     * @param sousCatChoisis par l'utilisateur
+     */
+    public void chargementQuestions(String sousCatChoisis) {
+    	idSousCat = DAOSousCategorie.getId(sousCatChoisis);
+        listeQuestions = DaoQuestions.getQuestionsSousCat(idSousCat);
+    	System.out.println(listeQuestions);
+    }
 }
