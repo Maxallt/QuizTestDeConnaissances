@@ -277,10 +277,17 @@ public class CreationQuestionController implements Initializable {
     		if(txtRepFaux4 != null)
     			intitules.add(txtRepFaux4.getText());
     		
-    		quest = new gestionQuestion.Question(txtQuestion.getText(), 
-    				intitules,listeSousCategorie.getSelectionModel().getSelectedItem(),
-    				listeCategorie.getSelectionModel().getSelectedItem(),
-    				listeDifficulte.getSelectionModel().getSelectedItem() );
+    		// Récupération de l'ID de la categorie selectionnée dans la combobox
+    		String idCat = DAOCategorie.getId(listeCategorie.getSelectionModel().getSelectedItem())+"";
+    		
+    		// Récupération de l'ID de la sous catégorie sélectionnée dans la combobox
+    		String idSousCat = DAOSousCategorie.getId(listeSousCategorie.getSelectionModel().getSelectedItem())+"";
+    		
+    		// Récupération du libellé de la difficulté
+    		String difficulteChoisis = listeDifficulte.getSelectionModel().getSelectedItem();
+    		
+    		// Création de la question 
+    		quest = new gestionQuestion.Question(txtQuestion.getText(), intitules,idSousCat,idCat,difficulteChoisis );
     		
     		DaoQuestions.createQuestions(quest);
     		creationPopUpCreationQuestionValide();
