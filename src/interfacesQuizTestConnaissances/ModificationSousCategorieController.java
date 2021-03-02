@@ -232,6 +232,8 @@ public class ModificationSousCategorieController implements Initializable {
     			e.printStackTrace();
     		}
     		creationPopUp("FenetrePopUpSuppression.fxml");
+    	} else {
+    		creationPopUp("FenetrePopUpSelectionVide.fxml");
     	}
     }
     

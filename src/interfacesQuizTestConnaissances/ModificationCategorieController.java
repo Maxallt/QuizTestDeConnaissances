@@ -250,6 +250,29 @@ public class ModificationCategorieController implements Initializable {
 	}
 	
 	/**
+	 * Si l'utilisateur essaie d'effectuer une action sur une seletion vide
+	 * alors cette fenêtre averti l'utilisateur de son erreur
+	 */
+	public void creationPopUpNomSelectionVide() {
+        Stage dialog = new Stage();
+        try {
+        	dialog.initModality(Modality.APPLICATION_MODAL);
+            // Localisation du fichier FXML
+            final URL url = getClass().getResource("FenetrePopUpSelectionVide.fxml");
+            // Création du loader.
+            final FXMLLoader fxmlLoader = new FXMLLoader(url);
+            // Chargement du FXML
+            AnchorPane root = (AnchorPane) fxmlLoader.load();
+            Scene dialogScene = new Scene(root, 300, 200);
+            dialog.setScene(dialogScene);
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+        dialog.setTitle("Selection Vide !");
+        dialog.show();
+	}
+	
+	/**
 	 * Affichage d'une fenêtre PopUp pour savoir si l'utilisateur veut vraiment
 	 * supprimer la catégorie sélectionnée
 	 */
@@ -281,6 +304,9 @@ public class ModificationCategorieController implements Initializable {
 				dialog.setTitle("Suppression d'une catégorie");
 				dialog.show();
 			}
+		} else {
+			creationPopUpNomSelectionVide();
+			System.out.println("aucune cat selectionné");
 		}
 	}
 	
@@ -313,30 +339,38 @@ public class ModificationCategorieController implements Initializable {
 	 */
 	@FXML
 	public void supprimerSousCategorie() {
-		System.out.println("Non disponible");
-		//STUB Bug non corrigé
-/*		categorieSelectionnee = listeCategorie.getSelectionModel()
+		
+		categorieSelectionnee = listeSousCat.getSelectionModel()
 				  							  .getSelectedItem();
 		
 		if (!(categorieSelectionnee==null)) {
 			
-			Stage dialog = new Stage();
-	        try {
-	        	dialog.initModality(Modality.APPLICATION_MODAL);
-	            // Localisation du fichier FXML
-	            final URL url = getClass().getResource("FenetrePopUpSupprimerSousCategorie.fxml");
-	            // Création du loader.
-	            final FXMLLoader fxmlLoader = new FXMLLoader(url);
-	            // Chargement du FXML
-	            AnchorPane root = (AnchorPane) fxmlLoader.load();
-	            Scene dialogScene = new Scene(root, 300, 200);
-	            dialog.setScene(dialogScene);
-	        } catch (IOException e) {
-	        	e.printStackTrace();
-	        }
-	        dialog.setTitle("Suppression d'une sous-catégorie");
-	        dialog.show();
-		}*/
+			if(categorieSelectionnee.equals("Général")) {
+				System.out.println("Impossible de supprimer Général");
+				creationPopUpGeneralChoisis();
+			} else {
+				Stage dialog = new Stage();
+		        try {
+		        	dialog.initModality(Modality.APPLICATION_MODAL);
+		            // Localisation du fichier FXML
+		            final URL url = getClass().getResource("FenetrePopUpSupprimerSousCategorie.fxml");
+		            // Création du loader.
+		            final FXMLLoader fxmlLoader = new FXMLLoader(url);
+		            // Chargement du FXML
+		            AnchorPane root = (AnchorPane) fxmlLoader.load();
+		            Scene dialogScene = new Scene(root, 300, 200);
+		            dialog.setScene(dialogScene);
+		        } catch (IOException e) {
+		        	e.printStackTrace();
+		        }
+		        dialog.setTitle("Suppression d'une sous-catégorie");
+		        dialog.show();
+			}
+		} else {
+			creationPopUpNomSelectionVide();
+			System.out.println("aucune Sous-cat selectionné");
+			
+		}
 	}
 	
 	/**

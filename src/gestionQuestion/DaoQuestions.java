@@ -42,7 +42,7 @@ public class DaoQuestions {
 	            {"Quelle est la taille, en nombre d octets, du type double","8 octet","16 octet","2 octet","1 octet",""}, //8
 	            {"A quoi sert le mot clé const ?","A définir une constante.","C est un mot clé réservé mais actuellement non utilisé en Java.",
 	            	                               "Ce n est pas un mot clé du langage.","A définir un constituant.",""}, //9
-	            {"Comment comparer deux chaines de caractères ?","s1.equals( s2 )","s1 == s2","s1.equal( s2 )","On ne peut pas en Java.",""}, //10
+	            {"Comment comparer deux chaines de caractères en java ?","s1.equals( s2 )","s1 == s2","s1.equal( s2 )","On ne peut pas en Java.",""}, //10
 	            {"","","","","",""}, //11
 	            {"","","","","",""}, //12
 	            {"","","","","",""}, //13

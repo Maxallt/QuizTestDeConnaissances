@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane stylesheets="@myApplication.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacesQuizTestConnaissances.interfacesQuizTestConnaissances.PopUpSupprimerSousCategorieController">
+<AnchorPane stylesheets="@myApplication.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacesQuizTestConnaissances.PopUpSupprimerSousCategorieController">
    <children>
       <Pane minHeight="200.0" minWidth="300.0" styleClass="Fenetre">
          <children>

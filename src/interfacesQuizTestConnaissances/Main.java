@@ -12,9 +12,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import gestionCategories.DAOSousCategorie;
+import gestionEnregistrementPartie.DAOHistoriquePartie;
 import gestionQuestion.DaoQuestions;
+import gestionQuestion.Question;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -124,15 +127,14 @@ public class Main extends Application {
 		gestionCategories.DAOCategorie.creerTableDefault();
 		gestionCategories.DAOSousCategorie.creerTableDefaut();
 		gestionQuestion.DaoQuestions.creationTablesDefault();
+		gestionEnregistrementPartie.DAOHistoriquePartie.TableDefautHistoriquePartie();
 	}
 
 	public static void main(String[] args) {
 		creationBase();
 		creationTables();
+		
 		/* Lance la méthode start qui va lancer une interface*/
-		int i =0;
-		//System.out.println(DaoQuestions.getQuestionsSousCat(0).get(0));
-		System.out.println(DAOSousCategorie.getId("General"));
 		launch(args);
 	}
 }

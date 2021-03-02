@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-
+import gestionEnregistrementPartie.DAOHistoriquePartie;
 import gestionQuestion.DaoQuestions;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -80,7 +80,7 @@ public class LancementJeuController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-	    
+	    /* Lancement du jeu avec les questions */
 		if (ChoixSousCategorieController.listeQuestions.size() == 0) {
 			System.out.println("Impossible de lancerle jeu, aucune question n'existe avec ces criteres. Veuillez en créer");
 		} else if (ChoixSousCategorieController.listeQuestions.size() < ChoixSousCategorieController.getNombreQuestion()) {
@@ -101,6 +101,13 @@ public class LancementJeuController implements Initializable {
 			reponseD.setText(reponsesCourantes.get(REPONSE_D));
 			reponseE.setText(reponsesCourantes.get(REPONSE_E));
 		}
+		
+		/* On enregistre la partie en cours dans la base de données */
+		System.out.println("Enregistrement de la partie");
+		System.out.println("Categorie --> " +  ChoixCategorieController.getIdCatActuelle()
+		                 + "Sous-catégorie --> " + ChoixSousCategorieController.getIdSousCatActuelle());
+		DAOHistoriquePartie.EnregistrerPartieEnCours(ChoixCategorieController.getIdCatActuelle(), 
+				                                     ChoixSousCategorieController.getIdSousCatActuelle());
 			
 	}
 	

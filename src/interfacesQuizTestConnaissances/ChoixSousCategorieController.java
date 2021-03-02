@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import gestionCategories.SousCategorie;
 import gestionQuestion.DaoQuestions;
+import gestionCategories.DAOCategorie;
 import gestionCategories.DAOSousCategorie;
 
 /**
@@ -29,7 +30,7 @@ import gestionCategories.DAOSousCategorie;
 public class ChoixSousCategorieController implements Initializable {
 
 	 /** Identifiant de la sous-catégorie choisis par l'utilisateur */
-    private int idSousCat;
+    private static int idSousCat;
     
     /** Liste des questions correspondant à la sous-catégorie */
     static ArrayList<String> listeQuestions = new ArrayList<String>();
@@ -60,6 +61,12 @@ public class ChoixSousCategorieController implements Initializable {
      */
     private static int nombreQuestion = -1;
     
+    /**
+     * Boolean d'indication pour la liste de sous categorie
+     * True s'il est nulle
+     * False sinon
+     */
+    private static boolean listeVide = true;
     /**
      * Getter pour récupérer le nombre de question selectionné
      * @return la valeur du format voulu
@@ -204,8 +211,10 @@ public class ChoixSousCategorieController implements Initializable {
     public void valider() {
     	//STUB Avant le lancement du jeu
     	if (listeSousCat.getSelectionModel().getSelectedItem() == null && listeFormat.getSelectionModel().getSelectedItem() != null) {
+    		listeVide = true;
     		System.out.println("Lancement du jeu avec" + getNombreQuestion() + " questions. Dans la catégorie " + ChoixCategorieController.getSurCategorie());
     	} else if (listeFormat.getSelectionModel().getSelectedItem() != null) {
+    		listeVide = false;
     		System.out.println("Lancement du jeu avec " + getNombreQuestion()  + " questions. Dans la catégorie " 
     					+ ChoixCategorieController.getSurCategorie() + " et la sous-catégorie " 
     				    + listeSousCat.getSelectionModel().getSelectedItem() );
@@ -231,6 +240,18 @@ public class ChoixSousCategorieController implements Initializable {
     public void chargementQuestions(String sousCatChoisis) {
     	idSousCat = DAOSousCategorie.getId(sousCatChoisis);
         listeQuestions = DaoQuestions.getQuestionsSousCat(idSousCat);
-    	System.out.println(listeQuestions);
     }
+    
+    /**
+     * Méthode qui renvoie l'id de la sous catégorie actuelle
+     * @return idSousCat contient l'id de la sous-catégorie
+     *         Renvoie -1 si aucune sous-catégorie n'a été selectionné
+     */
+    public static int getIdSousCatActuelle() {
+		if (listeVide) {
+			return -1;
+		} else {
+			return idSousCat;
+		}	
+	}
 }
