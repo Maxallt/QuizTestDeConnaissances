@@ -1,3 +1,8 @@
+/*
+ * DAOCategorie.java 		28/02/2021
+ * Data Access Object pour la classe Question
+ */
+
 package gestionQuestion;
 
 import java.sql.Connection;
@@ -8,6 +13,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import gestionBD.ConnexionBD;
+
+/**
+ * Data Access Object pour la classe SousCategorie
+ * Classe qui va permettre de récupérer des instances
+ * Question en base de donnée
+ * @author Nicolas.A
+ * @version 2.0
+ */
 
 public class DaoQuestions {
 	
@@ -25,10 +38,10 @@ public class DaoQuestions {
 	            {"Quelle est la différence entre J2SDK 1.5 et J2SDK 5.0?","Aucune","Ajout de nouvelles fonctionnalit�s",
 	                    											"Patch sur les classes abstraites","NQNTMQMQMB",""},
 	            {"Lequel de ces nom de variables est correcte ?","aCorriger","acorriger","@corriger ","ACORRIGER",""}, //6
-	            {"Quelle est la taille, en nombre d'octets, du type byte ?","1 octet","2 octet","4 octet","8 octet",""}, //7
-	            {"Quelle est la taille, en nombre d'octets, du type double","8 octet","16 octet","2 octet","1 octet",""}, //8
+	            {"Quelle est la taille, en nombre d octets, du type byte ?","1 octet","2 octet","4 octet","8 octet",""}, //7
+	            {"Quelle est la taille, en nombre d octets, du type double","8 octet","16 octet","2 octet","1 octet",""}, //8
 	            {"A quoi sert le mot clé const ?","A définir une constante.","C est un mot clé réservé mais actuellement non utilisé en Java.",
-	            	                               "Ce n'est pas un mot clé du langage.","A définir un constituant.",""}, //9
+	            	                               "Ce n est pas un mot clé du langage.","A définir un constituant.",""}, //9
 	            {"Comment comparer deux chaines de caractères ?","s1.equals( s2 )","s1 == s2","s1.equal( s2 )","On ne peut pas en Java.",""}, //10
 	            {"","","","","",""}, //11
 	            {"","","","","",""}, //12
@@ -323,8 +336,8 @@ public class DaoQuestions {
 			
 			// Raz tableExiste
 			tableExiste = false;
-			// VÃ¯Â¿Â½rification que la table des sous-catÃ¯Â¿Â½gories existe
-			resultSet = cn.getMetaData().getTables(null, null, "categorie", new String[] {"TABLE"});
+			// VÃ¯Â¿Â½rification que la table des questions existe
+			resultSet = cn.getMetaData().getTables(null, null, "questions", new String[] {"TABLE"});
 			if (resultSet.next()) {
 				tableExiste = true;
 			}
@@ -359,10 +372,10 @@ public class DaoQuestions {
 			}
 	}
 
-	public void delete(Question question) {
+	public static void delete(Question question) {
 		// Modification des donn�es en Base de donn�e avec cette requ�te SQL
-		String sql = "DELETE FROM questions WHERE questions = '" + question.getTitreQuestion() +"'";
-		String sqlVerifDefaut ="SELECT defaut FROM questions WHERE questions = '" + question.getTitreQuestion() +"'";
+		String sql = "DELETE FROM questions WHERE question = '" + question.getTitreQuestion() +"'";
+		String sqlVerifDefaut ="SELECT idCat FROM questions WHERE idCat = '0' ";
 		
 		try {
 			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
@@ -373,7 +386,7 @@ public class DaoQuestions {
 			// Etape 4 : Execution de la requ�te
 			ResultSet res = st.executeQuery(sqlVerifDefaut);
 			res.next();
-			if (res.getInt(1) == 1) {
+			if (res.getString("idCat") == "0") {
 				System.out.println("Les questions par defaut Général ne peut pas être supprimée");
 			} else {
 				st.executeUpdate(sql);
