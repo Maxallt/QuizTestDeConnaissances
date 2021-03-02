@@ -128,12 +128,13 @@ public class Main extends Application {
 		gestionCategories.DAOSousCategorie.creerTableDefaut();
 		gestionQuestion.DaoQuestions.creationTablesDefault();
 		gestionEnregistrementPartie.DAOHistoriquePartie.TableDefautHistoriquePartie();
+		gestionEnregistrementPartie.DAODetailPartieJoue.TableDefautPartieJouer();
 	}
 
 	public static void main(String[] args) {
 		creationBase();
 		creationTables();
-		
+	
 		/* Lance la méthode start qui va lancer une interface*/
 		launch(args);
 	}

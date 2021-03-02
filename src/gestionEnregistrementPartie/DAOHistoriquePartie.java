@@ -154,5 +154,28 @@ public class DAOHistoriquePartie {
 		}
 		return resultat+1;
 	}
+	
+	/**
+	 * Méthode qui récupère le numéro de la partie actuelle
+	 * @return numPartie
+	 */
+	public static int getNumPartieActuelle() {
+		int numPartie=0;
+		try {
+			// Etape 1 : R�cup�ration de l'�l�ment de connexion � la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 2 : Cr�ation d'un statement
+			st = cn.createStatement();
+			
+			// Requ�te sql pour initialiser les sous-cat�gories 
+			String sql = "SELECT MAX(numPartie) FROM historiquePartie";
+			ResultSet res = st.executeQuery(sql);
+			res.next();
+			numPartie = res.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return numPartie;
+	}
 }
 	

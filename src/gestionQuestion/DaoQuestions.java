@@ -34,25 +34,26 @@ public class DaoQuestions {
 				{"Quel terme désigne une importation ?","import","extends","throws","private",""},
 	            {"Qui est le créateur de Java ?","James Gosling","James Cameron","James Bond","James Charles",""},
 	            {"Quel est le terme pour désigner un commentaire javadoc ?","/** */","/* */","<!-- -->","//",""},
-	            {"Quel méthode permet de récupérer la taille d un tableau ?","length()","taille()","getLength","width()",""},
+	            {"Quel méthode permet de récupérer la taille d un tableau en java ?","length()","taille()","getLength","width()",""},
 	            {"Quelle est la différence entre J2SDK 1.5 et J2SDK 5.0?","Aucune","Ajout de nouvelles fonctionnalit�s",
 	                    											"Patch sur les classes abstraites","NQNTMQMQMB",""},
-	            {"Lequel de ces nom de variables est correcte ?","aCorriger","acorriger","@corriger ","ACORRIGER",""}, //6
+	            {"Lequel de ces nom de variables est correcte en Java ?","aCorriger","acorriger","@corriger ","ACORRIGER",""}, //6
 	            {"Quelle est la taille, en nombre d octets, du type byte ?","1 octet","2 octet","4 octet","8 octet",""}, //7
 	            {"Quelle est la taille, en nombre d octets, du type double","8 octet","16 octet","2 octet","1 octet",""}, //8
 	            {"A quoi sert le mot clé const ?","A définir une constante.","C est un mot clé réservé mais actuellement non utilisé en Java.",
 	            	                               "Ce n est pas un mot clé du langage.","A définir un constituant.",""}, //9
 	            {"Comment comparer deux chaines de caractères en java ?","s1.equals( s2 )","s1 == s2","s1.equal( s2 )","On ne peut pas en Java.",""}, //10
-	            {"","","","","",""}, //11
-	            {"","","","","",""}, //12
-	            {"","","","","",""}, //13
-	            {"","","","","",""}, //14
-	            {"","","","","",""}, //15
-	            {"","","","","",""}, //16
-	            {"","","","","",""}, //17
-	            {"","","","","",""}, //18
-	            {"","","","","",""}, //19
-	            {"","","","","",""}, //20
+	            {"Le langage que l ordinateur comprend est","le binaire" ,"des animaux","Java","Visual Basic",""}, //11
+	            {"Microsoft Word est ","Programme","Compilateur","Systeme d exploitation","Langage de programmation",""}, //12
+	            {"Quel langage est très utilisé pour les pages web ?","Javascript","Cobol","C++","Vala",""}, //13
+	            {"Qu est-ce que que le langage binaire ?","C est le langage de la machine","C est un langage interprété","C est un langage orientés objets","C est un langage de haut niveau",""}, //14
+	            {"De quoi se sert-on pour programmer en C ou C++ ?","Un compilateur","Une console de commande","Un décompilateur","Un éditeur de texte",""}, //15
+	            {"Quel est le framework le du C# ?"," . NET",". EXE",". BAT",". MTS",""}, //16
+	            {"Qu est-ce qu un IDE ?"," Un programme qui fait en même temps : comilateur, éditeur de texte et débugger", "  Un programme pour injecter du JS dans le langage C",
+	            	                                      " Un éditeur XHTML","Un jeu vidéo",""}, //17
+	            {"Le raccourci : touche Windows+D sert à"," Réduire toutes le fenêtres"," Lancer, exécuter","Fermer la session","Redémarrer l'ordinateur",""}, //18
+	            {"Que représente le sigle VB en Programmation ?","Visual Basic","Visual Boy","Virtuel Bord","Virtual Basic",""}, //19
+	            {"Quelle est l extension d une application exécutable ?",".exe",".tab",".app",".txt",""}, //20
 		};
 	
 
@@ -222,6 +223,37 @@ public class DaoQuestions {
 		} 
 		return listeReponses;
 	}
+	
+	/**
+	 * Méthode qui renvoie la reponse correcte d'une question
+	 * @param titreQuestion question a traiter
+	 * @return reponse contient la reponse correcte de la question
+	 */
+	public static String getReponseCorrecte(String titreQuestion) {
+		
+		String reponse = "" ;
+    	// R�cup�ration des donn�es en Base de donn�e
+    	String sql = "SELECT reponseVraie FROM questions where question = ?" ;
+		try {
+			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 3 : CrÃƒÂ©ation d'un statement
+			st = cn.createStatement();
+
+			// Etape 4 : Execution de la requ�te
+			ResultSet res = st.executeQuery(sql);
+
+			//Valeur associe a la requete
+			PreparedStatement getReponseCorrecte = cn.prepareStatement(sql);
+			getReponseCorrecte.setString(1, titreQuestion );
+			
+			reponse = res.getString("reponseVraie");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return reponse;
+	}
 
 	
 	/**
@@ -275,6 +307,10 @@ public class DaoQuestions {
 		}
 	}
 	
+	/**
+	 * Méthode qui créé un objet de type Question 
+	 * pour initialiser les questions par defaults
+	 */
 	public static void addQuestionsDefauts(String[] questions) {
 
 		ArrayList<String> listeReponse = new ArrayList<String>();
@@ -347,34 +383,14 @@ public class DaoQuestions {
 		}		
 	}
 	
-	public void updateQuestions(String aModifier, int id) {
+	/**
+	 * Cette méthode permet de modifier le titred'une préexistante dans la base de données
+	 * @param questionEnBase question présentes dans la base de données
+	 * @param aModifier contient la question que l'on souhaite ajouter
+	 */
+	public static void updateQuestions(String questionEnBase, String aModifier) {
 		// Modification des donn�es en Base de donn�e avec cette requ�te SQL
-		String sql = "UPDATE FROM questions SET questions = " + aModifier + " WHERE id = '" + id + "'";
-		
-		
-		try {
-			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
-			cn = ConnexionBD.getInstance();
-			// Etape 3 : CrÃƒÂ©ation d'un statement
-			st = cn.createStatement();
-
-			// Etape 4 : Execution de la requ�te
-			ResultSet res = st.executeQuery(sql);
-			res.next();
-			if (res.getInt(1) == 1) {
-				System.out.println("Les questions par defaut Général ne peut pas être modifiée");
-			} else {
-				st.executeUpdate(sql);
-				System.out.println("Modification effectuée");
-			}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	}
-
-	public static void delete(Question question) {
-		// Modification des donn�es en Base de donn�e avec cette requ�te SQL
-		String sql = "DELETE FROM questions WHERE question = '" + question.getTitreQuestion() +"'";
+		String sql = "UPDATE questions  SET question = ? WHERE question =? ";
 		String sqlVerifDefaut ="SELECT idCat FROM questions WHERE idCat = '0' ";
 		
 		try {
@@ -383,17 +399,58 @@ public class DaoQuestions {
 			// Etape 3 : CrÃƒÂ©ation d'un statement
 			st = cn.createStatement();
 
+
+			//Valeur associe a la requete
+			PreparedStatement update = cn.prepareStatement(sql);
+			update.setString(1,  questionEnBase );
+			update.setString(2,  aModifier );
+			
 			// Etape 4 : Execution de la requ�te
 			ResultSet res = st.executeQuery(sqlVerifDefaut);
 			res.next();
-			if (res.getString("idCat") == "0") {
+			if (res.getInt(1) == 0) {
+				System.out.println("Les questions par defaut Général ne peut pas être modifiée");
+			} else {
+				update.executeUpdate();
+				System.out.println("Modification effectuée");
+			}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	}
+
+	/**
+	 * Cette méthode permet de supprimer une question dans la base de données
+	 * @param question objet contenant les valeurs de la question a supprimer
+	 */
+	public static void delete(Question question) {
+		// Modification des donn�es en Base de donn�e avec cette requ�te SQL
+		String sql = "DELETE FROM questions WHERE question = ? ";
+		String sqlVerifDefaut ="SELECT idCat FROM questions WHERE idCat = '0' ";
+		
+		try {
+			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 3 : CrÃƒÂ©ation d'un statement
+			st = cn.createStatement();
+
+			
+			//Valeur associe a la requete
+			PreparedStatement delete = cn.prepareStatement(sql);
+			delete.setString(1,  question.getTitreQuestion() );
+			
+			// Etape 4 : Execution de la requ�te
+			ResultSet res = st.executeQuery(sqlVerifDefaut);
+			res.next();
+			if (res.getInt(1) == 0) {
 				System.out.println("Les questions par defaut Général ne peut pas être supprimée");
 			} else {
-				st.executeUpdate(sql);
+				delete.executeUpdate();
 				System.out.println("Suppression effectuée");
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 	}
+
 }
