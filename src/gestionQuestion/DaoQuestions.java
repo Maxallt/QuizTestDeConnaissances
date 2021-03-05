@@ -28,8 +28,8 @@ public class DaoQuestions {
 	
 
 	
-	/* 20 Questions par d�faut */
-	public final static String[][] QUESTIONS_REPONSES_DEFAUT  = 
+	/* 30 Questions par défaut niveau facile*/
+	public final static String[][] QUESTIONS_REPONSES_DEFAUT_FACILE  = 
 		{
 				{"Quel terme désigne une importation ?","import","extends","throws","private",""},
 	            {"Qui est le créateur de Java ?","James Gosling","James Cameron","James Bond","James Charles",""},
@@ -54,6 +54,86 @@ public class DaoQuestions {
 	            {"Le raccourci : touche Windows+D sert à"," Réduire toutes le fenêtres"," Lancer, exécuter","Fermer la session","Redémarrer l'ordinateur",""}, //18
 	            {"Que représente le sigle VB en Programmation ?","Visual Basic","Visual Boy","Virtuel Bord","Virtual Basic",""}, //19
 	            {"Quelle est l extension d une application exécutable ?",".exe",".tab",".app",".txt",""}, //20
+	            {"","","","","",""}, //21
+	            {"","","","","",""}, //22
+	            {"","","","","",""}, //23
+	            {"","","","","",""}, //24
+	            {"","","","","",""}, //25
+	            {"","","","","",""}, //26
+	            {"","","","","",""}, //27
+	            {"","","","","",""}, //28
+	            {"","","","","",""}, //29
+	            {"","","","","",""}, //30
+		};
+	
+	/* 30 Questions par défaut niveau moyen*/
+	public final static String[][] QUESTIONS_REPONSES_DEFAUT_MOYEN  = 
+		{   
+			{"","","","","",""}, //1
+            {"","","","","",""}, //2
+            {"","","","","",""}, //3
+            {"","","","","",""}, //4
+            {"","","","","",""}, //5
+            {"","","","","",""}, //6
+            {"","","","","",""}, //7
+            {"","","","","",""}, //8
+            {"","","","","",""}, //9
+            {"","","","","",""}, //10
+            {"","","","","",""}, //11
+            {"","","","","",""}, //12
+            {"","","","","",""}, //13
+            {"","","","","",""}, //14
+            {"","","","","",""}, //15
+            {"","","","","",""}, //16
+            {"","","","","",""}, //17
+            {"","","","","",""}, //18
+            {"","","","","",""}, //19
+            {"","","","","",""}, //20
+            {"","","","","",""}, //21
+            {"","","","","",""}, //22
+            {"","","","","",""}, //23
+            {"","","","","",""}, //24
+            {"","","","","",""}, //25
+            {"","","","","",""}, //26
+            {"","","","","",""}, //27
+            {"","","","","",""}, //28
+            {"","","","","",""}, //29
+            {"","","","","",""}, //30
+		};
+	
+	/* 30 Questions par défaut niveau difficile*/
+	public final static String[][] QUESTIONS_REPONSES_DEFAUT_DIFFICILE  = 
+		{   
+			{"","","","","",""}, //1
+            {"","","","","",""}, //2
+            {"","","","","",""}, //3
+            {"","","","","",""}, //4
+            {"","","","","",""}, //5
+            {"","","","","",""}, //6
+            {"","","","","",""}, //7
+            {"","","","","",""}, //8
+            {"","","","","",""}, //9
+            {"","","","","",""}, //10
+            {"","","","","",""}, //11
+            {"","","","","",""}, //12
+            {"","","","","",""}, //13
+            {"","","","","",""}, //14
+            {"","","","","",""}, //15
+            {"","","","","",""}, //16
+            {"","","","","",""}, //17
+            {"","","","","",""}, //18
+            {"","","","","",""}, //19
+            {"","","","","",""}, //20
+            {"","","","","",""}, //21
+            {"","","","","",""}, //22
+            {"","","","","",""}, //23
+            {"","","","","",""}, //24
+            {"","","","","",""}, //25
+            {"","","","","",""}, //26
+            {"","","","","",""}, //27
+            {"","","","","",""}, //28
+            {"","","","","",""}, //29
+            {"","","","","",""}, //30
 		};
 	
 
@@ -66,6 +146,137 @@ public class DaoQuestions {
 	 */
 	private static Connection cn =null;
 	
+	/**
+	 * MÃƒÂ©thode qui va nous retourner notre instance
+	 * et la crÃƒÂ©er si elle n'existe pas...
+	 * @throws SQLException 
+	 */
+	
+	public static void creationTablesDefault() {
+		boolean tableExiste = false;		
+		try {
+			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 3 : CrÃƒÂ©ation d'un statement
+			st = cn.createStatement();
+			
+			// VÃƒÂ©rification que la table des questions existe
+			ResultSet resultSet = cn.getMetaData().getTables(null, null, "questions", new String[] {"TABLE"});
+			if (resultSet.next()) {
+				tableExiste = true;
+			}
+			
+			if (!tableExiste) {
+				// RequÃƒÂªte sql  pour crÃƒÂ©er la table catÃƒÂ©gorie de l'application en localhost
+				String sql = "CREATE TABLE questions (question VARCHAR(255),"
+						+ " reponseVraie VARCHAR(255),"
+						+ " reponseFausse1 VARCHAR(255),"
+						+ " reponseFausse2 VARCHAR(255),"
+						+ " reponseFausse3 VARCHAR(255),"
+						+ " reponseFausse4 VARCHAR(255),"
+						+ " difficulte VARCHAR (255),"
+						+ " idSousCat NUMERIC,"
+						+ " idCat NUMERIC,"
+						+ " CONSTRAINT fk_idSousCat FOREIGN KEY (idSousCat) REFERENCES souscategorie(id),"
+						+ " CONSTRAINT fk_idCat FOREIGN KEY (idCat) REFERENCES categorie(id))";
+				// Etape 4 : Execution de la requÃƒÂªte
+				st.executeUpdate(sql);
+				System.out.println("CrÃ©ation de la table questions");
+				
+				//Ajout des questions par defaults
+				for (int i=0 ; i < QUESTIONS_REPONSES_DEFAUT_FACILE.length ; i++) {
+					addQuestionsDefauts(QUESTIONS_REPONSES_DEFAUT_FACILE[i], "facile");
+					//addQuestionsDefauts(QUESTIONS_REPONSES_DEFAUT_MOYEN[i], "moyen");
+					//addQuestionsDefauts(QUESTIONS_REPONSES_DEFAUT_DIFFICILE[i], "difficile");
+				}
+				
+				
+			} else {
+				System.out.println("Table questions dÃ©jÃ Â  existante");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void createQuestions(Question question) {
+	
+		boolean tableExiste = false;
+		
+		try {
+			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 3 : CrÃ¯Â¿Â½ation d'un statement
+			st = cn.createStatement();
+			
+			// VÃ¯Â¿Â½rification que la table des catÃ¯Â¿Â½gories existe
+			ResultSet resultSet = cn.getMetaData().getTables(null, null, question.getTitreQuestion(), new String[] {"TABLE"});
+			// itÃ¯Â¿Â½ration qui prend un Ã¯Â¿Â½ un toutes les bases inscrites en localhost
+			while(resultSet.next()) {
+				if (resultSet.next()) {
+					tableExiste = true;
+				}
+			}
+			if (!tableExiste) {
+				
+				// RequÃ¯Â¿Â½te sql pour initialiser les catÃ¯Â¿Â½gories 
+				String sql = "INSERT INTO questions (question, reponseVraie, reponseFausse1, reponseFausse2, reponseFausse3, reponseFausse4, difficulte, idSousCat, idCat)"
+					  	 + "  VALUES (?,?,?,?,?,?,?,?,?)";
+				
+				//Valeur associÃ©e a la requete
+				PreparedStatement createQuestion = cn.prepareStatement(sql);
+				createQuestion.setString(1, question.getTitreQuestion());
+				createQuestion.setString(2, question.getReponses().get(0));
+				createQuestion.setString(3, question.getReponses().get(1));
+				createQuestion.setString(4, question.getReponses().get(2));
+				createQuestion.setString(5, question.getReponses().get(3));
+				createQuestion.setString(6, question.getReponses().get(4));
+				createQuestion.setString(7, question.getDifficulte());
+				createQuestion.setString(8, question.getIdSousCat());
+				createQuestion.setString(9, question.getIdCat());
+				
+				
+				createQuestion.executeUpdate();
+				System.out.println("Initialisation de la table avec la question :  " + question.getTitreQuestion());
+				
+			} else {
+				System.out.println("Table " + question.getTitreQuestion() + " deja existante");
+			}
+			
+			// Raz tableExiste
+			tableExiste = false;
+			// VÃ¯Â¿Â½rification que la table des questions existe
+			resultSet = cn.getMetaData().getTables(null, null, "questions", new String[] {"TABLE"});
+			if (resultSet.next()) {
+				tableExiste = true;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
+
+	/**
+	 * Méthode qui créé un objet de type Question 
+	 * pour initialiser les questions par defaults
+	 * @param questions tableaux contenant les questions  et réponses a ajouter
+	 * @param difficulte niveau de difficulte des questions
+	 */
+	public static void addQuestionsDefauts(String[] questions, String difficulte) {
+	
+		ArrayList<String> listeReponse = new ArrayList<String>();
+		
+		listeReponse.add(questions[1]);
+		listeReponse.add(questions[2]);
+		listeReponse.add(questions[3]);
+		listeReponse.add(questions[4]);
+		listeReponse.add(questions[5]);
+		
+		Question questionCourante = new Question(questions[0], listeReponse ,"0", "0", difficulte);
+	    
+		createQuestions(questionCourante);
+	}
+
 	/**
 	 * M�thode qui permet de r�cup�rer toutes les questions en base
 	 * @return une ArrayList avec toutes les questions cr��es dans la base
@@ -130,12 +341,12 @@ public class DaoQuestions {
 	 * @return une ArrayList avec toutes les questions cr��es dans la base+
 	 * @param id liées a une sous categorie
 	 */
-	public static ArrayList<String> getQuestionsSousCat(int i) {
+	public static ArrayList<String> getQuestionsSousCat(String idSousCat) {
 		
 		ArrayList<String> listeQuestion = new ArrayList<>();
 		
     	// R�cup�ration des donn�es en Base de donn�e
-    	String sql = "SELECT question FROM questions WHERE idSousCat ='" + i  + "'";
+    	String sql = "SELECT question FROM questions WHERE idSousCat ='" + idSousCat  + "'";
 		try {
 			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
 			cn = ConnexionBD.getInstance();
@@ -154,6 +365,8 @@ public class DaoQuestions {
 		}
 		return listeQuestion;
 	}
+	
+	
 	
 	/**
 	 * M�thode qui permet de r�cup�rer toutes les questions en base
@@ -186,6 +399,39 @@ public class DaoQuestions {
 		return listeQuestion;
 	}
 	
+	/**
+	 * M�thode qui permet de r�cup�rer toutes les questions en base
+	 * @return une ArrayList avec toutes les questions cr��es dans la base+
+	 * @param id liées a une categorie
+	 * @param idSousCat liées a une sous categorie
+	 * @param difficulte niveau de la question
+	 */
+	public static ArrayList<String> getQuestions(String id, String idSousCat, String difficulte) {
+		
+		ArrayList<String> listeQuestion = new ArrayList<>();
+		
+    	// R�cup�ration des donn�es en Base de donn�e
+    	String sql = "SELECT questions FROM questions WHERE id =" + id + " AND idSousCat =" + idSousCat  + " AND idSousCat = " 
+    	                                                               + difficulte  + "'";
+		try {
+			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 3 : CrÃƒÂ©ation d'un statement
+			st = cn.createStatement();
+
+			// Etape 4 : Execution de la requ�te
+			ResultSet res = st.executeQuery(sql);
+
+			while(res.next()) {
+				listeQuestion.add(res.getString("question"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listeQuestion;
+	}
+	
 
 	/**
 	 * M�thode qui permet de r�cup�rer toutes les reponses d'une question en base
@@ -195,7 +441,7 @@ public class DaoQuestions {
 	public static ArrayList<String> getReponses(String questions) {
 		
 		ArrayList<String> listeReponses = new ArrayList<>();
-		System.out.println(questions);
+		
     	// R�cup�ration des donn�es en Base de donn�e
     	String sql = "SELECT reponseVraie, reponseFausse1, reponseFausse2, reponseFausse3, reponseFausse4 FROM questions where question = '" + questions + "'" ;
 		try {
@@ -215,7 +461,7 @@ public class DaoQuestions {
 			listeReponses.add(res.getString("reponseFausse3"));
 			listeReponses.add(res.getString("reponseFausse4"));
 			}
-			System.out.println(listeReponses);
+			
 		
 
 		} catch (SQLException e) {
@@ -233,7 +479,7 @@ public class DaoQuestions {
 		
 		String reponse = "" ;
     	// R�cup�ration des donn�es en Base de donn�e
-    	String sql = "SELECT reponseVraie FROM questions where question = ?" ;
+    	String sql = "SELECT reponseVraie FROM questions WHERE question = '" + titreQuestion + "'" ;
 		try {
 			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
 			cn = ConnexionBD.getInstance();
@@ -242,12 +488,11 @@ public class DaoQuestions {
 
 			// Etape 4 : Execution de la requ�te
 			ResultSet res = st.executeQuery(sql);
-
-			//Valeur associe a la requete
-			PreparedStatement getReponseCorrecte = cn.prepareStatement(sql);
-			getReponseCorrecte.setString(1, titreQuestion );
 			
-			reponse = res.getString("reponseVraie");
+			while(res.next()) {
+				reponse = res.getString("reponseVraie");
+			}
+				
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -257,133 +502,6 @@ public class DaoQuestions {
 
 	
 	/**
-	 * MÃƒÂ©thode qui va nous retourner notre instance
-	 * et la crÃƒÂ©er si elle n'existe pas...
-	 * @throws SQLException 
-	 */
-	
-	public static void creationTablesDefault() {
-		boolean tableExiste = false;		
-		try {
-			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
-			cn = ConnexionBD.getInstance();
-			// Etape 3 : CrÃƒÂ©ation d'un statement
-			st = cn.createStatement();
-			
-			// VÃƒÂ©rification que la table des questions existe
-			ResultSet resultSet = cn.getMetaData().getTables(null, null, "questions", new String[] {"TABLE"});
-			if (resultSet.next()) {
-				tableExiste = true;
-			}
-			
-			if (!tableExiste) {
-				// RequÃƒÂªte sql  pour crÃƒÂ©er la table catÃƒÂ©gorie de l'application en localhost
-				String sql = "CREATE TABLE questions (question VARCHAR(255),"
-						+ " reponseVraie VARCHAR(255),"
-						+ " reponseFausse1 VARCHAR(255),"
-						+ " reponseFausse2 VARCHAR(255),"
-						+ " reponseFausse3 VARCHAR(255),"
-						+ " reponseFausse4 VARCHAR(255),"
-						+ " difficulte VARCHAR (255),"
-						+ " idSousCat VARCHAR(255),"
-						+ " idCat VARCHAR(255),"
-						+ " CONSTRAINT fk_idSousCat FOREIGN KEY (idSousCat) REFERENCES souscategorie(id),"
-						+ " CONSTRAINT fk_idCat FOREIGN KEY (idCat) REFERENCES categorie(id))";
-				// Etape 4 : Execution de la requÃƒÂªte
-				st.executeUpdate(sql);
-				System.out.println("CrÃ©ation de la table questions");
-				
-				//Ajout des questions par defaults
-				for (int i=0 ; i < QUESTIONS_REPONSES_DEFAUT.length ; i++) {
-					addQuestionsDefauts(QUESTIONS_REPONSES_DEFAUT[i]);
-				}
-				
-				
-			} else {
-				System.out.println("Table questions dÃ©jÃ Â  existante");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Méthode qui créé un objet de type Question 
-	 * pour initialiser les questions par defaults
-	 */
-	public static void addQuestionsDefauts(String[] questions) {
-
-		ArrayList<String> listeReponse = new ArrayList<String>();
-		
-		listeReponse.add(questions[1]);
-		listeReponse.add(questions[2]);
-		listeReponse.add(questions[3]);
-		listeReponse.add(questions[4]);
-		listeReponse.add(questions[5]);
-		
-		Question questionCourante = new Question(questions[0], listeReponse ,"0", "0", "facile");
-        
-		createQuestions(questionCourante);
-	}
-	
-	public static void createQuestions(Question question) {
-
-		boolean tableExiste = false;
-		
-		try {
-			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
-			cn = ConnexionBD.getInstance();
-			// Etape 3 : CrÃ¯Â¿Â½ation d'un statement
-			st = cn.createStatement();
-			
-			// VÃ¯Â¿Â½rification que la table des catÃ¯Â¿Â½gories existe
-			ResultSet resultSet = cn.getMetaData().getTables(null, null, question.getTitreQuestion(), new String[] {"TABLE"});
-			// itÃ¯Â¿Â½ration qui prend un Ã¯Â¿Â½ un toutes les bases inscrites en localhost
-			while(resultSet.next()) {
-				if (resultSet.next()) {
-					tableExiste = true;
-				}
-			}
-			if (!tableExiste) {
-				
-				// RequÃ¯Â¿Â½te sql pour initialiser les catÃ¯Â¿Â½gories 
-				String sql = "INSERT INTO questions (question, reponseVraie, reponseFausse1, reponseFausse2, reponseFausse3, reponseFausse4, difficulte, idSousCat, idCat)"
-					  	 + "  VALUES (?,?,?,?,?,?,?,?,?)";
-				
-				//Valeur associÃ©e a la requete
-				PreparedStatement createQuestion = cn.prepareStatement(sql);
-				createQuestion.setString(1, question.getTitreQuestion());
-				createQuestion.setString(2, question.getReponses().get(0));
-				createQuestion.setString(3, question.getReponses().get(1));
-				createQuestion.setString(4, question.getReponses().get(2));
-				createQuestion.setString(5, question.getReponses().get(3));
-				createQuestion.setString(6, question.getReponses().get(4));
-				createQuestion.setString(7, question.getDifficulte());
-				createQuestion.setString(8, question.getIdSousCat());
-				createQuestion.setString(9, question.getIdCat());
-				
-				
-				createQuestion.executeUpdate();
-				System.out.println("Initialisation de la table avec la question :  " + question.getTitreQuestion());
-				
-			} else {
-				System.out.println("Table " + question.getTitreQuestion() + " deja existante");
-			}
-			
-			// Raz tableExiste
-			tableExiste = false;
-			// VÃ¯Â¿Â½rification que la table des questions existe
-			resultSet = cn.getMetaData().getTables(null, null, "questions", new String[] {"TABLE"});
-			if (resultSet.next()) {
-				tableExiste = true;
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}		
-	}
-	
-	/**
 	 * Cette méthode permet de modifier le titred'une préexistante dans la base de données
 	 * @param questionEnBase question présentes dans la base de données
 	 * @param aModifier contient la question que l'on souhaite ajouter
@@ -391,7 +509,6 @@ public class DaoQuestions {
 	public static void updateQuestions(String questionEnBase, String aModifier) {
 		// Modification des donn�es en Base de donn�e avec cette requ�te SQL
 		String sql = "UPDATE questions  SET question = ? WHERE question =? ";
-		String sqlVerifDefaut ="SELECT idCat FROM questions WHERE idCat = '0' ";
 		
 		try {
 			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
@@ -405,15 +522,8 @@ public class DaoQuestions {
 			update.setString(1,  questionEnBase );
 			update.setString(2,  aModifier );
 			
-			// Etape 4 : Execution de la requ�te
-			ResultSet res = st.executeQuery(sqlVerifDefaut);
-			res.next();
-			if (res.getInt(1) == 0) {
-				System.out.println("Les questions par defaut Général ne peut pas être modifiée");
-			} else {
-				update.executeUpdate();
-				System.out.println("Modification effectuée");
-			}
+			update.executeUpdate();
+				
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -426,7 +536,6 @@ public class DaoQuestions {
 	public static void delete(Question question) {
 		// Modification des donn�es en Base de donn�e avec cette requ�te SQL
 		String sql = "DELETE FROM questions WHERE question = ? ";
-		String sqlVerifDefaut ="SELECT idCat FROM questions WHERE idCat = '0' ";
 		
 		try {
 			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
@@ -434,20 +543,12 @@ public class DaoQuestions {
 			// Etape 3 : CrÃƒÂ©ation d'un statement
 			st = cn.createStatement();
 
-			
 			//Valeur associe a la requete
 			PreparedStatement delete = cn.prepareStatement(sql);
 			delete.setString(1,  question.getTitreQuestion() );
+				
+			delete.executeUpdate();
 			
-			// Etape 4 : Execution de la requ�te
-			ResultSet res = st.executeQuery(sqlVerifDefaut);
-			res.next();
-			if (res.getInt(1) == 0) {
-				System.out.println("Les questions par defaut Général ne peut pas être supprimée");
-			} else {
-				delete.executeUpdate();
-				System.out.println("Suppression effectuée");
-			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}

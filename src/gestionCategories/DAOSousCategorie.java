@@ -28,101 +28,6 @@ public class DAOSousCategorie {
 	private static Statement st=null;
 	
 	/**
-	 * M�thode qui permet de r�cup�rer toutes les sous cat�gories en base
-	 * @return une ArrayList avec toutes les sous-cat�gories cr��es dans la base
-	 */
-	public static ArrayList<SousCategorie> getSousCategories() {
-		ArrayList<SousCategorie> sousCategories = new ArrayList<>();
-		
-    	// R�cup�ration des donn�es en Base de donn�e
-    	String sql = "SELECT nom FROM souscategorie";
-		
-		try {
-			// Etape 1 : R�cup�ration de l'�l�ment de connexion � la bd
-			cn = ConnexionBD.getInstance();
-			// Etape 2 : Cr�ation d'un statement
-			st = cn.createStatement();
-
-			// Etape 3 : Execution de la requ�te
-			ResultSet res = st.executeQuery(sql);
-
-			while(res.next()) {
-				sousCategories.add(new SousCategorie(new Categorie(),res.getString("nom")));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return sousCategories;
-	}
-	
-	/**
-	 * M�thode qui permet de r�cup�rer toutes les sous cat�gories en base
-	 * en fonction d'une cat�gorie pass�e en param�tre
-	 * @return une ArrayList avec toutes les sous-cat�gories cr��es dans la base+
-	 * @param categorie Nom de la cat�gorie qui poss�de des sous cat�gories
-	 */
-	public static ArrayList<SousCategorie> getSousCategories(String categorie) {
-		ArrayList<SousCategorie> sousCategories = new ArrayList<>();
-		
-    	// R�cup�ration des donn�es en base de donn�es
-    	String sql = "SELECT nom FROM souscategorie WHERE idSurCategorie ='"+DAOCategorie.getId(categorie)+"'";
-		
-		try {
-			// Etape 1 : R�cup�ration de l'�l�ment de connexion � la bd
-			cn = ConnexionBD.getInstance();
-			// Etape 2 : Cr��tion d'un statement
-			st = cn.createStatement();
-
-			// Etape 3 : Execution de la requ�te
-			ResultSet res = st.executeQuery(sql);
-
-			while(res.next()) {
-				sousCategories.add(new SousCategorie(new Categorie(),res.getString("nom")));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return sousCategories;
-	}
-	
-	
-	/**
-	 * Mï¿½thode qui supprime une sous-catï¿½gorie en base
-	 * @param nom Nom de la sous-catï¿½gorie ï¿½ supprimer
-	 */
-	public static void supprSousCategorie(String nom) {
-		// Modification des donnï¿½es en Base de donnï¿½e avec cette requï¿½te SQL
-		String sql = "DELETE FROM souscategorie WHERE nom = ?";
-		String sqlVerifDefaut ="SELECT defaut FROM souscategorie WHERE nom = '"+ nom+"'";
-		
-		try {
-			// Etape 1 : R�cup�ration de l'�l�ment de connexion � la bd
-			cn = ConnexionBD.getInstance();
-			// Etape 2 : Crï¿½ation d'un statement
-			st = cn.createStatement();
-			
-			// Etape 3 : Execution de la requï¿½te
-			//Valeur associe a la requete
-			PreparedStatement supprSousCategorie = cn.prepareStatement(sql);
-			supprSousCategorie.setString(1,nom);
-
-			ResultSet res = st.executeQuery(sqlVerifDefaut);
-			
-			res.next();
-			if (res.getInt(1) == 1) {
-				System.out.println("La sous-cat�gorie par d�faut G�n�ral ne peut pas �tre supprim�e");
-			} else {
-				supprSousCategorie.executeUpdate();
-				System.out.println("Suppression effectu�e !");
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-	}
-	
-	/**
 	 * Mï¿½thode qui va crï¿½er la table par dï¿½faut dans la base de donnï¿½e
 	 */
 	public static void creerTableDefaut() {
@@ -141,7 +46,7 @@ public class DAOSousCategorie {
 			}
 			if (!tableExiste) {
 				// Requ�te sql  pour cr�er la table sous-cat�gorie de l'application en localhost
-				String sql = "CREATE TABLE souscategorie ( nom VARCHAR(255), defaut NUMERIC(10), lienphoto VARCHAR(255), idSurCategorie VARCHAR(255), id VARCHAR(255) PRIMARY KEY, CONSTRAINT fk_idSurCat FOREIGN KEY (idSurCategorie) REFERENCES categorie(id))";
+				String sql = "CREATE TABLE souscategorie ( nom VARCHAR(255), defaut NUMERIC(10), lienphoto VARCHAR(255), idSurCategorie NUMERIC, id NUMERIC PRIMARY KEY, CONSTRAINT fk_idSurCat FOREIGN KEY (idSurCategorie) REFERENCES categorie(id))";
 				// Etape 4 : Execution de la requ�te
 				st.executeUpdate(sql);
 				System.out.println("Cr�ation de la table sous-cat�gorie");
@@ -205,6 +110,90 @@ public class DAOSousCategorie {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * M�thode qui va v�rifier si une sous-cat�gorie existe
+	 * @return boolean pour dire si �a existe ou pas
+	 */
+	public static boolean existe(String sousCategorie) {
+		boolean catExiste = false;
+		
+		try {
+			// Etape 1 : R�cup�ration de l'�l�ment de connexion � la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 2 : Cr�ation d'un statement
+			st = cn.createStatement();
+	        ResultSet rset = st.executeQuery("SELECT * FROM souscategorie WHERE nom ='" + sousCategorie + "'");
+	        if(rset.next()) {
+	        	catExiste = true;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		
+		return catExiste;
+	}
+
+	/**
+	 * M�thode qui permet de r�cup�rer toutes les sous cat�gories en base
+	 * @return une ArrayList avec toutes les sous-cat�gories cr��es dans la base
+	 */
+	public static ArrayList<SousCategorie> getSousCategories() {
+		ArrayList<SousCategorie> sousCategories = new ArrayList<>();
+		
+    	// R�cup�ration des donn�es en Base de donn�e
+    	String sql = "SELECT nom FROM souscategorie";
+		
+		try {
+			// Etape 1 : R�cup�ration de l'�l�ment de connexion � la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 2 : Cr�ation d'un statement
+			st = cn.createStatement();
+
+			// Etape 3 : Execution de la requ�te
+			ResultSet res = st.executeQuery(sql);
+
+			while(res.next()) {
+				sousCategories.add(new SousCategorie(new Categorie(),res.getString("nom")));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sousCategories;
+	}
+	
+	/**
+	 * M�thode qui permet de r�cup�rer toutes les sous cat�gories en base
+	 * en fonction d'une cat�gorie pass�e en param�tre
+	 * @return une ArrayList avec toutes les sous-cat�gories cr��es dans la base+
+	 * @param categorie Nom de la cat�gorie qui poss�de des sous cat�gories
+	 */
+	public static ArrayList<SousCategorie> getSousCategories(String categorie) {
+		ArrayList<SousCategorie> sousCategories = new ArrayList<>();
+		
+    	// R�cup�ration des donn�es en base de donn�es
+    	String sql = "SELECT nom FROM souscategorie WHERE idSurCategorie ='"+DAOCategorie.getId(categorie)+"'";
+		
+		try {
+			// Etape 1 : R�cup�ration de l'�l�ment de connexion � la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 2 : Cr��tion d'un statement
+			st = cn.createStatement();
+
+			// Etape 3 : Execution de la requ�te
+			ResultSet res = st.executeQuery(sql);
+
+			while(res.next()) {
+				sousCategories.add(new SousCategorie(new Categorie(),res.getString("nom")));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sousCategories;
+	}
+	
 	
 	/**
 	 * Rï¿½cupï¿½re la prochaine clï¿½ primaire pour crï¿½er la suivante
@@ -229,6 +218,32 @@ public class DAOSousCategorie {
 		return resultat+1;
 	}
 	
+	/**
+	 * M�thode qui r�cup�re l'identifiant de la cat�gorie dont le nom est
+	 * pass� en param�tre
+	 * @param nom de la categorie 
+	 * @return identifiant de la cat�gorie
+	 */
+	public static int getId(String nomSousCategorie) {
+		int idCategorie = -1;
+		String sql = "SELECT id FROM souscategorie WHERE nom ='" + nomSousCategorie + "'";
+		
+		try {
+			// Etape 1 : R�cup�ration de l'�l�ment de connexion � la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 2 : Cr�ation d'un statement
+			st = cn.createStatement();
+	        ResultSet rset = st.executeQuery(sql);
+	
+	        rset.next();
+	        idCategorie = rset.getInt(1);
+	
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return idCategorie;
+	}
+
 	/**
 	 * Modifie le nom d'une sous-catï¿½gorie
 	 * @param sousCategorie sous-catï¿½gorie ï¿½ modifier
@@ -261,51 +276,36 @@ public class DAOSousCategorie {
 	}
 	
 	/**
-	 * M�thode qui va v�rifier si une sous-cat�gorie existe
-	 * @return boolean pour dire si �a existe ou pas
+	 * Mï¿½thode qui supprime une sous-catï¿½gorie en base
+	 * @param nom Nom de la sous-catï¿½gorie ï¿½ supprimer
 	 */
-	public static boolean existe(String sousCategorie) {
-		boolean catExiste = false;
+	public static void supprSousCategorie(String nom) {
+		// Modification des donnï¿½es en Base de donnï¿½e avec cette requï¿½te SQL
+		String sql = "DELETE FROM souscategorie WHERE nom = ?";
+		String sqlVerifDefaut ="SELECT defaut FROM souscategorie WHERE nom = '"+ nom+"'";
 		
 		try {
 			// Etape 1 : R�cup�ration de l'�l�ment de connexion � la bd
 			cn = ConnexionBD.getInstance();
-			// Etape 2 : Cr�ation d'un statement
+			// Etape 2 : Crï¿½ation d'un statement
 			st = cn.createStatement();
-            ResultSet rset = st.executeQuery("SELECT * FROM souscategorie WHERE nom ='" + sousCategorie + "'");
-            if(rset.next()) {
-            	catExiste = true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-		
-		return catExiste;
-	}
+			
+			// Etape 3 : Execution de la requï¿½te
+			//Valeur associe a la requete
+			PreparedStatement supprSousCategorie = cn.prepareStatement(sql);
+			supprSousCategorie.setString(1,nom);
 	
-	/**
-	 * M�thode qui r�cup�re l'identifiant de la cat�gorie dont le nom est
-	 * pass� en param�tre
-	 * @param nom de la categorie 
-	 * @return identifiant de la cat�gorie
-	 */
-	public static int getId(String nomSousCategorie) {
-		int idCategorie = -1;
-		String sql = "SELECT id FROM souscategorie WHERE nom ='" + nomSousCategorie + "'";
-		
-		try {
-			// Etape 1 : R�cup�ration de l'�l�ment de connexion � la bd
-			cn = ConnexionBD.getInstance();
-			// Etape 2 : Cr�ation d'un statement
-			st = cn.createStatement();
-            ResultSet rset = st.executeQuery(sql);
-
-            rset.next();
-            idCategorie = rset.getInt(1);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-		return idCategorie;
+			ResultSet res = st.executeQuery(sqlVerifDefaut);
+			
+			res.next();
+			if (res.getInt(1) == 1) {
+				System.out.println("La sous-cat�gorie par d�faut G�n�ral ne peut pas �tre supprim�e");
+			} else {
+				supprSousCategorie.executeUpdate();
+				System.out.println("Suppression effectu�e !");
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
 }
