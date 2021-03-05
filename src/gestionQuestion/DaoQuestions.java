@@ -175,8 +175,8 @@ public class DaoQuestions {
 						+ " reponseFausse3 VARCHAR(255),"
 						+ " reponseFausse4 VARCHAR(255),"
 						+ " difficulte VARCHAR (255),"
-						+ " idSousCat NUMERIC,"
-						+ " idCat NUMERIC,"
+						+ " idSousCat SMALLINT,"
+						+ " idCat SMALLINT,"
 						+ " CONSTRAINT fk_idSousCat FOREIGN KEY (idSousCat) REFERENCES souscategorie(id),"
 						+ " CONSTRAINT fk_idCat FOREIGN KEY (idCat) REFERENCES categorie(id))";
 				// Etape 4 : Execution de la requÃƒÂªte

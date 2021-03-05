@@ -51,7 +51,7 @@ public class DAOCategorie {
 				
 				if (!tableExiste) {
 					// Requ�te sql  pour cr�er la table cat�gorie de l'application en localhost
-					String sql = "CREATE TABLE categorie ( nom VARCHAR(255), defaut NUMERIC(10), lienphoto VARCHAR(255), id NUMERIC PRIMARY KEY)";
+					String sql = "CREATE TABLE categorie ( nom VARCHAR(255), defaut NUMERIC(10), lienphoto VARCHAR(255), id SMALLINT PRIMARY KEY)";
 					// Etape 4 : Execution de la requ�te
 					st.executeUpdate(sql);
 					System.out.println("Cr�ation de la table categorie");

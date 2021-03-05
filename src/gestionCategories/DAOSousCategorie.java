@@ -46,7 +46,7 @@ public class DAOSousCategorie {
 			}
 			if (!tableExiste) {
 				// Requ�te sql  pour cr�er la table sous-cat�gorie de l'application en localhost
-				String sql = "CREATE TABLE souscategorie ( nom VARCHAR(255), defaut NUMERIC(10), lienphoto VARCHAR(255), idSurCategorie NUMERIC, id NUMERIC PRIMARY KEY, CONSTRAINT fk_idSurCat FOREIGN KEY (idSurCategorie) REFERENCES categorie(id))";
+				String sql = "CREATE TABLE souscategorie ( nom VARCHAR(255), defaut NUMERIC(10), lienphoto VARCHAR(255), idSurCategorie SMALLINT, id SMALLINT PRIMARY KEY, CONSTRAINT fk_idSurCat FOREIGN KEY (idSurCategorie) REFERENCES categorie(id))";
 				// Etape 4 : Execution de la requ�te
 				st.executeUpdate(sql);
 				System.out.println("Cr�ation de la table sous-cat�gorie");
