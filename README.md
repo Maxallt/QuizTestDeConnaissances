@@ -15,6 +15,8 @@ Amélaïse Nicolas : Développeur
 
 Bagnolatti Thibault : Développeur
 
+Tizien Nino : Développeur
+
 
 Lien vers un board avec le tableau agile : https://github.com/Maxallt/QuizTestDeConnaissances#workspaces/quizz-test-de-connaissances-5fb5550bed6b2c000f07d489/board?repos=312238414
 
