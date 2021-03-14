@@ -11,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class ResultatFinalController implements Initializable {
+public class ResultatFinalPerfectionnementAvanceesController implements Initializable {
 
 	/** Element graphique, c'est le corps de l'interface*/
     @FXML
@@ -57,9 +57,9 @@ public class ResultatFinalController implements Initializable {
     	 "Bien","Très bien","Parfait"};
     
     private final int NB_BONNES_REPONSES 
-    				  = LancementJeuController.getNbBonnesReponses();
+    				  = LancementPerfectionnementAvanceesController.getNbBonnesReponses();
     private final int NB_QUESTIONS 
-    				  = ChoixSousCategorieController.getNombreQuestion();
+    				  = ChoixFormatQuestionnaireController.getNombreQuestion();
     
     /**
      * Méthode par défaut : qui permet d'initialiser les champs de texte
@@ -71,9 +71,9 @@ public class ResultatFinalController implements Initializable {
      */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-    	
-    	resultatCalcule.setText(""+ LancementJeuController.getNbBonnesReponses());
-		format.setText(""+ ChoixSousCategorieController.getNombreQuestion());
+    	System.out.println("resultat perfectionnement");
+    	resultatCalcule.setText(""+ LancementPerfectionnementAvanceesController.getNbBonnesReponses());
+		format.setText(""+ ChoixFormatQuestionnaireController.getNombreQuestion());
 		appreciation.setText(affichageAppreciation(NB_BONNES_REPONSES,NB_QUESTIONS));
 		
 	}
@@ -132,8 +132,7 @@ public class ResultatFinalController implements Initializable {
     	System.out.println("Ici");
 		try {
 			stage = (Stage)boutonRetourJeu.getScene().getWindow();
-			setDynamicPane(FXMLLoader.load(getClass()
-					.getResource("FenetreLancementJeu.fxml")));
+			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreLancementPerfectionnementAvances.fxml")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -147,7 +146,7 @@ public class ResultatFinalController implements Initializable {
 		try {
 			stage = (Stage)boutonRetourJeu.getScene().getWindow();
 			setDynamicPane(FXMLLoader.load(getClass()
-					.getResource("FenetreChoixCategorie.fxml")));
+					.getResource("FenetreChoixFormatQuestionnaire.fxml")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

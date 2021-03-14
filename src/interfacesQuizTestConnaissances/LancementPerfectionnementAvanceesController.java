@@ -6,21 +6,17 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-import gestionEnregistrementPartie.DAODetailPartieJoue;
-import gestionEnregistrementPartie.DAOHistoriquePartie;
 import gestionQuestion.DaoQuestions;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class LancementJeuController implements Initializable {
+public class LancementPerfectionnementAvanceesController implements Initializable {
 	
 	/** 
 	 * Est utile pour le changement de fenetre, il récupère la fenetre
@@ -67,65 +63,66 @@ public class LancementJeuController implements Initializable {
 		return nbBonnesReponses;
 	}
 
-	
 	private static ArrayList<String> reponsesCourantes;
 	
 	private static String reponseCorrecte;
 	
 	private static String questionActuelle;
 	
-	private static int tailleListe = ChoixSousCategorieController.listeQuestions.size();
-	
-	private static int nbQuestions = ChoixSousCategorieController.getNombreQuestion();
-	
 	/**
 	 *  Initialise les champs de texte pour les questions et les réponses
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		System.out.println(tailleListe);
+		
 	    /* Lancement du jeu avec les questions */
-		if (tailleListe == 0) {
+		if (ChoixFormatQuestionnaireController.listeQuestions.size() == 0) {
+			// TODO: Fenetre pop up d'avertissement
 			
 			nbBonnesReponses = -1;
-			//resultatFinal();
-			System.out.println("Impossible de lancerle jeu, aucune question n'existe avec ces criteres."
-					 + "Veuillez en créer");
+			resultatFinal();
+			System.out.println("Impossible de lancerle jeu, aucune question n'existe avec ces criteres. Veuillez en créer");
 			
-		} else if (tailleListe < nbQuestions) {
+		} else if (ChoixFormatQuestionnaireController.listeQuestions.size() < ChoixFormatQuestionnaireController.getNombreQuestion()) {
+			// TODO: Fenetre pop up d'avertissement
 			
 			System.out.println("Pas assez de questionsen base. Continuer ?");
-			
 		} else {
 			nbBonnesReponses = 0;
 			numeroQuestion.setText("Question n° " + (numQuestion));
 			
-			questionActuelle = ChoixSousCategorieController.listeQuestions.get(0);
+			questionActuelle = ChoixFormatQuestionnaireController.listeQuestions.get(0);
+			System.out.println("Question actuelle: " + questionActuelle);
 			reponsesCourantes = DaoQuestions.getReponses(questionActuelle);
+			System.out.println(reponsesCourantes);
 			reponseCorrecte = reponsesCourantes.get(0);
 			
+			System.out.println("titre question : " + questionActuelle);
 			titreQuestion.setText(questionActuelle);
 			
 			// Réponses possibles de la question
 			affichageAleatoireReponses(reponsesCourantes);
-		}	
+		}
+	
+			
 	}
-
+	
 	@FXML
 	public void changementQuestion(ActionEvent e) {
-	
-		if (tailleListe == 0
-				|| numQuestion == nbQuestions) {
+	System.out.println(numQuestion);
+	System.out.println(ChoixFormatQuestionnaireController.listeQuestions.size());
+		if (ChoixFormatQuestionnaireController.listeQuestions.size() == 0
+				|| numQuestion == ChoixFormatQuestionnaireController.getNombreQuestion()) {
 			compteurBonneReponse(e);
 			resultatFinal();
 		}
 		
-		if (tailleListe > numQuestion) {
+		
+		if (ChoixFormatQuestionnaireController.listeQuestions.size() > numQuestion) {
 			
-			enregistrementDetailPartie(e);
 			compteurBonneReponse(e);
 			
-			questionActuelle = ChoixSousCategorieController.listeQuestions.get(numQuestion);
+			questionActuelle = ChoixFormatQuestionnaireController.listeQuestions.get(numQuestion);
 			reponsesCourantes = DaoQuestions.getReponses(questionActuelle);
 			reponseCorrecte = reponsesCourantes.get(0);
 			
@@ -137,25 +134,11 @@ public class LancementJeuController implements Initializable {
 			affichageAleatoireReponses(reponsesCourantes);
 			
 			numQuestion++;
-			
+		
 		} else { 
-			System.out.println("Pas assez de questions en bases");
+			System.out.println("Pas assez de questions en bases..");
 			resultatFinal();
 		}
-		
-		
-	}
-	
-	/**
-	 * Methode qui permet l'enregistrement d'une partie dans la base de donnée
-	 * @param e source de l'action de m'utilisateur
-	 */
-	private void enregistrementDetailPartie(ActionEvent e) {
-		Button btn = (Button) e.getSource();
-		DAODetailPartieJoue.EnregistrerPartieEnCours(questionActuelle, btn.getText(), 
-				                                     ChoixCategorieController.getDifficulteCatActuelle());
-		System.out.println("Detail partie en cours d'enregistrement");		
-
 	}
 	
 	/** Methode qui va incrementer le score de 1 
@@ -181,7 +164,7 @@ public class LancementJeuController implements Initializable {
     @FXML
 	public void retour() {
 		try {
-			//stage = (Stage)buttonRetour.getScene().getWindow();
+		
 			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreAccueil.fxml")));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -192,20 +175,9 @@ public class LancementJeuController implements Initializable {
      * Méthode qui affiche la fenêtre du résultat final
      */
     public void resultatFinal() {
-    	/* On enregistre la partie en cours dans la base de données */
-		System.out.println("Enregistrement de la partie");
-		System.out.println("Categorie --> " +  ChoixCategorieController.getIdCatActuelle()
-		                 + "Sous-catégorie --> " + ChoixSousCategorieController.getIdSousCatActuelle());
-		DAOHistoriquePartie.EnregistrerPartieEnCours(ChoixCategorieController.getIdCatActuelle(), 
-				                                     ChoixSousCategorieController.getIdSousCatActuelle(),
-				                                     getNbBonnesReponses(),
-				                                     ChoixSousCategorieController.getNombreQuestion(),
-				                                     ChoixCategorieController.getDifficulteCatActuelle()
-				                                     );
-		/* On affiche la fenetre resultat */
 		try {
-			//stage = (Stage)buttonRetour.getScene().getWindow();
-			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreResultatFinal.fxml")));
+		
+			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreResultatFinalPerfectionnementAvancees.fxml")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -279,7 +251,7 @@ public class LancementJeuController implements Initializable {
 			aleatoireA = r.nextInt(tailleListe);
 			aleatoireB = r.nextInt(tailleListe);
 					
-		// Si des réponses sont identiques, on redémarre la boucle
+				// Si des réponses sont identiques, on redémarre la boucle
 		} while(aleatoireA==aleatoireB);
 				
 				reponseA.setText(listeReponses.get(aleatoireA));

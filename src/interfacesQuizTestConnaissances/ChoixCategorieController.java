@@ -15,6 +15,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+
 public class ChoixCategorieController implements Initializable {
 
 	private static boolean initCat = false;
@@ -112,5 +113,36 @@ public class ChoixCategorieController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	 /**
+     * Méthode qui renvoie l'id de la catégorie actuelle
+     * @return idSousCat contient l'id de la catégorie
+     *         Renvoie -1 si aucune sous-catégorie n'a été selectionné
+     */
+    public static int getIdCatActuelle() {
+		if (surCategorie == null) {
+			return -1;
+		} else {
+			return DAOCategorie.getId(surCategorie);
+
+		}	
+	}
+    
+    /**
+     * Méthode qui renvoie le niveau de difficulte choisi 
+     * par l'utilisateur
+     * @return le niveau de diffculte
+     *         Renvoie une chaine vide si la difficulte
+     *          est indifferente ou non choisi
+     */
+    public static String getDifficulteCatActuelle() {
+		if (difficulteChoisie.equals("Indifférente")) {
+			return "";
+		} else {
+			return difficulteChoisie;
+
+		}	
+	}
+
 
 }

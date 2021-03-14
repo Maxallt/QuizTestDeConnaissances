@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="dynamicPane" minHeight="500.0" minWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacesQuizTestConnaissances.AccueilController">
+<AnchorPane fx:id="dynamicPane" minHeight="500.0" minWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacesQuizTestConnaissances.AccueilController">
 	<children>
       <Pane prefHeight="500.0" prefWidth="700.0" styleClass="Fenetre" stylesheets="@myApplication.css">
          <children>
@@ -40,12 +40,12 @@
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="buttonPerfectionnementAvance" layoutX="280.0" layoutY="250.0" mnemonicParsing="false" text="Perfectionnement avancé">
+            <Button fx:id="buttonPerfectionnementAvance" layoutX="280.0" layoutY="250.0" mnemonicParsing="false" onAction="#perfectionnementAvancees" text="Perfectionnement avancé">
                <font>
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="reviewTests" layoutX="237.0" layoutY="307.0" mnemonicParsing="false" text="Voir les résultats des tests précédents">
+            <Button fx:id="reviewTests" layoutX="237.0" layoutY="307.0" mnemonicParsing="false" onAction="#reviewTestAction" text="Voir les résultats des tests précédents">
                <font>
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
