@@ -1,60 +1,59 @@
 /*
- * ChoixSousCategorieController.java		10/12/2020
- * Controller de l'affichage du choix de la sous-catégorie
+ * ChoixFormatQuestionnaireController.java		03/03/2021
+ * Controller de l'affichage du choix de format pour le 
+ * perfectionnement avancÃ©es
  */
 package interfacesQuizTestConnaissances;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import gestionEnregistrementPartie.DAODetailPartieJoue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Classe qui va permettre de choisir la sous-catégorie
- * pour le jeu en fonction de la catégorie choisie précédemment
- * @author Maxime Alliot
- *
+ * Classe qui va permettre de choisir le format de question 
+ * ainsi que le niveau de diffcultÃ© pour le perfectionnement avancÃ©es
+ * @author Nicolas.A
+ *@version 1.0
  */
 public class ChoixFormatQuestionnaireController implements Initializable {
 
 	private static boolean initDifficulte = false;
-	private static String difficulteChoisie;
-	
+	/** Liste des questions  */
+    static ArrayList<String> listeQuestions = new ArrayList<String>();
+    
 	/** 
-	 * Est utile pour le changement de fenetre, il récupère la fenetre
+	 * Est utile pour le changement de fenetre, il rÃ©cupÃ¨re la fenetre
 	 * courante pour la changer
 	 */
     @SuppressWarnings("unused")
 	private Stage stage;
 	
-    /** 
-     * Permet de vérifier si la ComboBox avec les sous-catégories a été 
-     * initialisée, c'est à dire remplie.
-     * Ca permet aussi de ne pas l'initialiser plusieurs fois
-     */
-    private static boolean initialisation = false;
-    
     /**
-     * Permet de vérifier si la ComboBox avec les formats a été 
-     * initialisée, c'est à dire remplie.
+     * Permet de vÃ©rifier si la ComboBox avec les formats a Ã©tÃ© 
+     * initialisÃ©e, c'est Ã  dire remplie.
      * Ca permet aussi de ne pas l'initialiser plusieurs fois
      */
     private static boolean initialisationFormat = false;
     
     /**
-     * Valeur du nombre de question selectionnée en format
+     * Valeur du nombre de question selectionnÃ©e en format
      */
     private static int nombreQuestion = -1;
     
     /**
-     * Getter pour récupérer le nombre de question selectionné
+     * Getter pour rÃ©cupÃ©rer le nombre de question selectionnÃ©
      * @return la valeur du format voulu
      */
     public static int getNombreQuestion() {
@@ -62,7 +61,7 @@ public class ChoixFormatQuestionnaireController implements Initializable {
 	}
 
     /**
-     * Setter pour mettre à jour la valeur du format voulu
+     * Setter pour mettre Ã  jour la valeur du format voulu
      * @param nombreQuestion Nouveau format voulu
      */
 	public static void setNombreQuestion(int nombreQuestion) {
@@ -70,12 +69,12 @@ public class ChoixFormatQuestionnaireController implements Initializable {
 	}
 
 	/**
-	 * Tableau qui regroupe les différents formats de QCM
+	 * Tableau qui regroupe les diffÃ©rents formats de QCM
 	 */
 	private static int[] tabFormat = {5,10,20,30};
     
 	/**
-	 * Méthode obligatoire pour tous les controller
+	 * MÃ©thode obligatoire pour tous les controller
 	 */
     @Override
     public void initialize(URL url, ResourceBundle rb) {}
@@ -85,14 +84,14 @@ public class ChoixFormatQuestionnaireController implements Initializable {
     AnchorPane dynamicPane;
     
     /**
-     * Button qui permettra de revenir sur la page précédente
+     * Button qui permettra de revenir sur la page prÃ©cÃ©dente
      * Ici l'accueil
      */
     @FXML
     private Button buttonRetour;
     
     /**
-     * Ce bouton set à valider le choix de sous-catégorie (facultatif)
+     * Ce bouton set Ã  valider le choix du niveau
      * et le choix du format
      */
     @FXML
@@ -101,7 +100,7 @@ public class ChoixFormatQuestionnaireController implements Initializable {
     @FXML
 	private ComboBox<String> listeDifficulte = new ComboBox<String>();
 	
-	private static String[] tabDifficulte = {"Facile","Moyen","Difficile","Indifférent"};
+	private static String[] tabDifficulte = {"Facile","Moyen","Difficile","IndiffÃ©rent"};
     
     /**
      * Liste qui regroupe tous les formats de QCM possibles
@@ -110,8 +109,8 @@ public class ChoixFormatQuestionnaireController implements Initializable {
     private ComboBox<String> listeFormat = new ComboBox<String>();
 	
     /**
-     * Méthode qui permet de changer de fenetre
-     * @param dynamicPane Prochain corps d'interface à afficher
+     * MÃ©thode qui permet de changer de fenetre
+     * @param dynamicPane Prochain corps d'interface Ã  afficher
      */
     private void setDynamicPane(AnchorPane dynamicPane){
         this.dynamicPane.getChildren().clear();
@@ -129,14 +128,14 @@ public class ChoixFormatQuestionnaireController implements Initializable {
 	}
     
     /**
-     * Méthode qui affiche la fenêtre précédente
+     * MÃ©thode qui affiche la fenÃªtre prÃ©cÃ©dente
      * Ici l'accueil
-     * Liée à buttonRetour
+     * LiÃ©e Ã  buttonRetour
      */
     @FXML
 	public void retour() {
 		try {
-			initialisation = false;
+			initDifficulte = false;
 			initialisationFormat = false;
 			stage = (Stage)buttonRetour.getScene().getWindow();
 			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreAccueil.fxml")));
@@ -146,8 +145,8 @@ public class ChoixFormatQuestionnaireController implements Initializable {
 	}
     
     /**
-     * Méthode qui permet d'initialiser la ComboBox des formats
-     * avec le tableau qui regroupe les différentes possibilités
+     * MÃ©thode qui permet d'initialiser la ComboBox des formats
+     * avec le tableau qui regroupe les diffÃ©rentes possibilitÃ©s
      */
     @FXML
     public void initializeFormat() {
@@ -160,8 +159,8 @@ public class ChoixFormatQuestionnaireController implements Initializable {
     }
     
     /**
-     * Méthode qui met à jour lors de la sélection d'un format
-     * la variable qui garde le nombre de question à lancer
+     * MÃ©thode qui met Ã  jour lors de la sÃ©lection d'un format
+     * la variable qui garde le nombre de question Ã  lancer
      */
     @FXML
     public void setFormat() {
@@ -181,27 +180,102 @@ public class ChoixFormatQuestionnaireController implements Initializable {
    
     
     /**
-     * Méthode qui permet de lancer le jeu (non disponible)
-     * pour l'instant elle affiche ce qui a été choisi par l'utilisateur
-     * en paramètres
+     * MÃ©thode qui permet de lancer le jeu (non disponible)
+     * pour l'instant elle affiche ce qui a Ã©tÃ© choisi par l'utilisateur
+     * en paramÃ¨tres
      */
     @FXML
     public void valider() {
-    	//TODO 
-		try {
-			initialisation = false;
+    	if (listeFormat.getSelectionModel().getSelectedItem() != null && listeDifficulte.getSelectionModel().getSelectedItem()!=null) {
+	    	chargementQuestions();
+			if (verificationTailleListe()) {
+				
+				lancementJeuPerfectionnementAvancees();
+			}
+    	}
+	}
+    
+    /**
+     * Lancement vers FenetreLancementJeu
+     */
+    public void lancementJeuPerfectionnementAvancees() {
+    	try {
 			initialisationFormat = false;
+			initDifficulte = false;
 			stage = (Stage)buttonRetour.getScene().getWindow();
 			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreLancementPerfectionnementAvances.fxml")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+    }
     
     /** 
-     * Méthode chargant les questions dans une ArrayList pour 
+     * MÃ©thode chargant les questions dans une ArrayList pour 
+     * le mode de jeu "perfectionnement avancÃ©es"
      */
-    public void chargementQuestions(String sousCatChoisis) {
-    	//TODO
+    public void chargementQuestions() {
+    	String difficulte = listeDifficulte.getSelectionModel().getSelectedItem();
+    	if (difficulte.equals(tabDifficulte[3])){
+    		listeQuestions = DAODetailPartieJoue.getQuestionsAvances();
+    	} else {
+    		 listeQuestions = DAODetailPartieJoue.getQuestionsAvances(difficulte);
+    	}
+       
+    }
+    
+    private void affichagePeuDeQuestions() {
+    	/* On affiche la fenetre de demande */
+		try {
+			initialisationFormat = false;
+			initDifficulte = false;
+			stage = (Stage)buttonRetour.getScene().getWindow();
+			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetrePasAssezDeQuestionsPerfectionnement.fxml")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    private void creationPopUpAvertissement() {
+		Stage dialog = new Stage();
+        try {
+        	dialog.initModality(Modality.APPLICATION_MODAL);
+            // Localisation du fichier FXML
+            final URL url = getClass().getResource("FenetrePopUpAvertissement.fxml");
+            // Crï¿½ation du loader.
+            final FXMLLoader fxmlLoader = new FXMLLoader(url);
+            // Chargement du FXML
+            AnchorPane root = (AnchorPane) fxmlLoader.load();
+            Scene dialogScene = new Scene(root, 300, 200);
+            dialog.setScene(dialogScene);
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+        dialog.setTitle("Pas de questions");
+        dialog.show();
+	}
+    
+    /**
+     * Vï¿½rifie la taille de la liste des questions,
+     * si cette derniï¿½re est vide -> retour ï¿½ ChoixSousCategorie
+     * si cette derniï¿½re est trop courte -> demande ï¿½ l'utilisateur 
+     * 										s'il veut continuer
+     * sinon, lancement classique du jeu
+     */
+    public boolean verificationTailleListe() {
+    	 int tailleListe = listeQuestions.size();
+    	
+    	if (tailleListe == 0) {
+    		System.out.println("Pas de questions");
+    		creationPopUpAvertissement();
+    		return false;
+    	} else if (tailleListe < getNombreQuestion()) {
+    		// le nombre de question correspondra alors ï¿½ la liste
+    		nombreQuestion = listeQuestions.size();
+    		System.out.println("Pas assez de questions. Voulez-vous continuer ?");
+    		affichagePeuDeQuestions();
+    		return false;
+    	} else {
+    		return true;
+    	}
     }
 }

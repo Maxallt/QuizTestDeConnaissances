@@ -135,6 +135,7 @@ public class Main extends Application {
 		creationBase();
 		creationTables();
 	
+		DaoQuestions.updateQuestions(DaoQuestions.getQuestions().get(0),DaoQuestions.QUESTIONS_REPONSES_DEFAUT_FACILE[0][0]);
 		/* Lance la méthode start qui va lancer une interface*/
 		launch(args);
 	}

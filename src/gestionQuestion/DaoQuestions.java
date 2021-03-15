@@ -309,14 +309,14 @@ public class DaoQuestions {
 	/**
 	 * M�thode qui permet de r�cup�rer toutes les questions en base
 	 * @return une ArrayList avec toutes les questions cr��es dans la base+
-	 * @param id liées a une categorie
+	 * @param idCat liées a une categorie
 	 */
-	public static ArrayList<String> getQuestions(String id) {
+	public static ArrayList<String> getQuestions(int idCat) {
 		
 		ArrayList<String> listeQuestion = new ArrayList<>();
 		
     	// R�cup�ration des donn�es en Base de donn�e
-    	String sql = "SELECT question FROM questions WHERE id =" + id;
+    	String sql = "SELECT question FROM questions WHERE id =" + idCat + "'";
 		try {
 			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
 			cn = ConnexionBD.getInstance();
@@ -338,15 +338,16 @@ public class DaoQuestions {
 	
 	/**
 	 * M�thode qui permet de r�cup�rer toutes les questions en base
+	 * @param difficulte 
 	 * @return une ArrayList avec toutes les questions cr��es dans la base+
 	 * @param id liées a une sous categorie
 	 */
-	public static ArrayList<String> getQuestionsSousCat(String idSousCat) {
+	public static ArrayList<String> getQuestionsSousCat(int idSousCat, String difficulte) {
 		
 		ArrayList<String> listeQuestion = new ArrayList<>();
 		
     	// R�cup�ration des donn�es en Base de donn�e
-    	String sql = "SELECT question FROM questions WHERE idSousCat ='" + idSousCat  + "'";
+    	String sql = "SELECT question FROM questions WHERE idSousCat ='" + idSousCat  + "' AND difficulte = '" + difficulte + "'";
 		try {
 			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
 			cn = ConnexionBD.getInstance();
@@ -371,15 +372,15 @@ public class DaoQuestions {
 	/**
 	 * M�thode qui permet de r�cup�rer toutes les questions en base
 	 * @return une ArrayList avec toutes les questions cr��es dans la base+
-	 * @param id liées a une categorie
+	 * @param idCat liées a une categorie
 	 * @param idSousCat liées a une sous categorie
 	 */
-	public static ArrayList<String> getQuestions(String id, String idSousCat) {
+	public static ArrayList<String> getQuestions(int idCat, String idSousCat) {
 		
 		ArrayList<String> listeQuestion = new ArrayList<>();
 		
     	// R�cup�ration des donn�es en Base de donn�e
-    	String sql = "SELECT questions FROM questions WHERE id =" + id + " AND idSousCat =" + idSousCat  + "'";
+    	String sql = "SELECT question FROM questions WHERE idCat =" + idCat + " AND idSousCat = '" + idSousCat  + "'";
 		try {
 			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
 			cn = ConnexionBD.getInstance();
@@ -402,17 +403,51 @@ public class DaoQuestions {
 	/**
 	 * M�thode qui permet de r�cup�rer toutes les questions en base
 	 * @return une ArrayList avec toutes les questions cr��es dans la base+
-	 * @param id liées a une categorie
+	 * @param idCat liées a une categorie
 	 * @param idSousCat liées a une sous categorie
 	 * @param difficulte niveau de la question
 	 */
-	public static ArrayList<String> getQuestions(String id, String idSousCat, String difficulte) {
+	public static ArrayList<String> getQuestions(int idCat, int idSousCat, String difficulte) {
 		
 		ArrayList<String> listeQuestion = new ArrayList<>();
 		
     	// R�cup�ration des donn�es en Base de donn�e
-    	String sql = "SELECT questions FROM questions WHERE id =" + id + " AND idSousCat =" + idSousCat  + " AND idSousCat = " 
+    	String sql = "SELECT question FROM questions WHERE idCat =" + idCat + " AND idSousCat ='" + idSousCat  + "' AND difficulte = '" 
     	                                                               + difficulte  + "'";
+    	System.out.println(sql);
+		try {
+			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 3 : CrÃƒÂ©ation d'un statement
+			st = cn.createStatement();
+
+			// Etape 4 : Execution de la requ�te
+			ResultSet res = st.executeQuery(sql);
+
+			while(res.next()) {
+				listeQuestion.add(res.getString("question"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listeQuestion;
+	}
+	
+	/**
+	 * M�thode qui permet de r�cup�rer toutes les questions en base
+	 * @return une ArrayList avec toutes les questions cr��es dans la base+
+	 * @param idCat liées a une categorie
+	 * @param idSousCat liées a une sous categorie
+	 * @param difficulte niveau de la question
+	 */
+	public static ArrayList<String> getQuestions(int idCat, int idSousCat) {
+		
+		ArrayList<String> listeQuestion = new ArrayList<>();
+		
+    	// R�cup�ration des donn�es en Base de donn�e
+    	String sql = "SELECT question FROM questions WHERE idCat =" + idCat + " AND idSousCat ='" + idSousCat  +  "'";
+    	System.out.println(sql);
 		try {
 			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
 			cn = ConnexionBD.getInstance();
@@ -519,8 +554,8 @@ public class DaoQuestions {
 
 			//Valeur associe a la requete
 			PreparedStatement update = cn.prepareStatement(sql);
-			update.setString(1,  questionEnBase );
-			update.setString(2,  aModifier );
+			update.setString(1,  aModifier );
+			update.setString(2,   questionEnBase );
 			
 			update.executeUpdate();
 				
@@ -528,6 +563,181 @@ public class DaoQuestions {
 				e1.printStackTrace();
 			}
 	}
+	
+	/**
+	 * Cette méthode permet de modifier la reponse correcte d'une 
+	 * question préexistante dans la base de données
+	 * @param questionEnBase question présentes dans la base de données
+	 * @param aModifier contient la reponse correcte que l'on souhaite modifier
+	 */
+	public static void updateReponseVraie(String questionEnBase, String aModifier) {
+		// Modification des donn�es en Base de donn�e avec cette requ�te SQL
+		String sql = "UPDATE reponseVraie  SET reponseVraie = ? WHERE question =? ";
+		
+		try {
+			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 3 : CrÃƒÂ©ation d'un statement
+			st = cn.createStatement();
+
+
+			//Valeur associe a la requete
+			PreparedStatement update = cn.prepareStatement(sql);
+			update.setString(1,  aModifier );
+			update.setString(2,   questionEnBase );
+			
+			update.executeUpdate();
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	}
+	
+	/**
+	 * Cette méthode permet de modifier la reponse fausse 1 d'une 
+	 * question préexistante dans la base de données
+	 * @param questionEnBase question présentes dans la base de données
+	 * @param aModifier contient la reponse fausse 1 que l'on souhaite modifier
+	 */
+	public static void updateReponseFausse1(String questionEnBase, String aModifier) {
+		// Modification des donn�es en Base de donn�e avec cette requ�te SQL
+		String sql = "UPDATE reponseFausse1  SET reponseFausse1 = ? WHERE question =? ";
+		
+		try {
+			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 3 : CrÃƒÂ©ation d'un statement
+			st = cn.createStatement();
+
+
+			//Valeur associe a la requete
+			PreparedStatement update = cn.prepareStatement(sql);
+			update.setString(1,  aModifier );
+			update.setString(2,   questionEnBase );
+			
+			update.executeUpdate();
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	}
+	
+	/**
+	 * Cette méthode permet de modifier la reponse fausse 2 d'une 
+	 * question préexistante dans la base de données
+	 * @param questionEnBase question présentes dans la base de données
+	 * @param aModifier contient la reponse fausse 1 que l'on souhaite modifier
+	 */
+	public static void updateReponseFausse2(String questionEnBase, String aModifier) {
+		// Modification des donn�es en Base de donn�e avec cette requ�te SQL
+		String sql = "UPDATE reponseFausse2  SET reponseFausse2 = ? WHERE question =? ";
+		
+		try {
+			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 3 : CrÃƒÂ©ation d'un statement
+			st = cn.createStatement();
+
+
+			//Valeur associe a la requete
+			PreparedStatement update = cn.prepareStatement(sql);
+			update.setString(1,  aModifier );
+			update.setString(2,   questionEnBase );
+			
+			update.executeUpdate();
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	}
+	
+	/**
+	 * Cette méthode permet de modifier la reponse fausse 3 d'une 
+	 * question préexistante dans la base de données
+	 * @param questionEnBase question présentes dans la base de données
+	 * @param aModifier contient la reponse fausse 1 que l'on souhaite modifier
+	 */
+	public static void updateReponseFausse3(String questionEnBase, String aModifier) {
+		// Modification des donn�es en Base de donn�e avec cette requ�te SQL
+		String sql = "UPDATE reponseFausse3  SET reponseFausse3 = ? WHERE question =? ";
+		
+		try {
+			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 3 : CrÃƒÂ©ation d'un statement
+			st = cn.createStatement();
+
+
+			//Valeur associe a la requete
+			PreparedStatement update = cn.prepareStatement(sql);
+			update.setString(1,  aModifier );
+			update.setString(2,   questionEnBase );
+			
+			update.executeUpdate();
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	}
+	
+	/**
+	 * Cette méthode permet de modifier la reponse fausse 4 d'une 
+	 * question préexistante dans la base de données
+	 * @param questionEnBase question présentes dans la base de données
+	 * @param aModifier contient la reponse fausse 4 que l'on souhaite modifier
+	 */
+	public static void updateReponseFausse4(String questionEnBase, String aModifier) {
+		// Modification des donn�es en Base de donn�e avec cette requ�te SQL
+		String sql = "UPDATE reponseFausse4  SET reponseFausse4 = ? WHERE question =? ";
+		
+		try {
+			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 3 : CrÃƒÂ©ation d'un statement
+			st = cn.createStatement();
+
+
+			//Valeur associe a la requete
+			PreparedStatement update = cn.prepareStatement(sql);
+			update.setString(1,  aModifier );
+			update.setString(2,   questionEnBase );
+			
+			update.executeUpdate();
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	}
+	
+	/**
+	 * Cette méthode permet de modifier la difficulte d'une 
+	 * question préexistante dans la base de données
+	 * @param questionEnBase question présentes dans la base de données
+	 * @param aModifier contient la difficulte que l'on souhaite modifier
+	 */
+	public static void updateDifficulte(String questionEnBase, String aModifier) {
+		// Modification des donn�es en Base de donn�e avec cette requ�te SQL
+		String sql = "UPDATE difficulte  SET difficulte = ? WHERE question =? ";
+		
+		try {
+			// RÃ©cupÃ©ration de l'Ã©lÃ©ment de connexion Ã  la bd
+			cn = ConnexionBD.getInstance();
+			// Etape 3 : CrÃƒÂ©ation d'un statement
+			st = cn.createStatement();
+
+
+			//Valeur associe a la requete
+			PreparedStatement update = cn.prepareStatement(sql);
+			update.setString(1,  aModifier );
+			update.setString(2,   questionEnBase );
+			
+			update.executeUpdate();
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	}
+
 
 	/**
 	 * Cette méthode permet de supprimer une question dans la base de données
@@ -553,5 +763,9 @@ public class DaoQuestions {
 			e1.printStackTrace();
 		}
 	}
+
+
+
+	
 
 }

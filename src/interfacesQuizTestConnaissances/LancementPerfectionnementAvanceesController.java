@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-import gestionEnregistrementPartie.DAODetailPartieJoue;
-import gestionEnregistrementPartie.DAOHistoriquePartie;
 import gestionQuestion.DaoQuestions;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LancementJeuController implements Initializable {
+public class LancementPerfectionnementAvanceesController implements Initializable {
 	
 	/** 
 	 * Est utile pour le changement de fenetre, il récupère la fenetre
@@ -65,17 +63,15 @@ public class LancementJeuController implements Initializable {
 		return nbBonnesReponses;
 	}
 
-	 static boolean enregistrerPartie;
-	
 	private static ArrayList<String> reponsesCourantes;
 	
 	private static String reponseCorrecte;
 	
 	private static String questionActuelle;
 	
-	protected static int tailleListe;
+   private static int tailleListe = ChoixFormatQuestionnaireController.listeQuestions.size();
 	
-	protected static int nbQuestions;
+	private static int nbQuestions = ChoixFormatQuestionnaireController.getNombreQuestion();
 	
 	/**
 	 *  Initialise les champs de texte pour les questions et les réponses
@@ -85,15 +81,17 @@ public class LancementJeuController implements Initializable {
 		
 	    /* Lancement du jeu avec les questions */
 		if (tailleListe == 0) {
+			// TODO: Fenetre pop up d'avertissement
+			
 			nbBonnesReponses = -1;
 			resultatFinal();
 			System.out.println("Impossible de lancerle jeu, aucune question n'existe avec ces criteres. Veuillez en créer");
 			
-		}  else {
+		} else {
 			nbBonnesReponses = 0;
 			numeroQuestion.setText("Question n° " + (numQuestion+1));
 			
-			questionActuelle = ChoixSousCategorieController.listeQuestions.get(0);
+			questionActuelle = ChoixFormatQuestionnaireController.listeQuestions.get(0);
 			reponsesCourantes = DaoQuestions.getReponses(questionActuelle);
 			reponseCorrecte = reponsesCourantes.get(0);
 			
@@ -101,18 +99,19 @@ public class LancementJeuController implements Initializable {
 			
 			// Réponses possibles de la question
 			affichageAleatoireReponses(reponsesCourantes);
-		}	
+		}
+	
+			
 	}
 	
 	@FXML
 	public void changementQuestion(ActionEvent e) {
+		
 		compteurBonneReponse(e);
 		numQuestion++;
-		if (nbQuestions > (numQuestion)) {
-			enregistrementDetailPartie(e);
+		if (tailleListe > numQuestion+1) {
 			
-			
-			questionActuelle = ChoixSousCategorieController.listeQuestions.get(numQuestion);
+			questionActuelle = ChoixFormatQuestionnaireController.listeQuestions.get(numQuestion);
 			reponsesCourantes = DaoQuestions.getReponses(questionActuelle);
 			reponseCorrecte = reponsesCourantes.get(0);
 			
@@ -122,53 +121,15 @@ public class LancementJeuController implements Initializable {
 			
 			// Réponses possibles de la question
 			affichageAleatoireReponses(reponsesCourantes);
-			
+		} 
+		
+		if (tailleListe == 0
+				|| numQuestion == nbQuestions) {
+			resultatFinal();
 		}
 
-		if (tailleListe == 0
-					|| numQuestion == nbQuestions) {
-			enregistrementDetailPartie(e);
-				resultatFinal();
-		}
-		
-		
 	}
 	
-	/**
-	 * Methode qui permet l'enregistrement du detail d'une partie dans la base de donnée
-	 * @param e source de l'action de m'utilisateur
-	 */
-	private void enregistrementDetailPartie(ActionEvent e) {
-		if (enregistrerPartie) {
-			Button btn = (Button) e.getSource();
-			DAODetailPartieJoue.EnregistrerPartieEnCours(questionActuelle, btn.getText(), 
-					                                     ChoixCategorieController.getDifficulteCatActuelle());
-			System.out.println("Detail partie en cours d'enregistrement");		
-		}
-	}
-	
-	/**
-	 * Methode qui permet l'enregistrement d'une partie dans la base de donnée
-	 * @param e source de l'action de m'utilisateur
-	 */
-	private void enregistrementPartieEnCours() {
-		/* On enregistre la partie en cours dans la base de données */
-		if (enregistrerPartie) {
-			System.out.println("Enregistrement de la partie");
-			System.out.println("Categorie --> " +  ChoixCategorieController.getIdCatActuelle()
-			                 + "Sous-catégorie --> " + ChoixSousCategorieController.getIdSousCatActuelle());
-			if(enregistrerPartie) {
-				DAOHistoriquePartie.EnregistrerPartieEnCours(ChoixCategorieController.getIdCatActuelle(), 
-	                    ChoixSousCategorieController.getIdSousCatActuelle(),
-	                    getNbBonnesReponses(),
-	                    ChoixSousCategorieController.getNombreQuestion(),
-	                    ChoixCategorieController.getDifficulteCatActuelle()
-	                    );
-				System.out.println("NbBonnesReponses" + getNbBonnesReponses());
-			}
-		}
-		
-	}
 	
 	/** Methode qui va incrementer le score de 1 
 	 * chaque fois que l'utilisateur aura la bonne reponse
@@ -178,6 +139,7 @@ public class LancementJeuController implements Initializable {
 	 */
 	private void compteurBonneReponse(ActionEvent e) {
         Button btn = (Button) e.getSource();
+        System.out.println("Compteur de point\n");
 		if (btn.getText().equals(reponseCorrecte)) {
 			nbBonnesReponses++;	
 		} 
@@ -192,6 +154,7 @@ public class LancementJeuController implements Initializable {
     @FXML
 	public void retour() {
 		try {
+		
 			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreAccueil.fxml")));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -202,11 +165,9 @@ public class LancementJeuController implements Initializable {
      * Méthode qui affiche la fenêtre du résultat final
      */
     public void resultatFinal() {
-    	enregistrementPartieEnCours();
-		/* On affiche la fenetre resultat */
 		try {
-			//stage = (Stage)buttonRetour.getScene().getWindow();
-			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreResultatFinal.fxml")));
+		
+			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreResultatFinalPerfectionnementAvancees.fxml")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -334,6 +295,7 @@ public class LancementJeuController implements Initializable {
 		int aleatoireC;
 		int aleatoireD;
 		
+		System.out.println("Taille liste:" + tailleListe);
 		// Tirage aux sorts des réponses
 				do { //première mesure
 					aleatoireA = r.nextInt(tailleListe);

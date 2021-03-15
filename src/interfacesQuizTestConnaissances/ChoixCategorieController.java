@@ -127,5 +127,22 @@ public class ChoixCategorieController implements Initializable {
 
 		}	
 	}
+    
+    /**
+     * Méthode qui renvoie le niveau de difficulte choisi 
+     * par l'utilisateur
+     * @return le niveau de diffculte
+     *         Renvoie une chaine vide si la difficulte
+     *          est indifferente ou non choisi
+     */
+    public static String getDifficulteCatActuelle() {
+		if (difficulteChoisie.equals("Indifférente")) {
+			return "";
+		} else {
+			return difficulteChoisie;
+
+		}	
+	}
+
 
 }
