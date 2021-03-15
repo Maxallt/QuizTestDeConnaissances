@@ -5,7 +5,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="dynamicPane" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #08539C" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacesQuizTestConnaissances.LancementJeuController">
+<AnchorPane fx:id="dynamicPane" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #08539C" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacesQuizTestConnaissances.LancementPerfectionnementAvanceesController">
    <children>
       <Button fx:id="reponseA" layoutX="35.0" layoutY="150.0" mnemonicParsing="false" onAction="#changementQuestion" prefHeight="100.0" prefWidth="300.0" text="reponseA">
          <font>
