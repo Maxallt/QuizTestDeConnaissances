@@ -80,18 +80,16 @@ public class Question {
 	/*	ACCESSEURS SUR L'INTITULE REPONSE	*/
 	
 	/**
-	 * Accesseur sur l'intitulé de la reponse A
+	 * Accesseur sur l'intitulé de la reponse juste
 	 * @return une chaine de caracteres correspondant à l'intitulé de la
-	 *		   reponse A
 	 */
 	public String getReponseJuste () {
 		return reponses.get(0);
 	}
 	
 	/**
-	 * Accesseur sur l'intitulé de la reponse B
-	 * @return une chaine de caracteres correspondant à l'intitulé de la
-	 *		   reponse B
+	 * Accesseur sur l'intitulé des reponses
+	 * @return une ArrayList des réponses
 	 */
 	public ArrayList<String> getReponses () {
 		return reponses;
