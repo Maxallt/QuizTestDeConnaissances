@@ -4,6 +4,8 @@
  */
 package interfacesQuizTestConnaissances;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -58,6 +60,9 @@ public class AccueilController implements Initializable {
      */
     @FXML
     private Button buttonModif;
+    
+    @FXML
+    private Button btnAide;
     
     /**
      * Bouton (inactif) qui enverra vers le perfectionnement avancé
@@ -139,4 +144,14 @@ public class AccueilController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+    
+    @FXML
+    public void aide() {
+    	Desktop d = Desktop.getDesktop();
+    	try {
+			d.open(new File(".\\Manuel Utilisateur.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 }

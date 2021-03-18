@@ -238,11 +238,11 @@ public class FenetreHistoriqueTestController implements Initializable {
 	 */
 	@FXML
 	private void buttonRejouerAction() {
-		Long partieSelectionné = view.getFocusModel().getFocusedItem().getNumPartie();
+		Long partieSelectionne = view.getFocusModel().getFocusedItem().getNumPartie();
 		
 		LancementJeuController.enregistrerPartie = false;
 		
-		ChoixSousCategorieController.listeQuestions = DAODetailPartieJoue.getQuestionsRejouer(partieSelectionné);
+		ChoixSousCategorieController.listeQuestions = DAODetailPartieJoue.getQuestionsRejouer(partieSelectionne);
 		LancementJeuController.tailleListe  = ChoixSousCategorieController.listeQuestions.size();
 		
 		 nbQuestions = view.getFocusModel().getFocusedItem().getScore();
@@ -255,8 +255,8 @@ public class FenetreHistoriqueTestController implements Initializable {
 	
 	@FXML
 	private void buttonSupprimerAction() {
-		Long partieSelectionné = view.getFocusModel().getFocusedItem().getNumPartie();
-        DAOHistoriquePartie.deleteHistorique(partieSelectionné);
+		Long partieSelectionne = view.getFocusModel().getFocusedItem().getNumPartie();
+        DAOHistoriquePartie.deleteHistorique(partieSelectionne);
         try {
 			stage = (Stage)buttonRetour.getScene().getWindow();
 			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreHistoriqueTest.fxml")));

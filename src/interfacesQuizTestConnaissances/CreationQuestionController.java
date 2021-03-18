@@ -13,8 +13,11 @@ import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -28,8 +31,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
+import gestionCategories.Categorie;
 import gestionCategories.DAOCategorie;
 import gestionCategories.DAOSousCategorie;
+import gestionCategories.SousCategorie;
 import gestionQuestion.DaoQuestions;
 import gestionQuestion.Question;
 
@@ -41,6 +46,28 @@ import gestionQuestion.Question;
  */
 public class CreationQuestionController implements Initializable {
 
+	private static String catACreer;
+	private static String sousCatACreer;
+	private static String catActuelle;
+	
+	
+	public static boolean suivant;	
+	public static boolean creationOK;
+	
+	
+
+	public static String getCatActuelle() {
+		return catActuelle;
+	}
+
+	public static String getCatACreer() {
+		return catACreer;
+	}
+
+	public static String getSousCatACreer() {
+		return sousCatACreer;
+	}
+
 	/** 
 	 * Est utile pour le changement de fenetre, il récupère la fenetre
 	 * courante pour la changer
@@ -48,6 +75,206 @@ public class CreationQuestionController implements Initializable {
 	@SuppressWarnings("unused")
     private Stage stage;
 	
+    private gestionQuestion.Question quest;
+    
+    @FXML
+    private TextField txtQuestion;
+    
+    @FXML
+    private TextField txtRepVrai;
+    
+    @FXML
+    private TextField txtRepFaux1;
+    
+    @FXML
+    private TextField txtRepFaux2;
+    
+    @FXML
+    private TextField txtRepFaux3;
+    
+    @FXML
+    private TextField txtRepFaux4;
+    
+    @FXML
+    private Button btnValider;
+    
+    /** Liste déroulante : avec toutes les catégories créées */
+	@FXML
+	private ComboBox<String> listeCategorie;
+	
+	/** Liste déroulante : avec toutes les sous catégories créées dans la 
+	 * categorie selectionné
+	 */
+	@FXML
+	private ComboBox<String> listeSousCategorie;
+	
+	/** Liste déroulante : avec les difficultés */
+	@FXML
+	private ComboBox<String> listeDifficulte;
+	
+	/** Tableau des diffcultés */
+	private static String[] tabDifficulte = {"Facile","Moyen","Difficile","Indifférent"};
+	
+	private boolean initCat = false;
+    private boolean initSousCat = false;
+    private boolean initDifficulte = false;
+	
+    /* **************************************** PARTIE AYMERIC *****************************************/
+    
+
+
+    
+    @FXML
+    public void setCategorie() {
+		if (!initCat) {
+			ArrayList<Categorie> categories = DAOCategorie.findCategorie();
+			for (Categorie element: categories) {
+				listeCategorie.getItems().add(element.getNom());
+			}
+			initCat = true;
+		}
+	}
+    
+    @FXML
+    public void setSousCategorie() {
+		if (!initSousCat) {
+			ArrayList<SousCategorie> sousCategories = 
+					listeCategorie.getSelectionModel().getSelectedItem()==null?
+					DAOSousCategorie.getSousCategories():
+					DAOSousCategorie.getSousCategories(listeCategorie.getSelectionModel().getSelectedItem());
+			
+			for (SousCategorie element: sousCategories) {
+				listeSousCategorie.getItems().add(element.getNom());
+			}
+			initSousCat = true;
+		}
+	}
+    
+    @FXML
+    public void setDifficulte() {
+		if(!initDifficulte) {
+			for (String element: tabDifficulte) {
+				listeDifficulte.getItems().add(element);
+			}
+			initDifficulte = true;
+		}
+	}
+    
+    /**
+     * Remet à zéro la ComboBox des sous-catégories lors de la sélection
+     * d'une nouvelle catégorie
+     */
+    @FXML
+    public void resetListeSousCat() {
+    	listeSousCategorie.getItems().clear();
+    	initSousCat = false;
+    }
+    
+
+	
+	
+
+    @FXML
+    public void valider() {
+    	
+    	/** ArrayList qui va contenir les intitules que l'utilisateur aura saisi */
+    	ArrayList<String> intitules = new ArrayList<>();
+    	
+    	/* Boolean initialisé a true qui passe a false si les information
+    	 *  rentrée sont fausse 
+    	 */
+    	boolean valid = true;
+    	
+    	if (txtQuestion.getText().equals("") || txtRepVrai.getText().equals("") || txtRepFaux1.getText().equals("") ) {
+    		valid = false;
+    		
+    		//popup d'erreur
+    		creationPopUpCreationQuestionInvalide();
+    	}
+    	
+    	if (valid) {
+    		intitules.add(txtRepVrai.getText());
+    		intitules.add(txtRepFaux1.getText());
+    		
+    		if (txtRepFaux2 != null)
+    			intitules.add(txtRepFaux2.getText());
+    		
+    		if(txtRepFaux3 != null)
+    			intitules.add(txtRepFaux3.getText());
+    		
+    		if(txtRepFaux4 != null)
+    			intitules.add(txtRepFaux4.getText());
+    		
+    		// Récupération de l'ID de la categorie selectionnée dans la combobox
+    		String idCat = DAOCategorie.getId(listeCategorie.getSelectionModel().getSelectedItem())+"";
+    		
+    		// Récupération de l'ID de la sous catégorie sélectionnée dans la combobox
+    		String idSousCat = DAOSousCategorie.getId(listeSousCategorie.getSelectionModel().getSelectedItem())+"";
+    		
+    		// Récupération du libellé de la difficulté
+    		String difficulteChoisis = listeDifficulte.getSelectionModel().getSelectedItem();
+    		
+    		// Création de la question 
+    		quest = new gestionQuestion.Question(txtQuestion.getText(), intitules,idSousCat,idCat,difficulteChoisis );
+    		
+    		DaoQuestions.createQuestions(quest);
+    		creationPopUpCreationQuestionValide();
+    	}
+    }
+
+	
+    /**
+   	 * Si la question est valide 
+   	 * alors cette fenêtre avertie l'utilisateur de la réussite
+   	 */
+   	public void creationPopUpCreationQuestionValide() {
+   		Stage dialog = new Stage();
+           try {
+           	dialog.initModality(Modality.APPLICATION_MODAL);
+               // Localisation du fichier FXML
+               final URL url = getClass().getResource("FenetrePopUp"
+               		                              + "QuestionValide.fxml");
+               // Création du loader.
+               final FXMLLoader fxmlLoader = new FXMLLoader(url);
+               // Chargement du FXML
+               AnchorPane root = (AnchorPane) fxmlLoader.load();
+               Scene dialogScene = new Scene(root, 300, 200);
+               dialog.setScene(dialogScene);
+           } catch (IOException e) {
+           	e.printStackTrace();
+           }
+           dialog.setTitle("Question crée");
+           dialog.show();
+   	}
+   	
+   	/**
+   	 * Si la question est invalide 
+   	 * alors cette fenêtre avertie l'utilisateur l'echec
+   	 */
+   	public void creationPopUpCreationQuestionInvalide() {
+   		Stage dialog = new Stage();
+           try {
+           	dialog.initModality(Modality.APPLICATION_MODAL);
+               // Localisation du fichier FXML
+               final URL url = getClass().getResource("FenetrePopUp"
+               		                              + "QuestionInvalide.fxml");
+               // Création du loader.
+               final FXMLLoader fxmlLoader = new FXMLLoader(url);
+               // Chargement du FXML
+               AnchorPane root = (AnchorPane) fxmlLoader.load();
+               Scene dialogScene = new Scene(root, 300, 200);
+               dialog.setScene(dialogScene);
+           } catch (IOException e) {
+           	e.printStackTrace();
+           }
+           dialog.setTitle("Question invalide");
+           dialog.show();
+   	}
+   	
+
+    
+    /* **************************************** PARTIE MAXIME *****************************************/
+       
 	/**
 	 * Méthode obligatoire pour tous les controller
 	 */
@@ -68,9 +295,6 @@ public class CreationQuestionController implements Initializable {
     }
     
     @FXML
-    private TextField txtQuestion;
-    
-    @FXML
     private Button btnFileChooser;
     
     private static File fichierXls;
@@ -81,139 +305,301 @@ public class CreationQuestionController implements Initializable {
     @FXML
     private Label txtLien;
     
+    /**
+     * Button qui permettra de revenir sur la page précédente
+     * Ici le menu de gestion
+     */
+	@FXML
+	private Button buttonFlecheBack;
+    
+    /**
+     * Méthode qui affiche la fenêtre précédente
+     * Ici le menu de gestion
+     * Liée à buttonFlecheBack
+     */
+	@FXML
+	private void actionButtonFlecheBack() {
+		try {
+			stage = (Stage)buttonFlecheBack.getScene().getWindow();
+			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreGestion.fxml")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+    
+	
+	
     @FXML
     public void fileChooser() {
     	//Fenetre pop-up pour choisir un fichier
         Stage dialog = new Stage();
 		dialog.initModality(Modality.APPLICATION_MODAL);
-		
+
 		final FileChooser fileChooser = new FileChooser();
-		File file = fileChooser.showOpenDialog(dialog);
-		
-		if(file!=null) {
+		fichierXls = fileChooser.showOpenDialog(dialog);
+
+		if(fichierXls!=null) {
 			String regex = "[A-Za-z\\d-_]+.xls";
-			if(!file.getName().matches(regex)) {
+			if(!fichierXls.getName().matches(regex)) {
 				System.out.println("Problème avec le format du fichier ce n'est pas un xls !");
 			} else {
-				txtLien.setText(file.getAbsolutePath());
-				System.out.println(file.getName());
-				try {
-					ArrayList<String> element= new ArrayList<>();
-					//Récupération du fichier avec un workbook
-					HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file.getAbsolutePath()));
-					//Récupération de la première feuille
-					HSSFSheet sheet = workbook.getSheetAt(0);
-					//Récupération d'un itérateur pour parcourir les lignes
-					Iterator<Row> rowIterator = sheet.iterator();
-					int compteurCellule = 0;
-					int compteurLigne = 0;
-					boolean catExiste;
-					boolean sousCatExiste;
-					//Parcours des lignes de la feuille <<<<<<<<<<< <, 
-					while(rowIterator.hasNext()) {
-						//Récupération de la prochaine ligne
-						Row row = rowIterator.next();
-						//Récupération d'un itérateur pour les cellules
-						Iterator<Cell> cellIterator = row.cellIterator();
-						compteurCellule = 0;
-						catExiste = false;
-						sousCatExiste = false;
-						element.clear();
-						//Parcours des cellules de la ligne
-						while(cellIterator.hasNext() && compteurLigne > 0) {
-							Cell cell = cellIterator.next();
-							CellType cellType = cell.getCellType();
-							switch (compteurCellule) {
-							case 0: // Catégorie
-								if(DAOCategorie.existe(cell.getStringCellValue())) {
-									element.add(cell.getStringCellValue());
-									catExiste = true;
-								} 
-								break;
-							case 1: // Sous-catégorie
-								if(DAOSousCategorie.existe(cell.getStringCellValue())) {
-									element.add(cell.getStringCellValue());
-									sousCatExiste = true;
-								}
-								break;
-							case 2: // Niveau
-								if(cell.getNumericCellValue() <= 3 && cell.getNumericCellValue() >= 1) {
-									element.add(""+cell.getNumericCellValue());
-								}
-								break;
-							case 3: // Nom TODO vérifier si utile
-								break;
-							case 4: // Libellé
-								element.add(cell.getStringCellValue());
-								break;
-							case 5: // Réponse juste
-								if(cellType.toString().equals("NUMERIC")) {
-									element.add(""+cell.getNumericCellValue());
-								} else if (cellType.toString().equals("STRING")) {
-									element.add(cell.getStringCellValue());
-								}
-								break;
-							case 6: // Réponse fausse 1
-								if(cellType.toString().equals("NUMERIC")) {
-									element.add(""+cell.getNumericCellValue());
-								} else if (cellType.toString().equals("STRING")) {
-									element.add(cell.getStringCellValue());
-								}
-								break;
-							case 7: // Réponse fausse 2
-								if(cellType.toString().equals("NUMERIC")) {
-									element.add(""+cell.getNumericCellValue());
-								} else if (cellType.toString().equals("STRING") && cell.getStringCellValue() != null) {
-									element.add(cell.getStringCellValue());
-								}
-								break;
-							case 8: // Réponse fausse 3
-								if(cellType.toString().equals("NUMERIC")) {
-									element.add(""+cell.getNumericCellValue());
-								} else if (cellType.toString().equals("STRING") && cell.getStringCellValue() != null) {
-									element.add(cell.getStringCellValue());
-								}
-								break;
-							case 9: // Réponse fausse 4
-								if(cellType.toString().equals("NUMERIC")) {
-									element.add(""+cell.getNumericCellValue());
-								} else if (cellType.toString().equals("STRING") && cell.getStringCellValue() != null) {
-									element.add(cell.getStringCellValue());
-								}
-								break;
-							}
-							compteurCellule++;
+				txtLien.setText(fichierXls.getAbsolutePath());
+				System.out.println(fichierXls.getName());
+			}
+		}
+    }
+    
+    /**
+     * Méthode qui permet de lancer une pop-up
+     * @param fxml Fichier fxml de la pop-up à choisir
+     */
+    public void creationPopUp(String fxml) {
+    	Stage dialog = new Stage();
+    	try {
+	        dialog.initModality(Modality.APPLICATION_MODAL);
+	        // Localisation du fichier FXML
+	        final URL url = getClass().getResource(fxml);
+	        // Création du loader.
+	        final FXMLLoader fxmlLoader = new FXMLLoader(url);
+	        // Chargement du FXML
+	        AnchorPane root = (AnchorPane) fxmlLoader.load();
+	        Scene dialogScene = new Scene(root, 300, 200);
+	        dialog.setScene(dialogScene);
+
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    	dialog.setTitle("Importation ok !");
+        dialog.show();
+    }
+    
+    /**
+     * Méthode qui permet de lancer une pop-up en cas d'erreur
+     * @param fxml Fichier fxml de la pop-up à choisir
+     */
+    public void creationPopUpErreur(String fxml) {
+    	Stage dialog = new Stage();
+    	try {
+	        dialog.initModality(Modality.APPLICATION_MODAL);
+	        // Localisation du fichier FXML
+	        final URL url = getClass().getResource(fxml);
+	        // Création du loader.
+	        final FXMLLoader fxmlLoader = new FXMLLoader(url);
+	        // Chargement du FXML
+	        AnchorPane root = (AnchorPane) fxmlLoader.load();
+	        Scene dialogScene = new Scene(root, 300, 200);
+	        dialog.setScene(dialogScene);
+
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    	dialog.setTitle("Erreur dans l'importation !");
+        dialog.show();
+    }
+    
+	@FXML
+    public void validerFich() {
+    	boolean importation = false;
+    	try {
+			ArrayList<String> element= new ArrayList<>();
+			//Récupération du fichier avec un workbook
+			HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(fichierXls.getAbsolutePath()));
+			//Récupération de la première feuille
+			HSSFSheet sheet = workbook.getSheetAt(0);
+			//Récupération d'un itérateur pour parcourir les lignes
+			Iterator<Row> rowIterator = sheet.iterator();
+			int compteurCellule = 0;
+			int compteurLigne = 0;
+			boolean catExiste;
+			boolean sousCatExiste;
+			int verifFormat=0;
+			
+			//Parcours des lignes de la feuille
+			while(rowIterator.hasNext()) {
+				//Récupération de la prochaine ligne
+				Row row = rowIterator.next();
+				//Récupération d'un itérateur pour les cellules
+				Iterator<Cell> cellIterator = row.cellIterator();
+				compteurCellule = 0;
+				catExiste = false;
+				sousCatExiste = false;
+
+				//CellType cellTypePremiereLigne = ;
+				element.clear();
+				while(cellIterator.hasNext() && compteurLigne == 0  && cellIterator.next().getCellType().toString().equals("STRING")) {
+					verifFormat++;
+				}
+				//Parcours des cellules de la ligne
+				while(cellIterator.hasNext() && compteurLigne > 0) {
+					suivant =false;
+					creationOK = false;
+					Cell cell = cellIterator.next();
+					CellType cellType = cell.getCellType();
+					switch (compteurCellule) {
+					case 0: // Catégorie
+						//System.out.println(cell.getStringCellValue() + "Existe ? " + DAOCategorie.existe(cell.getStringCellValue()));
+						
+						if(DAOCategorie.existe(cell.getStringCellValue())) {
+							element.add(cell.getStringCellValue());
+							catActuelle = cell.getStringCellValue();
+							catExiste = true;
+						} else {
+							catACreer = cell.getStringCellValue();
 						}
-						if (catExiste && sousCatExiste && compteurCellule == 10) {
-							for(int i = 0; i < element.size(); i++) {
-								System.out.print(element.get(i)+"\t");
-							}
-							ArrayList<String> reponses = new ArrayList<String>();
-							for  (int i = 4; i < element.size(); i++) {
-								if (element.get(i)!=null) {
-									reponses.add(element.get(i));
-								}
-							}
+						break;
+					case 1: // Sous-catégorie
+						if(DAOSousCategorie.existe(cell.getStringCellValue())) {
+							element.add(cell.getStringCellValue());
+							sousCatExiste = true;
+						} else {
+							sousCatACreer = cell.getStringCellValue();
+						}
+						break;
+					case 2: // Niveau
+						
+						element.add(""+cell.getStringCellValue());
+						
+						break;
+					case 3: // Nom  pas utile
+						break;
+					case 4: // Libellé
+						element.add(cell.getStringCellValue());
+						break;
+					case 5: // Réponse juste
+						if(cellType.toString().equals("NUMERIC")) {
+							element.add(""+cell.getNumericCellValue());
+						} else if (cellType.toString().equals("STRING")) {
+							element.add(cell.getStringCellValue());
+						}
+						break;
+					case 6: // Réponse fausse 1
+						if(cellType.toString().equals("NUMERIC")) {
+							element.add(""+cell.getNumericCellValue());
+						} else if (cellType.toString().equals("STRING")) {
+							element.add(cell.getStringCellValue());
+						}
+						break;
+					case 7: // Réponse fausse 2
+						if(cellType.toString().equals("NUMERIC")) {
+							element.add(""+cell.getNumericCellValue());
+						} else if (cellType.toString().equals("STRING") && cell.getStringCellValue() != null) {
+							element.add(cell.getStringCellValue());
+						}
+						break;
+					case 8: // Réponse fausse 3
+						if(cellType.toString().equals("NUMERIC")) {
+							element.add(""+cell.getNumericCellValue());
+						} else if (cellType.toString().equals("STRING") && cell.getStringCellValue() != null) {
+							element.add(cell.getStringCellValue());
+						}
+						break;
+					case 9: // Réponse fausse 4
+						if(cellType.toString().equals("NUMERIC")) {
+							element.add(""+cell.getNumericCellValue());
+						} else if (cellType.toString().equals("STRING") && cell.getStringCellValue() != null) {
+							element.add(cell.getStringCellValue());
+						}
+						break;
+					}
+
+					
+					
+					/*if (!catExiste && compteurCellule == 0) {
+						creationPopUpErreur("FenetrePopUpCategorieInexistante.fxml");
+						try {
 							
-							while(reponses.size() < 5) {
-								reponses.add("null");
+							Thread.sleep(5000);
+						
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					if (!sousCatExiste && compteurCellule == 1) {
+						creationPopUpErreur("FenetrePopUpSousCategorieInexistante.fxml");
+						try {
+							Thread.sleep(5000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}*/
+					
+						
+					
+					
+					if (creationOK) { // TODO Mettre un boolean qui vérifie si la cat ou sous cat a été créée après les pop-up
+						switch (compteurCellule) {
+						case 0: // Catégorie
+							if(DAOCategorie.existe(cell.getStringCellValue())) {
+								element.add(cell.getStringCellValue());
+								catExiste = true;
+								catActuelle = cell.getStringCellValue();
+							} 
+							break;
+						case 1: // Sous-catégorie
+							if(DAOSousCategorie.existe(cell.getStringCellValue())) {
+								element.add(cell.getStringCellValue());
+								sousCatExiste = true;
 							}
-							
-							System.out.println();
-							
-							System.out.println("reponses : " + reponses.size());
-							DaoQuestions.createQuestions(new Question(element.get(3),
-														 reponses,
-														 DAOSousCategorie.getId(element.get(1))+"",
-														 DAOCategorie.getId(element.get(0))+"",
-														 element.get(2)));
+							break;
+						}
+					}
+					compteurCellule++;
+				}
+				
+				if (verifFormat < 9 ) {
+					creationPopUpErreur("FenetrePopUpErreurImportationFich.fxml");
+				}
+				compteurLigne++;
+				if (catExiste && sousCatExiste && compteurCellule == 10) {
+
+					ArrayList<String> reponses = new ArrayList<String>();
+					for  (int i = 4; i < element.size(); i++) {
+						if (element.get(i)!=null) {
+							reponses.add(element.get(i));
+						}
+					}
+					
+					while(reponses.size() < 5) {
+						reponses.add("null");
+					}
+					
+					/* Element : 
+					 * 0 : Catégorie
+					 * 1 : Sous-catégorie
+					 * 2 : Difficulté
+					 * 3 : Libellé question
+					 * 4 : Réponse Juste
+					 * 5 : Réponse Fausse 1
+					 * 6 : etc... jusqu'à 4
+					 */
+					
+					
+					
+					if (!DaoQuestions.existe(element.get(3))) {
+						DaoQuestions.createQuestions(new Question(element.get(3),
+													 reponses,
+													 DAOSousCategorie.getId(element.get(1))+"",
+													 DAOCategorie.getId(element.get(0))+"",
+													 element.get(2)));
+						/*TODO enlever ça, juste pour les tests de récupération de Question*/
+						for(int i = 0; i < element.size(); i++) {
+							System.out.print(element.get(i)+"\t");
+							compteurLigne++;
 						}
 						compteurLigne++;
+						importation = true;
+					} else {
+						System.out.println("Question déjà en base : " + element.get(3));
 					}
-				} catch (IOException e) {
-					System.out.println(e.getMessage());
 				}
+			
+				
 			}
+			if (importation) {
+				creationPopUp("FenetrePopUpQuestionValide.fxml");
+			}
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
 		}
     }
     

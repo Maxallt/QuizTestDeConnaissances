@@ -174,4 +174,17 @@ public class GestionController implements Initializable {
 			e.printStackTrace();
 		}
     }
+    
+    /**
+     * Méthode qui affiche la fenêtre de modification / suppression de question
+     */
+    @FXML
+    public void modifQuestion() {
+		try {
+			stage = (Stage)buttonRetour.getScene().getWindow();
+			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreModificationQuestion1.fxml")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 }

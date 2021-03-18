@@ -55,6 +55,7 @@
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
             </Button>
+            <Button fx:id="btnAide" layoutX="590.0" layoutY="32.0" mnemonicParsing="false" onAction="#aide" text="Aide utilisateur" />
          </children></Pane>
    </children>
 </AnchorPane>

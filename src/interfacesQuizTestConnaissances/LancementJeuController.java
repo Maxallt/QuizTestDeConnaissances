@@ -83,18 +83,28 @@ public class LancementJeuController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		nbQuestions = ChoixSousCategorieController.getNombreQuestion();
+		
 	    /* Lancement du jeu avec les questions */
-		if (tailleListe == 0) {
+		if (ChoixSousCategorieController.listeQuestions.size() == 0) {
 			nbBonnesReponses = -1;
 			resultatFinal();
-			System.out.println("Impossible de lancerle jeu, aucune question n'existe avec ces criteres. Veuillez en créer");
+			System.out.println("Impossible de lancer le jeu, aucune question n'existe avec ces criteres. Veuillez en créer");
 			
 		}  else {
 			nbBonnesReponses = 0;
 			numeroQuestion.setText("Question n° " + (numQuestion+1));
 			
+			System.out.println("listeQuestions : " + ChoixSousCategorieController.listeQuestions);
+			
 			questionActuelle = ChoixSousCategorieController.listeQuestions.get(0);
+			
+			System.out.println("questAct " + questionActuelle);
+			
 			reponsesCourantes = DaoQuestions.getReponses(questionActuelle);
+			
+			System.out.println("repCour " + reponsesCourantes);
+			
 			reponseCorrecte = reponsesCourantes.get(0);
 			
 			titreQuestion.setText(questionActuelle);
@@ -108,7 +118,7 @@ public class LancementJeuController implements Initializable {
 	public void changementQuestion(ActionEvent e) {
 		compteurBonneReponse(e);
 		numQuestion++;
-		if (nbQuestions > (numQuestion)) {
+		if (ChoixSousCategorieController.listeQuestions.size() > (numQuestion)) {
 			enregistrementDetailPartie(e);
 			
 			
@@ -125,8 +135,8 @@ public class LancementJeuController implements Initializable {
 			
 		}
 
-		if (tailleListe == 0
-					|| numQuestion == nbQuestions) {
+		if (ChoixSousCategorieController.listeQuestions.size() == 0
+					|| ChoixSousCategorieController.listeQuestions.size() == numQuestion || numQuestion == nbQuestions) {
 			enregistrementDetailPartie(e);
 				resultatFinal();
 		}
