@@ -97,12 +97,12 @@ public class ImageController implements Initializable {
 			imageSousCat.setFitHeight(HAUTEUR_MAX);
 			imageSousCat.setFitWidth(LARGEUR_MAX);
 			
-			// Définition des Text
-			intituleCategorie.setText(categorieChoisis);
-			intituleSousCategorie.setText(sousCategorieChoisis);
-			
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.out.println("Image non chargée !");
+		} finally {
+			// Définition des Text
+			intituleCategorie.setText(ChoixSousCategorieController.categorieChoisie);
+			intituleSousCategorie.setText(ChoixSousCategorieController.sousCategorieChoisie);
 		}
 	}
 	

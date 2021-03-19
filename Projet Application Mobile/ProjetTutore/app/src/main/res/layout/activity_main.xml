@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:id="@+id/tableOnglet"
+    android:background="@color/blueBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Ligne bouton des onglets -->
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/white"/>
+
+        <!-- Contenu des onglets -->
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+
+            <!-- Premier onglet -->
+            <TableLayout
+                android:id="@+id/onglet1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:orientation="vertical"
+                android:stretchColumns="1">
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_height="75dp"
+                        android:layout_span="2"
+                        android:gravity="center"
+                        android:text="@string/messageBienvenue"
+                        style="@style/titre"/>
+                </TableRow>
+
+                <TableRow>
+
+                    <Button
+                        android:layout_width="160dp"
+                        android:onClick="lancementChoix"
+                        android:text="@string/btnSelection" />
+
+                    <TextView
+                        android:id="@+id/nomFichier"
+                        android:layout_gravity="center"
+                        android:layout_span="2"
+                        android:text="@string/messageNomFich" />
+                </TableRow>
+
+                <TableRow>
+
+                    <Button
+                        android:onClick="validation"
+                        android:text="@string/btnValider" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_gravity="bottom"
+                        android:layout_span="2"
+                        android:gravity="center"
+                        android:text="@string/piedDePage" />
+
+                </TableRow>
+            </TableLayout>
+
+            <!-- Deuxième onglet -->
+            <TableLayout
+                android:id="@+id/onglet2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:stretchColumns="1,2,3">
+                <TableRow>
+                    <TextView
+                        android:id="@+id/nomFichierFiche"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/messageNomFich"
+                        android:gravity="center"
+                        android:layout_span="4"
+                        style="@style/titre"/>
+                </TableRow>
+
+                <TableRow android:layout_width="wrap_content">
+                    <TextView android:text="@string/libelleNumeroQuestion"/>
+                    <TextView
+                        android:id="@+id/numQuest"
+                        android:text="@string/numeroQuestion" />
+                    <TextView
+                        android:text="@string/difficulte"
+                        android:layout_column="2"/>
+                    <TextView
+                        android:id="@+id/difficulte"
+                        android:text="@string/defautDifficulte"/>
+                </TableRow>
+                <TextView
+                    android:id="@+id/libelleQuestion"
+                    android:text="@string/libelleQuestion"
+                    android:layout_marginTop="20dp"
+                    style="@style/questions"/>
+
+                <TextView
+                    android:id="@+id/repVraie"
+                    android:text="@string/reponseVraie"
+                    android:layout_marginTop="20dp"
+                    style="@style/reponses"/>
+                <TextView
+                    android:id="@+id/repFausse1"
+                    android:text="@string/reponseFausse1"
+                    android:layout_marginTop="20dp"
+                    style="@style/reponses"/>
+                <TextView
+                    android:id="@+id/repFausse2"
+                    android:text="@string/reponseFausse2"
+                    android:layout_marginTop="20dp"
+                    style="@style/reponses"/>
+                <TextView
+                    android:id="@+id/repFausse3"
+                    android:text="@string/reponseFausse3"
+                    android:layout_marginTop="20dp"
+                    style="@style/reponses"/>
+                <TextView
+                    android:id="@+id/repFausse4"
+                    android:text="@string/reponseFausse4"
+                    android:layout_marginTop="20dp"
+                    style="@style/reponses"/>
+
+                <Button
+                    android:id="@+id/boutonRepCorrecte"
+                    android:text="@string/btnAffich"
+                    android:onClick="affichBonneRep"/>
+
+                <TableRow>
+                    <Button
+                        android:text="@string/btnPrecedent"
+                        android:layout_marginRight="10dp"
+                        android:onClick="setPrecedent"/>
+                    <Button
+                        android:text="@string/btnSuivant"
+                        android:layout_marginLeft="10dp"
+                        android:onClick="setSuivant"
+                        android:layout_span="3"/>
+                </TableRow>
+
+
+            </TableLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+</TabHost>

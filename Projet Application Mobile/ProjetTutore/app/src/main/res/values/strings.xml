@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Quiz Test de Connaissances</string>
+    <string name="messageBienvenue">Bienvenue sur votre application de révision !</string>
+    <string name="btnSelection">Sélectionnez un fichier</string>
+    <string name="messageNomFich">Nom du fichier</string>
+    <string name="btnValider">Valider</string>
+    <string name="piedDePage">Alaux, Alliot, Amélaïse, Bagnolatti, Tizien</string>
+    <string name="labelOnglet1">Importation</string>
+    <string name="labelOnglet2">Lecture</string>
+    <string name="nomFichierFiche">Nom de votre fichier importé</string>
+    <string name="libelleNumeroQuestion"><u>Numéro de la question actuelle : </u></string>
+    <string name="numeroQuestion">0</string>
+    <string name="libelleQuestion">Libellé de la question</string>
+    <string name="reponseVraie">Réponse Vraie</string>
+    <string name="reponseFausse1">Première réponse fausse</string>
+    <string name="reponseFausse2">Deuxième réponse fausse</string>
+    <string name="reponseFausse3">Troisième réponse fausse</string>
+    <string name="reponseFausse4">Quatrième réponse fausse</string>
+    <string name="btnSuivant">Suivant</string>
+    <string name="btnPrecedent">Précédent</string>
+    <string name="btnAffich">Afficher la bonne réponse</string>
+    <string name="difficulte"><u>Difficulté :</u></string>
+    <string name="defautDifficulte">Indifférent</string>
+    <string name="question">Question : </string>
+    <string name="reponses">Réponse(s) :</string>
+</resources>

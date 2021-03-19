@@ -70,10 +70,10 @@ public class FenetreHistoriqueTestController implements Initializable {
 	private TableColumn<Historique, String> score;
 	
 	@FXML
-	private Button buttonRejouer;
+	private static Button buttonRejouer ;
 	
 	@FXML
-	private Button buttonSupprimer;
+	private static Button buttonSupprimer;
 
 	@FXML
 	private Button buttonRetour;
@@ -94,8 +94,13 @@ public class FenetreHistoriqueTestController implements Initializable {
 	
 	private static ArrayList<String> listeScore;
 	
+	static boolean continuer;
+	
+	
 	
 	 private ObservableList<Historique> listHistorique;
+	 
+	  static Long partieSelectionne;
 	 
 	 /**
 	   * Tableau qui regroupe les différentes valeurs d'affichage
@@ -173,6 +178,7 @@ public class FenetreHistoriqueTestController implements Initializable {
 	private static void ajoutValeurListe() {
 		int i = 0;
 		
+		//buttonSupprimer.setVisible(true);
 		for (i = 0; i < listeNumPartie.size(); i++ ) {
 			Long partieActuelle = listeNumPartie.get(i);
 			
@@ -198,6 +204,7 @@ public class FenetreHistoriqueTestController implements Initializable {
 	        listeSousCategorie.add(nomSousCategorie);
 	        listeDifficulte.add(difficulte);
 	        listeScore.add(score);
+
 		}
 	}
 
@@ -238,33 +245,49 @@ public class FenetreHistoriqueTestController implements Initializable {
 	 */
 	@FXML
 	private void buttonRejouerAction() {
-		Long partieSelectionne = view.getFocusModel().getFocusedItem().getNumPartie();
+		if (!listeNumPartie.isEmpty()){
+			partieSelectionne = view.getFocusModel().getFocusedItem().getNumPartie();
+			
+			LancementJeuController.enregistrerPartie = false;
+			
+			ChoixSousCategorieController.listeQuestions = DAODetailPartieJoue.getQuestionsRejouer(partieSelectionne);
+			LancementJeuController.tailleListe  = ChoixSousCategorieController.listeQuestions.size();
+			
+			 nbQuestions = view.getFocusModel().getFocusedItem().getScore();
+			int pos = nbQuestions.indexOf('/');
+			nbQuestions = nbQuestions.substring(pos+1);
+			LancementJeuController.nbQuestions = Integer.parseInt(nbQuestions);
+			
+			lancementJeuClassique();
+		} else {
+			System.out.println("Aucun test selectionné");
+		}
 		
-		LancementJeuController.enregistrerPartie = false;
-		
-		ChoixSousCategorieController.listeQuestions = DAODetailPartieJoue.getQuestionsRejouer(partieSelectionne);
-		LancementJeuController.tailleListe  = ChoixSousCategorieController.listeQuestions.size();
-		
-		 nbQuestions = view.getFocusModel().getFocusedItem().getScore();
-		int pos = nbQuestions.indexOf('/');
-		nbQuestions = nbQuestions.substring(pos+1);
-		LancementJeuController.nbQuestions = Integer.parseInt(nbQuestions);
-		
-		lancementJeuClassique();
 	}
 	
 	@FXML
 	private void buttonSupprimerAction() {
-		Long partieSelectionne = view.getFocusModel().getFocusedItem().getNumPartie();
-        DAOHistoriquePartie.deleteHistorique(partieSelectionne);
-        try {
+		if (!listeNumPartie.isEmpty()){
+			
+			partieSelectionne = view.getFocusModel().getFocusedItem().getNumPartie();
+			creationPopUpSuppresion();
+		
+			
+			System.out.println("Refresh");
+			
+		} else {
+			System.out.println("Aucun test selectionné");
+		}
+		try {
 			stage = (Stage)buttonRetour.getScene().getWindow();
 			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreHistoriqueTest.fxml")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		view.refresh();
 	}
 	
+
 	/**
 	 * Lancement vers FenetreLancementJeu
 	 * Initialise egalement les variables de la classe LancementJeuController
@@ -276,6 +299,14 @@ public class FenetreHistoriqueTestController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+     * Getter du nom de la partie à supprimer
+     * @return le numero de la partie à supprimer
+     */
+    public static Long getValeurASupprimer() {
+		return partieSelectionne;
 	}
 	
 	/**
@@ -328,9 +359,31 @@ public class FenetreHistoriqueTestController implements Initializable {
 	    } catch (IOException e) {
 	    	e.printStackTrace();
 	    }
-	    dialog.setTitle("Pas de questions");
+	    dialog.setTitle("Avertissement");
 	    dialog.show();
 	}
+	
+	private void creationPopUpSuppresion() {
+		Stage dialog = new Stage();
+	    try {
+	    	dialog.initModality(Modality.APPLICATION_MODAL);
+	        // Localisation du fichier FXML
+	        final URL url = getClass().getResource("FenetrePopUpSuppressionHistorique.fxml");
+	        // Cr�ation du loader.
+	        final FXMLLoader fxmlLoader = new FXMLLoader(url);
+	        // Chargement du FXML
+	        AnchorPane root = (AnchorPane) fxmlLoader.load();
+	        Scene dialogScene = new Scene(root, 300, 200);
+	        dialog.setScene(dialogScene);
+	    } catch (IOException e) {
+	    	e.printStackTrace();
+	    }
+	    dialog.setTitle("Confirmation de suppression");
+	    dialog.show();
+	}
+	
+	
+	
 
 
 	/**

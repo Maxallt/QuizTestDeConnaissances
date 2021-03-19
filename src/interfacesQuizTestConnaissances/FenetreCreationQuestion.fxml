@@ -66,7 +66,7 @@
                   <Font name="Comic Sans MS" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="btnValiderFich" layoutX="619.0" layoutY="461.0" mnemonicParsing="false" text="Valider" />
+            <Button fx:id="btnValiderFich" layoutX="619.0" layoutY="461.0" mnemonicParsing="false" onAction="#validerFich" text="Valider" />
             <Line endX="525.0" layoutX="148.0" layoutY="452.0" startX="-100.0" />
             <Label layoutX="47.0" layoutY="161.0" text="La question :" textFill="#cc0000">
                <font>

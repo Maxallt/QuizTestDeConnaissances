@@ -65,7 +65,7 @@ public class LancementJeuController implements Initializable {
 		return nbBonnesReponses;
 	}
 
-	 static boolean enregistrerPartie;
+	static boolean enregistrerPartie = true;
 	
 	private static ArrayList<String> reponsesCourantes;
 	
@@ -82,6 +82,12 @@ public class LancementJeuController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		reponseA.setWrapText(true);
+		reponseB.setWrapText(true);
+		reponseC.setWrapText(true);
+		reponseD.setWrapText(true);
+		reponseE.setWrapText(true);
 		
 		nbQuestions = ChoixSousCategorieController.getNombreQuestion();
 		
@@ -149,12 +155,11 @@ public class LancementJeuController implements Initializable {
 	 * @param e source de l'action de m'utilisateur
 	 */
 	private void enregistrementDetailPartie(ActionEvent e) {
-		if (enregistrerPartie) {
-			Button btn = (Button) e.getSource();
-			DAODetailPartieJoue.EnregistrerPartieEnCours(questionActuelle, btn.getText(), 
-					                                     ChoixCategorieController.getDifficulteCatActuelle());
-			System.out.println("Detail partie en cours d'enregistrement");		
-		}
+		Button btn = (Button) e.getSource();
+		DAODetailPartieJoue.EnregistrerPartieEnCours(questionActuelle, btn.getText(), 
+				                                     ChoixCategorieController.getDifficulteCatActuelle());
+		System.out.println("Detail partie en cours d'enregistrement");		
+
 	}
 	
 	/**
@@ -163,20 +168,17 @@ public class LancementJeuController implements Initializable {
 	 */
 	private void enregistrementPartieEnCours() {
 		/* On enregistre la partie en cours dans la base de données */
-		if (enregistrerPartie) {
-			System.out.println("Enregistrement de la partie");
-			System.out.println("Categorie --> " +  ChoixCategorieController.getIdCatActuelle()
-			                 + "Sous-catégorie --> " + ChoixSousCategorieController.getIdSousCatActuelle());
-			if(enregistrerPartie) {
-				DAOHistoriquePartie.EnregistrerPartieEnCours(ChoixCategorieController.getIdCatActuelle(), 
-	                    ChoixSousCategorieController.getIdSousCatActuelle(),
-	                    getNbBonnesReponses(),
-	                    ChoixSousCategorieController.getNombreQuestion(),
-	                    ChoixCategorieController.getDifficulteCatActuelle()
-	                    );
-				System.out.println("NbBonnesReponses" + getNbBonnesReponses());
-			}
-		}
+		System.out.println("Enregistrement de la partie");
+		System.out.println("Categorie --> " +  ChoixCategorieController.getIdCatActuelle()
+		                 + "Sous-catégorie --> " + ChoixSousCategorieController.getIdSousCatActuelle());
+		DAOHistoriquePartie.EnregistrerPartieEnCours(ChoixCategorieController.getIdCatActuelle(), 
+                ChoixSousCategorieController.getIdSousCatActuelle(),
+                getNbBonnesReponses(),
+                ChoixSousCategorieController.getNombreQuestion(),
+                ChoixCategorieController.getDifficulteCatActuelle()
+                );
+		System.out.println("NbBonnesReponses" + getNbBonnesReponses());
+
 		
 	}
 	

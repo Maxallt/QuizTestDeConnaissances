@@ -47,10 +47,10 @@ public class DAODetailPartieJoue {
 				String sql = "CREATE TABLE DetailPartie ( idPartie NUMERIC, question VARCHAR(255), difficulte VARCHAR(255), reponseDonnee VARCHAR(255), reponseCorrecte VARCHAR(255) )";
 				// Etape 4 : Execution de la requï¿½te
 				st.executeUpdate(sql);
-				System.out.println("CrÃ©ation de la table DetailPartie");
+				System.out.println("Création de la table DetailPartie");
 				
 			} else {
-				System.out.println("Table DetailPartie dÃ©ja existante");
+				System.out.println("Table DetailPartie déjà existante");
 			}
 			
 		} catch (SQLException e) {

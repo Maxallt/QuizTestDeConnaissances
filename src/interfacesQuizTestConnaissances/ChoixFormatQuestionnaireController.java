@@ -100,7 +100,7 @@ public class ChoixFormatQuestionnaireController implements Initializable {
     @FXML
 	private ComboBox<String> listeDifficulte = new ComboBox<String>();
 	
-	private static String[] tabDifficulte = {"Facile","Moyen","Difficile","IndiffÃ©rent"};
+	private static String[] tabDifficulte = {"Facile","Moyen","Difficile","Indifférent"};
     
     /**
      * Liste qui regroupe tous les formats de QCM possibles

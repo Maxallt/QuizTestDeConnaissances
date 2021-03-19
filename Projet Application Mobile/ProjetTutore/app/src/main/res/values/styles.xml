@@ -1,0 +1,22 @@
+<resources>
+    <style name="titre">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/redText</item>
+    </style>
+    <style name="questions">
+        <item name="android:layout_marginLeft">@dimen/margeAGauche</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="reponses">
+        <item name="android:layout_marginLeft">@dimen/margeAGauche</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="reponseVraie" parent="reponses">
+        <item name="android:textColor">@color/bonneReponse</item>
+    </style>
+
+</resources>

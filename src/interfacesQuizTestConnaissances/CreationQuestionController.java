@@ -413,6 +413,8 @@ public class CreationQuestionController implements Initializable {
 			boolean catExiste;
 			boolean sousCatExiste;
 			int verifFormat=0;
+			boolean verifImport = true;
+			
 			
 			//Parcours des lignes de la feuille
 			while(rowIterator.hasNext()) {
@@ -423,130 +425,129 @@ public class CreationQuestionController implements Initializable {
 				compteurCellule = 0;
 				catExiste = false;
 				sousCatExiste = false;
-
+				
 				//CellType cellTypePremiereLigne = ;
 				element.clear();
 				while(cellIterator.hasNext() && compteurLigne == 0  && cellIterator.next().getCellType().toString().equals("STRING")) {
 					verifFormat++;
 				}
-				//Parcours des cellules de la ligne
-				while(cellIterator.hasNext() && compteurLigne > 0) {
-					suivant =false;
-					creationOK = false;
-					Cell cell = cellIterator.next();
-					CellType cellType = cell.getCellType();
-					switch (compteurCellule) {
-					case 0: // Catégorie
-						//System.out.println(cell.getStringCellValue() + "Existe ? " + DAOCategorie.existe(cell.getStringCellValue()));
-						
-						if(DAOCategorie.existe(cell.getStringCellValue())) {
-							element.add(cell.getStringCellValue());
-							catActuelle = cell.getStringCellValue();
-							catExiste = true;
-						} else {
-							catACreer = cell.getStringCellValue();
-						}
-						break;
-					case 1: // Sous-catégorie
-						if(DAOSousCategorie.existe(cell.getStringCellValue())) {
-							element.add(cell.getStringCellValue());
-							sousCatExiste = true;
-						} else {
-							sousCatACreer = cell.getStringCellValue();
-						}
-						break;
-					case 2: // Niveau
-						
-						element.add(""+cell.getStringCellValue());
-						
-						break;
-					case 3: // Nom  pas utile
-						break;
-					case 4: // Libellé
-						element.add(cell.getStringCellValue());
-						break;
-					case 5: // Réponse juste
-						if(cellType.toString().equals("NUMERIC")) {
-							element.add(""+cell.getNumericCellValue());
-						} else if (cellType.toString().equals("STRING")) {
-							element.add(cell.getStringCellValue());
-						}
-						break;
-					case 6: // Réponse fausse 1
-						if(cellType.toString().equals("NUMERIC")) {
-							element.add(""+cell.getNumericCellValue());
-						} else if (cellType.toString().equals("STRING")) {
-							element.add(cell.getStringCellValue());
-						}
-						break;
-					case 7: // Réponse fausse 2
-						if(cellType.toString().equals("NUMERIC")) {
-							element.add(""+cell.getNumericCellValue());
-						} else if (cellType.toString().equals("STRING") && cell.getStringCellValue() != null) {
-							element.add(cell.getStringCellValue());
-						}
-						break;
-					case 8: // Réponse fausse 3
-						if(cellType.toString().equals("NUMERIC")) {
-							element.add(""+cell.getNumericCellValue());
-						} else if (cellType.toString().equals("STRING") && cell.getStringCellValue() != null) {
-							element.add(cell.getStringCellValue());
-						}
-						break;
-					case 9: // Réponse fausse 4
-						if(cellType.toString().equals("NUMERIC")) {
-							element.add(""+cell.getNumericCellValue());
-						} else if (cellType.toString().equals("STRING") && cell.getStringCellValue() != null) {
-							element.add(cell.getStringCellValue());
-						}
-						break;
-					}
-
-					
-					
-					/*if (!catExiste && compteurCellule == 0) {
-						creationPopUpErreur("FenetrePopUpCategorieInexistante.fxml");
-						try {
-							
-							Thread.sleep(5000);
-						
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-					if (!sousCatExiste && compteurCellule == 1) {
-						creationPopUpErreur("FenetrePopUpSousCategorieInexistante.fxml");
-						try {
-							Thread.sleep(5000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}*/
-					
-						
-					
-					
-					if (creationOK) { // TODO Mettre un boolean qui vérifie si la cat ou sous cat a été créée après les pop-up
+				if (verifFormat < 9 && compteurLigne == 0) {
+					creationPopUpErreur("FenetrePopUpErreurImportationFich.fxml");
+					verifImport = false;
+				}
+				System.out.println("Import : " +verifImport);
+				if (verifImport) {
+					//Parcours des cellules de la ligne
+					while(cellIterator.hasNext() && compteurLigne > 0) {
+						suivant =false;
+						creationOK = false;
+						Cell cell = cellIterator.next();
+						CellType cellType = cell.getCellType();
 						switch (compteurCellule) {
 						case 0: // Catégorie
+							//System.out.println(cell.getStringCellValue() + "Existe ? " + DAOCategorie.existe(cell.getStringCellValue()));
+							
 							if(DAOCategorie.existe(cell.getStringCellValue())) {
 								element.add(cell.getStringCellValue());
-								catExiste = true;
 								catActuelle = cell.getStringCellValue();
-							} 
+								catExiste = true;
+							} else {
+								catACreer = cell.getStringCellValue();
+							}
 							break;
 						case 1: // Sous-catégorie
 							if(DAOSousCategorie.existe(cell.getStringCellValue())) {
 								element.add(cell.getStringCellValue());
 								sousCatExiste = true;
+							} else {
+								sousCatACreer = cell.getStringCellValue();
+							}
+							break;
+						case 2: // Niveau
+							
+							element.add(""+cell.getStringCellValue());
+							
+							break;
+						case 3: // Nom  pas utile
+							break;
+						case 4: // Libellé
+							element.add(cell.getStringCellValue());
+							break;
+						case 5: // Réponse juste
+							if(cellType.toString().equals("NUMERIC")) {
+								element.add(""+cell.getNumericCellValue());
+							} else if (cellType.toString().equals("STRING")) {
+								element.add(cell.getStringCellValue());
+							}
+							break;
+						case 6: // Réponse fausse 1
+							if(cellType.toString().equals("NUMERIC")) {
+								element.add(""+cell.getNumericCellValue());
+							} else if (cellType.toString().equals("STRING")) {
+								element.add(cell.getStringCellValue());
+							}
+							break;
+						case 7: // Réponse fausse 2
+							if(cellType.toString().equals("NUMERIC")) {
+								element.add(""+cell.getNumericCellValue());
+							} else if (cellType.toString().equals("STRING") && cell.getStringCellValue() != null) {
+								element.add(cell.getStringCellValue());
+							}
+							break;
+						case 8: // Réponse fausse 3
+							if(cellType.toString().equals("NUMERIC")) {
+								element.add(""+cell.getNumericCellValue());
+							} else if (cellType.toString().equals("STRING") && cell.getStringCellValue() != null) {
+								element.add(cell.getStringCellValue());
+							}
+							break;
+						case 9: // Réponse fausse 4
+							if(cellType.toString().equals("NUMERIC")) {
+								element.add(""+cell.getNumericCellValue());
+							} else if (cellType.toString().equals("STRING") && cell.getStringCellValue() != null) {
+								element.add(cell.getStringCellValue());
 							}
 							break;
 						}
+	
+						
+						
+						if (!catExiste && compteurCellule == 0) {
+							creationPopUp("FenetrePopUpCategorieInexistante.fxml");
+							DAOCategorie.create(new Categorie(CreationQuestionController.getCatACreer()));
+							CreationQuestionController.creationOK = true;
+						}
+						if (!sousCatExiste && compteurCellule == 1) {
+							creationPopUp("FenetrePopUpSousCategorieInexistante.fxml");
+							DAOSousCategorie.creerEnBase(CreationQuestionController.getSousCatACreer(), null, CreationQuestionController.getCatActuelle());
+							CreationQuestionController.creationOK = true;
+						}
+						
+							
+						
+						
+						if (creationOK && verifImport) { 
+							switch (compteurCellule) {
+							case 0: // Catégorie
+								if(DAOCategorie.existe(cell.getStringCellValue())) {
+									element.add(cell.getStringCellValue());
+									catExiste = true;
+									catActuelle = cell.getStringCellValue();
+								} 
+								break;
+							case 1: // Sous-catégorie
+								if(DAOSousCategorie.existe(cell.getStringCellValue())) {
+									element.add(cell.getStringCellValue());
+									sousCatExiste = true;
+								}
+								break;
+							}
+						}
+						compteurCellule++;
 					}
-					compteurCellule++;
 				}
 				
-				if (verifFormat < 9 ) {
+				if (verifFormat < 9 && verifImport) {
 					creationPopUpErreur("FenetrePopUpErreurImportationFich.fxml");
 				}
 				compteurLigne++;
@@ -574,29 +575,33 @@ public class CreationQuestionController implements Initializable {
 					 */
 					
 					
-					
-					if (!DaoQuestions.existe(element.get(3))) {
-						DaoQuestions.createQuestions(new Question(element.get(3),
-													 reponses,
-													 DAOSousCategorie.getId(element.get(1))+"",
-													 DAOCategorie.getId(element.get(0))+"",
-													 element.get(2)));
-						/*TODO enlever ça, juste pour les tests de récupération de Question*/
-						for(int i = 0; i < element.size(); i++) {
-							System.out.print(element.get(i)+"\t");
+					if (element.get(3).length() < 250) {
+						if (!DaoQuestions.existe(element.get(3))) {
+							DaoQuestions.createQuestions(new Question(element.get(3),
+														 reponses,
+														 DAOSousCategorie.getId(element.get(1))+"",
+														 DAOCategorie.getId(element.get(0))+"",
+														 element.get(2)));
+							/*TODO enlever ça, juste pour les tests de récupération de Question*/
+							for(int i = 0; i < element.size(); i++) {
+								System.out.print(element.get(i)+"\t");
+								compteurLigne++;
+							}
 							compteurLigne++;
+							importation = true;
+							
+						} else {
+							System.out.println("Question déjà en base : " + element.get(3));
 						}
-						compteurLigne++;
-						importation = true;
-					} else {
-						System.out.println("Question déjà en base : " + element.get(3));
 					}
 				}
 			
 				
 			}
-			if (importation) {
-				creationPopUp("FenetrePopUpQuestionValide.fxml");
+			if (importation && verifImport) {
+				creationPopUp("FenetrePopUpQuestionValideFich.fxml");
+			} else if (verifImport){
+				creationPopUpErreur("FenetrePopUpFichierVideOuEnBase.fxml");
 			}
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

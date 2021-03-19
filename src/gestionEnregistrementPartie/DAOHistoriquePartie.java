@@ -59,10 +59,10 @@ public class DAOHistoriquePartie {
 						                                     + "score TINYINT, nbQuestion TINYINT, difficulte VARCHAR(255) ) ";
 				// Etape 4 : Execution de la requÃ¯Â¿Â½te
 				st.executeUpdate(sql);
-				System.out.println("CrÃ©ation de la table historiquePartie");
+				System.out.println("Création de la table historiquePartie");
 				
 			} else {
-				System.out.println("Table historiquePartie dÃ©ja existante");
+				System.out.println("Table historiquePartie déjà existante");
 			}
 			
 		} catch (SQLException e) {

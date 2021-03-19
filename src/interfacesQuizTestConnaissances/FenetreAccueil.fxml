@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="dynamicPane" minHeight="500.0" minWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacesQuizTestConnaissances.AccueilController">
+<AnchorPane fx:id="dynamicPane" minHeight="500.0" minWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacesQuizTestConnaissances.AccueilController">
 	<children>
       <Pane prefHeight="500.0" prefWidth="700.0" styleClass="Fenetre" stylesheets="@myApplication.css">
          <children>
@@ -30,7 +30,7 @@
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="471.0" layoutY="463.0" text="Alaux, Alliot, Amélaïse, Bagnolatti">
+            <Label layoutX="436.0" layoutY="462.0" text="Alaux, Alliot, Amélaïse, Bagnolatti, Tizien">
                <font>
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
@@ -51,6 +51,11 @@
                </font>
             </Button>
             <Button fx:id="buttonModif" layoutX="197.0" layoutY="360.0" mnemonicParsing="false" onAction="#gestion" text="Gestion des catégories, sous-catégories et questions">
+               <font>
+                  <Font name="Comic Sans MS" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonFichesRevision" layoutX="259.0" layoutY="409.0" mnemonicParsing="false" onAction="#fichesRevision" text="Génerer une fiche de révision">
                <font>
                   <Font name="Comic Sans MS" size="13.0" />
                </font>

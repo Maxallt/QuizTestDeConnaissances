@@ -79,13 +79,19 @@ public class LancementPerfectionnementAvanceesController implements Initializabl
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		reponseA.setWrapText(true);
+		reponseB.setWrapText(true);
+		reponseC.setWrapText(true);
+		reponseD.setWrapText(true);
+		reponseE.setWrapText(true);
+		
 	    /* Lancement du jeu avec les questions */
 		if (tailleListe == 0) {
 			// TODO: Fenetre pop up d'avertissement
 			
 			nbBonnesReponses = -1;
 			resultatFinal();
-			System.out.println("Impossible de lancerle jeu, aucune question n'existe avec ces criteres. Veuillez en créer");
+			System.out.println("Impossible de lancer le jeu, aucune question n'existe avec ces criteres. Veuillez en créer");
 			
 		} else {
 			nbBonnesReponses = 0;
