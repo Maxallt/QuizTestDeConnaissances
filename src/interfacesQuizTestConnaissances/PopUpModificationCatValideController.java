@@ -23,7 +23,7 @@ public class PopUpModificationCatValideController {
     
     /**
      * Méthode par défaut : qui permet d'initialiser des variables
-     * @param url nom utilisé
+     * @param url non utilisé
      * @param rb  non utilisé
      */
 	public void initialize(URL url, ResourceBundle rb) {}

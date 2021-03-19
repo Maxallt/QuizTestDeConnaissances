@@ -15,13 +15,16 @@ package gestionCategories;
 public class SousCategorie extends Categorie {
 	
 	/** Element qui identifiera le nom de la sous-catégorie */
-    @SuppressWarnings("unused")
-	private String identifiant;
+    private String identifiant;
     
     /** Lien vers la photo (éventuelle) qui désignera la sous-catégorie*/
-    @SuppressWarnings("unused")
-	private String photo;
+    private String photo;
     
+    /** Tableau regroupant les questions de la sous-catégorie */
+    private String[] questions;
+    
+    /** Tableau contenant les reponses aux questions de la sous-catégorie*/
+    private String[][] reponses;
 
     /** Catégorie qui est associé à la sous-catégorie */
     Categorie surCategorie;
@@ -44,6 +47,8 @@ public class SousCategorie extends Categorie {
     	super();
     	identifiant = null;
     	photo = categorie.getPhoto();
+    	questions = null;
+    	reponses = null;
     	surCategorie = categorie;
     }
 
@@ -58,6 +63,8 @@ public class SousCategorie extends Categorie {
     	super(identifiant);
     	identifiant = null;
     	photo = categorie.getPhoto();
+    	questions = null;
+    	reponses = null;
     	surCategorie = categorie;
     }
 
@@ -74,6 +81,8 @@ public class SousCategorie extends Categorie {
     		             String[][] reponsesInitialisees,
     		             Categorie categorie) {
     	super(identifiantInitialise);
+    	questions = questionsInitialisees;
+    	reponses = reponsesInitialisees;
     	photo = categorie.getPhoto();
     	surCategorie = categorie;
     }
@@ -93,6 +102,8 @@ public class SousCategorie extends Categorie {
             String lienPhoto,
             Categorie categorie) {
 		super(identifiantInitialise);
+		questions = questionsInitialisees;
+		reponses = reponsesInitialisees;
 		photo = lienPhoto;
 		surCategorie = categorie;
 	}

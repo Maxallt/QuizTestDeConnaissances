@@ -47,6 +47,12 @@ public class AccueilController implements Initializable {
     AnchorPane dynamicPane;
     
     /** 
+     * C'est le bouton qui redirigera vers la page pour générer des fiches 
+     */
+    @FXML
+    private Button buttonFichesRevision;
+    
+    /** 
      * C'est le bouton qui redirigera vers le choix de catégorie afin de jouer 
      */
     @FXML
@@ -82,6 +88,21 @@ public class AccueilController implements Initializable {
     
     
     /**
+     * Méthode qui envoie vers la page des fiches,
+     * Cette méthode est reliée à buttonFichesRevision
+     */
+    @FXML
+	public void fichesRevision() {
+		try {
+			stage = (Stage)buttonFichesRevision.getScene().getWindow();
+			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreFichesRevision.fxml")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+    
+    
+    /**
      * Méthode qui envoie vers le jeux principal,
      * ici d'abord vers le choix de la catégorie
      * Cette méthode est reliée à buttonJeuClassique
@@ -95,6 +116,8 @@ public class AccueilController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+    
+    
     
     /**
      * Méthode qui envoie vers la gestion des catégories et sous-catégories,

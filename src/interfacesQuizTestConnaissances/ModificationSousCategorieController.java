@@ -165,6 +165,8 @@ public class ModificationSousCategorieController implements Initializable {
 		return false;
     }
     
+    
+    
     /**
      * Méthode qui permet d'effectuer un renomage d'une sous-catégorie selectionnée
      * Avec une vérification pour éviter les homonymes
@@ -249,6 +251,7 @@ public class ModificationSousCategorieController implements Initializable {
 		}
     }
     
+    
     /**
      * Méthode qui permet d'initialiser la ComboBox des sous-catégories
      * en fonction de la catégorie choisie avant (facultatif)
@@ -276,6 +279,7 @@ public class ModificationSousCategorieController implements Initializable {
     	listeSousCat.getItems().clear();
     	initialisation = false;
     }
+    
     
     /**
      * Lance une pop-up qui confirme la modification

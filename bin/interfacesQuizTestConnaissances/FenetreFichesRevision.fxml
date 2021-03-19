@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="dynamicPane" minHeight="500.0" minWidth="700.0" stylesheets="@myApplication.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacesQuizTestConnaissances.FichesRevisionController">
+	<children>
+      <Pane prefHeight="500.0" prefWidth="700.0" styleClass="Fenetre" stylesheets="@myApplication.css">
+         <children>
+            <Label layoutX="165.0" layoutY="21.0" prefHeight="114.0" prefWidth="366.0" text="Page de création de fiches de révision" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Comic Sans MS" size="40.0" />
+               </font>
+            </Label>
+            <Label layoutX="31.0" layoutY="462.0" text="Quiz Test de connaissances">
+               <font>
+                  <Font name="Comic Sans MS" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="326.0" layoutY="462.0" text="IUT Rodez">
+               <font>
+                  <Font name="Comic Sans MS" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="436.0" layoutY="462.0" text="Alaux, Alliot, Amélaïse, Bagnolatti, Tizien">
+               <font>
+                  <Font name="Comic Sans MS" size="13.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="listeSousCat" layoutX="273.0" layoutY="275.0" onAction="#resetListeQuestion" onShowing="#setSousCategorie" prefWidth="150.0" promptText="Sous-catégorie" />
+            <Button fx:id="buttonRetour" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#retour" text="&lt;-" />
+            <Label layoutX="41.0" layoutY="276.0" text="Quelle sous-catégorie ?" textFill="#cc0000">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="43.0" layoutY="183.0" text="Nom de la fiche :" textFill="#cc0000">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="nameFiche" layoutX="274.0" layoutY="182.0" />
+            <Button fx:id="buttonGenerer" layoutX="586.0" layoutY="410.0" mnemonicParsing="false" onAction="#genererJ" text="Générer la fiche" />
+            <Label layoutX="43.0" layoutY="227.0" text="Dans quelle catégorie ?" textFill="#cc0000">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="listeCategorie" layoutX="275.0" layoutY="226.0" onAction="#resetListeSousCat" onShowing="#setCategories" prefWidth="150.0" promptText="Catégorie" />
+            <Label layoutX="43.0" layoutY="320.0" text="Intitulé" textFill="#cc0000">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="listeQuestion" layoutX="273.0" layoutY="319.0" onShowing="#setQuestion" prefWidth="150.0" promptText="Intitulé" />
+            <Label layoutX="524.0" layoutY="206.0" text="Questions choisies" textFill="#cc0000">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="buttonAjouter" layoutX="321.0" layoutY="357.0" mnemonicParsing="false" onAction="#ajouter" text="Ajouter" />
+            <ComboBox fx:id="listeQuestionsChoisies" layoutX="526.0" layoutY="236.0" onShowing="#setQuestionsChoisies" prefWidth="150.0" promptText="Questions choisies" />
+            <CheckBox fx:id="AMR" layoutX="247.0" layoutY="407.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="258.0" text="Avec mauvaises réponses" textFill="#cc0000" wrapText="true">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </CheckBox>
+
+         </children></Pane>
+   </children>
+</AnchorPane>

@@ -205,13 +205,5 @@ public class ChoixSousCategorieController implements Initializable {
     	} else {
     		System.out.println("Vous n'avez pas saisi de format !");
     	}
-		try {
-			initialisation = false;
-			initialisationFormat = false;
-			stage = (Stage)buttonRetour.getScene().getWindow();
-			setDynamicPane(FXMLLoader.load(getClass().getResource("FenetreLancementJeu.fxml")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

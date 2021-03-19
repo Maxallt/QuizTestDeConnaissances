@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="dynamicPane" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #08539C;" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacesQuizTestConnaissances.ModificationCategorieController">
+   <children>
+      <Text layoutX="32.0" layoutY="469.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quiz test de connaisances">
+         <font>
+            <Font name="Comic Sans MS" size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="306.0" layoutY="469.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IUT de Rodez" />
+      <Text layoutX="454.0" layoutY="469.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alaux, Alliot, Amelaîse, Bagnolatti" />
+      <Text layoutX="43.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier une catégorie existante">
+         <font>
+            <Font name="Comic Sans MS" size="40.0" />
+         </font>
+      </Text>
+      <Button fx:id="buttonRetour" layoutX="14.0" layoutY="17.0" mnemonicParsing="false" onAction="#retour" text="&lt;-" />
+      <Text layoutX="14.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choix de la catégorie :">
+         <font>
+            <Font name="Comic Sans MS" size="18.0" />
+         </font>
+      </Text>
+      <ComboBox fx:id="listeCategorie" layoutX="214.0" layoutY="181.0" onAction="#resetListeSousCat" onShowing="#setCategories" prefHeight="31.0" prefWidth="126.0" promptText="Catégories" />
+      <Text layoutX="24.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nouveau nom de la catégorie :" wrappingWidth="265.35791015625">
+         <font>
+            <Font name="Comic Sans MS" size="18.0" />
+         </font>
+      </Text>
+      <TextField fx:id="nouveauNomCategorie" layoutX="24.0" layoutY="305.0" />
+      <Button layoutX="224.0" layoutY="305.0" mnemonicParsing="false" onAction="#modificationNomCategorie" prefHeight="31.0" prefWidth="126.0" text="Modifier nom" />
+      <Line endX="-100.0" endY="278.0" layoutX="468.0" layoutY="168.0" startX="-100.0" />
+      <ComboBox fx:id="listeSousCat" layoutX="441.0" layoutY="250.0" onShowing="#initialize" prefWidth="150.0" promptText="Sous-catégorie" />
+      <Button layoutX="185.0" layoutY="402.0" mnemonicParsing="false" onAction="#supprimerCategorie" text="Supprimer catégorie" />
+      <Text layoutX="451.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sous-catégories :">
+         <font>
+            <Font name="Comic Sans MS" size="18.0" />
+         </font>
+      </Text>
+      <Button fx:id="buttonSupprSousCat" layoutX="394.0" layoutY="402.0" mnemonicParsing="false" onAction="#supprimerSousCategorie" text="Supprimer sous-catégories" />
+   </children>
+</AnchorPane>
